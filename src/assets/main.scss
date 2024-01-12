@@ -1,0 +1,10 @@
+.merge-request, .issue-details {
+    .note-form-actions {
+        flex-wrap: wrap;
+        display: flex !important;
+
+        > button.btn-comment-and-close {
+            margin-left: auto;
+        }
+    }
+}
