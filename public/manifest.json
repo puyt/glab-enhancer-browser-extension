@@ -1,0 +1,45 @@
+{
+  "name": "GitLab Enhancer",
+  "version": "2.0.0",
+  "description": "Enhances your GitLab experience.",
+  "manifest_version": 3,
+  "author": "Sven Depondt",
+  "icons": {
+    "16": "images/gitlab-enhancer-16.png",
+    "48": "images/gitlab-enhancer-48.png",
+    "128": "images/gitlab-enhancer-128.png"
+  },
+  "permissions": [
+    "webRequest",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "js": [
+        "content.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "assets/main.js",
+        "assets/main.css",
+        "assets/runtime-dom.esm-bundler.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}

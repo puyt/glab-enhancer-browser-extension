@@ -1,0 +1,206 @@
+<template>
+    <div style="display: flex;">
+        <teleport
+            v-if="isShowMyUnresolvedEnabled && teleportElement"
+            :to="teleportElement"
+        >
+            <div
+                v-if="myUnresolvedDomIds.length"
+                class="gl-display-flex gl-align-items-center gl-pl-4 gl-rounded-base gl-min-h-7 gl-bg-red-100 gl-mr-3"
+            >
+                <span>{{ myUnresolvedThreads.length }} my unresolved threads</span>
+
+                <div class="gl-ml-3 btn-group">
+                    <button
+                        class="btn discussion-previous-btn gl-rounded-base! gl-px-2! btn-default btn-md gl-button btn-default-tertiary btn-icon"
+                        title="Go to my previous unresolved thread"
+                        @click.prevent="scrollToMyUnresolved(-1)"
+                    >
+                        <SvgIcon
+                            class="gl-button-icon"
+                            :is-gitlab="true"
+                            :path="gSvgChevronUp"
+                        />
+                    </button>
+
+                    <button
+                        class="btn discussion-previous-btn gl-rounded-base! gl-px-2! btn-default btn-md gl-button btn-default-tertiary btn-icon"
+                        title="Go to my next unresolved thread"
+                        @click.prevent="scrollToMyUnresolved(+1)"
+                    >
+                        <SvgIcon
+                            class="gl-button-icon"
+                            :is-gitlab="true"
+                            :path="gSvgChecronDown"
+                        />
+                    </button>
+                </div>
+            </div>
+        </teleport>
+    </div>
+</template>
+
+<script
+    lang="ts"
+    setup
+>
+    import {
+        computed,
+        nextTick,
+        onBeforeUnmount,
+        onMounted,
+        type Ref,
+        ref,
+        type ShallowRef,
+        shallowRef,
+        toRefs,
+    } from 'vue';
+    import type { GitLabDiscussion } from '../types';
+    import { debounce } from 'lodash-es';
+    import { useFetch } from '@vueuse/core';
+    import {
+        gSvgChecronDown,
+        gSvgChevronUp,
+    } from '../assets/icons';
+    import SvgIcon from './SvgIcon.vue';
+    import {
+        Preference,
+        useExtensionStore,
+    } from '../store';
+
+    interface Props {
+        gitlabUserId: number,
+        iid: number,
+        currentProjectPath: string,
+    }
+
+    const props = withDefaults(defineProps<Props>(), {
+        gitlabUserId: 0,
+        iid: 0,
+        currentProjectPath: '',
+    });
+    const {
+        gitlabUserId,
+        iid,
+        currentProjectPath,
+    } = toRefs(props);
+
+    const { getSetting } = useExtensionStore();
+
+    const teleportElement: Ref<HTMLElement | null> = ref(null);
+    const discussions: ShallowRef<GitLabDiscussion[]> = shallowRef([]);
+
+    const isShowMyUnresolvedEnabled = computed(() => !!getSetting(Preference.MR_SHOW_MY_UNRESOLVED_THREADS, true));
+
+    async function fetchMrDiscussions() {
+        if (!iid.value || !isShowMyUnresolvedEnabled.value) {
+            return;
+        }
+
+        const { data } = await useFetch(`/api/v4/projects/${encodeURIComponent(currentProjectPath.value)}/merge_requests/${iid.value}/discussions?per_page=100&is_custom=1`)
+            .json();
+        discussions.value = data?.value || [] as GitLabDiscussion[];
+
+        render();
+    }
+
+    const debouncedFetchMrDiscussions = debounce(async () => {
+        await fetchMrDiscussions();
+    }, 300);
+
+    function markAsViewedAndOpenNext(event: KeyboardEvent) {
+        // Skip if input is focused.
+        if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
+            return;
+        }
+
+        const elements = document.querySelectorAll('.diff-files-holder .vue-recycle-scroller');
+        if (elements.length) {
+            return;
+        }
+
+        const viewedCheckboxLabelElement = document.querySelector('.diff-files-holder .file-actions input[type="checkbox"] + label') as HTMLLabelElement;
+        const nextPageButtonElement = document.querySelector('.diff-files-holder .next-page-item') as HTMLButtonElement;
+
+        if (viewedCheckboxLabelElement && nextPageButtonElement) {
+            viewedCheckboxLabelElement.click();
+            setTimeout(() => {
+                nextPageButtonElement.click();
+            }, 300);
+        }
+    }
+
+    function handleKeyPress(event: KeyboardEvent) {
+        if (event.shiftKey && event.key === 'J') {
+            markAsViewedAndOpenNext(event);
+        }
+    }
+
+    function render() {
+        teleportElement.value?.remove();
+        teleportElement.value = document.createElement('div');
+
+        const stickyElement = document.querySelector('.merge-request-sticky-header:not(.gl-visibility-hidden) .merge-request-tabs + div');
+        if (stickyElement) {
+            stickyElement.prepend(teleportElement.value);
+            return;
+        }
+
+        const targetElement = document.querySelector('.merge-request-details .merge-request-tabs-container > div');
+        targetElement?.prepend(teleportElement.value);
+    }
+
+    const debouncedRender = debounce(render, 400);
+
+    onMounted(async () => {
+        window.addEventListener('keydown', handleKeyPress);
+        window.addEventListener('scroll', debouncedRender);
+
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'chrome-request-completed' && !event.data.data.url.includes('is_custom=1')) {
+                debouncedFetchMrDiscussions?.();
+            }
+        });
+
+        nextTick(() => {
+            render();
+        });
+
+        debouncedFetchMrDiscussions?.();
+    });
+
+    onBeforeUnmount(() => {
+        window.removeEventListener('keydown', handleKeyPress);
+        window.removeEventListener('scroll', debouncedRender);
+    });
+
+    const myUnresolvedThreads = computed(() => {
+        return discussions.value.filter((discussion) => {
+            const thread = discussion?.notes?.[0] || null;
+
+            return !!thread?.resolvable && !thread?.resolved && thread?.author?.id === gitlabUserId.value;
+        });
+    });
+
+    const selectedUnresolvedIndex = ref(-1);
+    const myUnresolvedDomIds = computed(() => {
+        return myUnresolvedThreads.value.map((item) => {
+            return `note_${item?.notes?.[0]?.id}`;
+        });
+    });
+
+    function scrollToMyUnresolved(adjustment: number) {
+        if (selectedUnresolvedIndex.value === -1) {
+            selectedUnresolvedIndex.value = adjustment > 0 ? 0 : myUnresolvedThreads.value.length - 1;
+        } else {
+            selectedUnresolvedIndex.value = (selectedUnresolvedIndex.value + adjustment + myUnresolvedThreads.value.length) % myUnresolvedThreads.value.length;
+        }
+
+        const selectorId = myUnresolvedDomIds.value[selectedUnresolvedIndex.value];
+        if (!selectorId) {
+            return;
+        }
+        document.getElementById(selectorId)
+            ?.scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
