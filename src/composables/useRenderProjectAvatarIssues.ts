@@ -33,19 +33,27 @@ export function useRenderProjectAvatarIssues() {
             const targetElements = document.querySelectorAll(`li.issue a.issue-title-text[href*="${projectPath}"]`);
             targetElements.forEach((targetElement) => {
                 const parentElement = targetElement?.parentElement?.parentElement?.parentElement || null;
-                if (parentElement && !(parentElement.children?.[0] instanceof HTMLImageElement)) {
-                    const imgElement = document.createElement('img');
-                    imgElement.setAttribute('src', avatarUrl);
-                    imgElement.setAttribute('style', 'width: 20px;');
-                    imgElement.classList.add('gl-mr-5', 'chrome-gitlab-enhancer__project-avatar');
+                if (parentElement && !parentElement.children?.[0].classList.contains('chrome-gitlab-enhancer__project-avatar')) {
+                    let injectElement: HTMLElement;
+                    if (!avatarUrl.includes('http')) {
+                        injectElement = document.createElement('div');
+                        injectElement.className = 'gl-avatar gl-avatar-identicon gl-avatar-s24 gl-avatar-identicon-bg6';
+                        injectElement.textContent = avatarUrl;
+                    } else {
+                        injectElement = document.createElement('img');
+                        injectElement.setAttribute('src', avatarUrl);
+                        injectElement.setAttribute('style', 'width: 20px;');
+                    }
 
-                    parentElement.prepend(imgElement);
+                    injectElement.classList.add('gl-mr-5', 'chrome-gitlab-enhancer__project-avatar');
+
+                    parentElement.prepend(injectElement);
                     parentElement.classList.add('gl-align-items-center');
                 }
             });
         }
 
-        if (window.location.href.includes('boards')) {
+        if (window.location.href.includes('boards') && avatarUrl.includes('http')) {
             const targetElements = document.querySelectorAll(`li.board-card span[title="${projectPath}"]`);
             targetElements.forEach((targetElement) => {
                 if (targetElement.parentElement && targetElement.previousElementSibling) {
@@ -93,7 +101,7 @@ export function useRenderProjectAvatarIssues() {
             if (!projectAvatars[path]) {
                 fetchProject(path)
                     .then((data) => {
-                        projectAvatars[path] = data?.avatar_url || null;
+                        projectAvatars[path] = data?.avatar_url || data?.name?.charAt(0) || null;
 
                         injectAvatar(path);
                     });
