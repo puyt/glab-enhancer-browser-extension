@@ -49,9 +49,11 @@
     import IssueDetail from './components/IssueDetail.vue';
     import { useRenderProjectAvatarIssues } from './composables/useRenderProjectAvatarIssues';
     import { useHighlightMyIssuesMrs } from './composables/useHighlightMyIssuesMrs';
+    import { useDimDraftMrs } from './composables/useDimDraftMrs';
 
     const { render: renderProjectAvatars } = useRenderProjectAvatarIssues();
     const { highlight: highlightMyIssuesMrs } = useHighlightMyIssuesMrs();
+    const { dim: dimDraftMrs } = useDimDraftMrs();
 
     const gitlabUserId = ref(0);
     const gitlabUsername = ref('');
@@ -61,6 +63,7 @@
             if (event.data.type === 'chrome-request-completed' && !event.data.data.url.includes('is_custom=1')) {
                 renderProjectAvatars();
                 highlightMyIssuesMrs(gitlabUsername.value);
+                dimDraftMrs();
             }
         });
 

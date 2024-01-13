@@ -98,6 +98,7 @@
         mdiCommentAccountOutline,
         mdiFlagOutline,
         mdiImageOutline,
+        mdiLightbulbOffOutline,
         mdiMapMarkerOutline,
         mdiStarOutline,
     } from '@mdi/js';
@@ -259,6 +260,15 @@
                 iconClassName: 'gl-ml-2',
                 defaultValue: true,
             },
+            {
+                label: 'Dim "Draft"',
+                title: '',
+                key: Preference.MR_DIM_DRAFT,
+                icon: mdiLightbulbOffOutline,
+                isGitlabIcon: false,
+                iconClassName: 'gl-ml-2',
+                defaultValue: true,
+            }
         ],
     };
 

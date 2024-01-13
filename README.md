@@ -20,6 +20,7 @@ This Google Chrome extension enhances your GitLab experience by validating issue
 - Show unresolved threads **created by you** in the overview
 - Show unresolved threads **created by you** in the detail, with scrollTo buttons
 - Add hotkey `Shift+J` to mark a changed file as "viewed" and go to next page
+- Dim "Draft" merge requests
 
 **Issues**
 

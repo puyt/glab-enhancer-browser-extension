@@ -21,6 +21,7 @@ export const enum Preference {
     ISSUE_REQUIRED_SCOPED_LABELS = 'issue_required_scoped_labels',
 
     MR_SHOW_MY_UNRESOLVED_THREADS = 'mr_show_my_unresolved_threads',
+    MR_DIM_DRAFT = 'mr_dim_draft',
 }
 
 export const useExtensionStore = defineStore('resize', () => {
