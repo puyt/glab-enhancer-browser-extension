@@ -42,7 +42,7 @@ export function useRenderProjectAvatarIssues() {
                     } else {
                         injectElement = document.createElement('img');
                         injectElement.setAttribute('src', avatarUrl);
-                        injectElement.setAttribute('style', 'width: 20px;');
+                        injectElement.setAttribute('style', 'width: 24px;');
                     }
 
                     injectElement.classList.add('gl-mr-5', 'chrome-gitlab-enhancer__project-avatar');
