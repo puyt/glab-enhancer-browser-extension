@@ -9,7 +9,7 @@ export const enum Preference {
     COMMAND_PANEL_STARRED_PROJECTS = 'command_panel_starred_projects',
     COMMAND_PANEL_MOVE_PLACES = 'command_panel_move_places',
 
-    GENERAL_HIGHLIGHT_MY_ISSUES = 'general_highlight_my_issues',
+    GENERAL_HIGHLIGHT_MY_ISSUES_MRS = 'general_highlight_my_issues_mrs',
 
     ISSUE_SHOW_MY_UNRESOLVED_THREADS = 'issue_show_my_unresolved_threads',
     ISSUE_RENDER_PROJECT_AVATARS = 'issue_render_project_avatars',

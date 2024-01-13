@@ -48,15 +48,19 @@
     import Preferences from './components/Preferences.vue';
     import IssueDetail from './components/IssueDetail.vue';
     import { useRenderProjectAvatarIssues } from './composables/useRenderProjectAvatarIssues';
+    import { useHighlightMyIssuesMrs } from './composables/useHighlightMyIssuesMrs';
 
     const { render: renderProjectAvatars } = useRenderProjectAvatarIssues();
+    const { highlight: highlightMyIssuesMrs } = useHighlightMyIssuesMrs();
 
     const gitlabUserId = ref(0);
+    const gitlabUsername = ref('');
 
     onMounted(() => {
         window.addEventListener('message', (event) => {
             if (event.data.type === 'chrome-request-completed' && !event.data.data.url.includes('is_custom=1')) {
                 renderProjectAvatars();
+                highlightMyIssuesMrs(gitlabUsername.value);
             }
         });
 
@@ -64,6 +68,7 @@
             .json()
             .then(({ data }) => {
                 gitlabUserId.value = data?.value?.id || 0;
+                gitlabUsername.value = data?.value?.username || '';
             });
     });
 

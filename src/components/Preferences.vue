@@ -93,6 +93,7 @@
     setup
 >
     import {
+        mdiAccountCircleOutline,
         mdiChevronDown,
         mdiCommentAccountOutline,
         mdiFlagOutline,
@@ -160,6 +161,17 @@
                 icon: mdiMapMarkerOutline,
                 isGitlabIcon: false,
                 iconClassName: 's24',
+                defaultValue: true,
+            },
+        ],
+        'General': [
+            {
+                label: 'Highlight my issues & merge requests',
+                title: '',
+                key: Preference.GENERAL_HIGHLIGHT_MY_ISSUES_MRS,
+                icon: mdiAccountCircleOutline,
+                isGitlabIcon: false,
+                iconClassName: 'gl-ml-1 s24',
                 defaultValue: true,
             },
         ],
