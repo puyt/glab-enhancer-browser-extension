@@ -7,35 +7,39 @@
             >
                 <teleport :to="`#${teleportId}`">
                     <li
-                        class="has-tooltip gl-display-none gl-sm-display-block badge gl-mr-3 badge-warning badge-pill gl-badge md"
+                        class="has-tooltip gl-display-none gl-sm-display-block gl-mr-3 md gl-text-orange-500!"
+                        :class="{
+                            'badge badge-pill gl-badge badge-warning':  mrUnresolvedThreadsCount.get(teleportId),
+                        }"
                         :style="{
-                        opacity: mrUnresolvedThreadsCount.get(teleportId) ? 1 : 0.5,
-                    }"
+                            opacity: mrUnresolvedThreadsCount.get(teleportId) ? 1 : 0.5,
+                        }"
                         title="Unresolved threads"
                     >
-                        <svg
+                        <SvgIcon
                             class="gl-icon s16 gl-mr-2"
-                            viewBox="0 0 24 24"
-                        >
-                            <path :d="mdiCommentAlertOutline" />
-                        </svg>
+                            :path="mdiCommentAlertOutline"
+                            style="fill: currentColor;"
+                        />
 
                         <span class="gl-font-weight-bold">{{ mrUnresolvedThreadsCount.get(teleportId) || 0 }}</span>
                     </li>
 
                     <li
-                        class="has-tooltip gl-display-none gl-sm-display-block badge badge-danger badge-pill gl-badge md gl-text-red-500!"
+                        class="has-tooltip gl-display-none gl-sm-display-block md gl-text-red-500!"
+                        :class="{
+                            'badge badge-pill gl-badge badge-danger':  myUnresolvedMrThreadsCount.get(teleportId),
+                        }"
                         :style="{
-                        opacity: myUnresolvedMrThreadsCount.get(teleportId) ? 1 : 0.5,
-                    }"
+                            opacity: myUnresolvedMrThreadsCount.get(teleportId) ? 1 : 0.5,
+                        }"
                         title="My unresolved threads"
                     >
-                        <svg
+                        <SvgIcon
                             class="gl-icon s16 gl-mr-2"
-                            viewBox="0 0 24 24"
-                        >
-                            <path :d="mdiCommentAccountOutline" />
-                        </svg>
+                            :path="mdiCommentAccountOutline"
+                            style="fill: currentColor;"
+                        />
 
                         <span class="gl-font-weight-bold">{{ myUnresolvedMrThreadsCount.get(teleportId) || 0 }}</span>
                     </li>
@@ -71,6 +75,7 @@
         Preference,
         useExtensionStore,
     } from '../store';
+    import SvgIcon from './SvgIcon.vue';
 
     type IID = string | Array<string>;
 
