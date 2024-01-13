@@ -11,7 +11,10 @@
             v-for="project in projects"
             :key="project.id"
         >
-            <li class="show-on-focus-or-hover--context gl-new-dropdown-item">
+            <li
+                class="show-on-focus-or-hover--context gl-new-dropdown-item"
+                tabindex="0"
+            >
                 <a
                     class="gl-new-dropdown-item-content"
                     :href="project.web_url"
