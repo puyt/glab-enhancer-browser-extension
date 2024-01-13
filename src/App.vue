@@ -14,10 +14,11 @@
             :iid="IID"
         />
 
-        <MergeRequestOverview
-            v-if="isMergeRequestPage && !IID"
+        <MyUnresolvedThreads
+            v-if="isMrIssueOverviewReady && !IID"
             :current-project-path="projectPath"
             :gitlab-user-id="gitlabUserId"
+            :is-merge-request="isMergeRequestPage"
         />
 
         <MergeRequestDetail
@@ -43,7 +44,7 @@
         ref,
     } from 'vue';
     import CommandPanelEnhancer from './components/CommandPanelEnhancer.vue';
-    import MergeRequestOverview from './components/MergeRequestOverview.vue';
+    import MyUnresolvedThreads from './components/MyUnresolvedThreads.vue';
     import MergeRequestDetail from './components/MergeRequestDetail.vue';
     import Preferences from './components/Preferences.vue';
     import IssueDetail from './components/IssueDetail.vue';
@@ -57,23 +58,7 @@
 
     const gitlabUserId = ref(0);
     const gitlabUsername = ref('');
-
-    onMounted(() => {
-        window.addEventListener('message', (event) => {
-            if (event.data.type === 'chrome-request-completed' && !event.data.data.url.includes('is_custom=1')) {
-                renderProjectAvatars();
-                highlightMyIssuesMrs(gitlabUsername.value);
-                dimDraftMrs();
-            }
-        });
-
-        useFetch(`/api/v4/user`)
-            .json()
-            .then(({ data }) => {
-                gitlabUserId.value = data?.value?.id || 0;
-                gitlabUsername.value = data?.value?.username || '';
-            });
-    });
+    const isMrIssueOverviewReady = ref(false);
 
     const isReady = computed(() => !!gitlabUserId.value);
 
@@ -93,4 +78,23 @@
 
     const isMergeRequestPage = computed(() => location.value.pathname?.includes('merge_requests'));
     const isIssuePage = computed(() => location.value.pathname?.includes('issues'));
+
+    onMounted(() => {
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'chrome-request-completed' && !event.data.data.url.includes('is_custom=1')) {
+                renderProjectAvatars();
+                highlightMyIssuesMrs(gitlabUsername.value);
+                dimDraftMrs();
+
+                isMrIssueOverviewReady.value = !!document.querySelector('ul.issuable-list > li:first-child .issuable-reference');
+            }
+        });
+
+        useFetch(`/api/v4/user`)
+            .json()
+            .then(({ data }) => {
+                gitlabUserId.value = data?.value?.id || 0;
+                gitlabUsername.value = data?.value?.username || '';
+            });
+    });
 </script>

@@ -9,10 +9,10 @@
                     <li
                         class="has-tooltip gl-display-none gl-sm-display-block gl-mr-3 md gl-text-orange-500!"
                         :class="{
-                            'badge badge-pill gl-badge badge-warning':  mrUnresolvedThreadsCount.get(teleportId),
+                            'badge badge-pill gl-badge badge-warning':  unresolvedThreadsCount.get(teleportId),
                         }"
                         :style="{
-                            opacity: mrUnresolvedThreadsCount.get(teleportId) ? 1 : 0.5,
+                            opacity: unresolvedThreadsCount.get(teleportId) ? 1 : 0.5,
                         }"
                         title="Unresolved threads"
                     >
@@ -22,16 +22,16 @@
                             style="fill: currentColor;"
                         />
 
-                        <span class="gl-font-weight-bold">{{ mrUnresolvedThreadsCount.get(teleportId) || 0 }}</span>
+                        <span class="gl-font-weight-bold">{{ unresolvedThreadsCount.get(teleportId) || 0 }}</span>
                     </li>
 
                     <li
                         class="has-tooltip gl-display-none gl-sm-display-block md gl-text-red-500!"
                         :class="{
-                            'badge badge-pill gl-badge badge-danger':  myUnresolvedMrThreadsCount.get(teleportId),
+                            'badge badge-pill gl-badge badge-danger':  myUnresolvedThreadsCount.get(teleportId),
                         }"
                         :style="{
-                            opacity: myUnresolvedMrThreadsCount.get(teleportId) ? 1 : 0.5,
+                            opacity: myUnresolvedThreadsCount.get(teleportId) ? 1 : 0.5,
                         }"
                         title="My unresolved threads"
                     >
@@ -41,7 +41,7 @@
                             style="fill: currentColor;"
                         />
 
-                        <span class="gl-font-weight-bold">{{ myUnresolvedMrThreadsCount.get(teleportId) || 0 }}</span>
+                        <span class="gl-font-weight-bold">{{ myUnresolvedThreadsCount.get(teleportId) || 0 }}</span>
                     </li>
                 </teleport>
             </template>
@@ -64,7 +64,6 @@
     } from 'vue';
     import type {
         GitLabDiscussion,
-        GitLabMergeRequest,
     } from '../types';
     import { useFetch } from '@vueuse/core';
     import {
@@ -82,23 +81,24 @@
     interface Props {
         gitlabUserId: number,
         currentProjectPath: string,
+        isMergeRequest: boolean,
     }
 
     const props = withDefaults(defineProps<Props>(), {
         gitlabUserId: 0,
         currentProjectPath: '',
+        isMergeRequest: true,
     });
     const {
-
         gitlabUserId,
         currentProjectPath,
+        isMergeRequest,
     } = toRefs(props);
 
     const { getSetting } = useExtensionStore();
 
-    const extractedMrIds: ShallowRef<Array<IID>> = shallowRef([]);
-    const myMrs: ShallowRef<Array<GitLabMergeRequest>> = shallowRef([]);
-    const mrDiscussions: Ref<Map<string, GitLabDiscussion[]>> = ref(new Map());
+    const extractIssuableIds: ShallowRef<Array<IID>> = shallowRef([]);
+    const discussions: Ref<Map<string, GitLabDiscussion[]>> = ref(new Map());
 
     function getProjectPath(iid: IID): string {
         return Array.isArray(iid) ? iid[0] : currentProjectPath.value;
@@ -109,18 +109,18 @@
     }
 
     function getTeleportId(idd: IID): string {
-        return ('teleport-mr-meta-' + getProjectPath(idd) + '-' + getIid(idd)).replace(/\//g, '_');
+        return ('teleport-issuable-meta-' + getProjectPath(idd) + '-' + getIid(idd)).replace(/\//g, '_');
     }
 
-    const isShowMyUnresolvedEnabled = computed(() => !!getSetting(Preference.MR_SHOW_MY_UNRESOLVED_THREADS, true));
-    const teleportIds = computed(() => extractedMrIds.value.map((iid) => getTeleportId(iid)));
+    const isShowMyUnresolvedEnabled = computed(() => (isMergeRequest.value && !!getSetting(Preference.MR_SHOW_MY_UNRESOLVED_THREADS, true) || (!isMergeRequest.value && !!getSetting(Preference.ISSUE_SHOW_MY_UNRESOLVED_THREADS, true))));
+    const teleportIds = computed(() => extractIssuableIds.value.map((iid) => getTeleportId(iid)));
 
-    const mrUnresolvedThreadsCount = computed(() => {
+    const unresolvedThreadsCount = computed(() => {
         const items: Map<any, any> = new Map();
 
-        extractedMrIds.value.forEach((iid) => {
+        extractIssuableIds.value.forEach((iid) => {
             const id = getIid(iid);
-            const totalUnresolvedThreads = (mrDiscussions.value.get(id) || []).filter((discussion) => {
+            const totalUnresolvedThreads = (discussions.value.get(id) || []).filter((discussion) => {
                 const thread = discussion?.notes?.[0] || null;
                 return !!thread?.resolvable && !thread?.resolved;
             });
@@ -131,12 +131,12 @@
         return items;
     });
 
-    const myUnresolvedMrThreadsCount = computed(() => {
+    const myUnresolvedThreadsCount = computed(() => {
         const items: Map<any, any> = new Map();
 
-        extractedMrIds.value.forEach((iid) => {
+        extractIssuableIds.value.forEach((iid) => {
             const id = getIid(iid);
-            const totalUnresolvedThreads = (mrDiscussions.value.get(id) || []).filter((discussion) => {
+            const totalUnresolvedThreads = (discussions.value.get(id) || []).filter((discussion) => {
                 const thread = discussion?.notes?.[0] || null;
                 return !!thread?.resolvable && !thread?.resolved && thread?.author?.id === gitlabUserId.value;
             });
@@ -147,35 +147,27 @@
         return items;
     });
 
-    function fetchMrDiscussions() {
-        extractedMrIds.value.forEach((iid) => {
+    function fetchDiscussions() {
+        extractIssuableIds.value.forEach((iid) => {
             const path = getProjectPath(iid);
             const id = getIid(iid);
 
-            useFetch(`/api/v4/projects/${encodeURIComponent(path)}/merge_requests/${id}/discussions?per_page=100&is_custom=1`)
+            useFetch(`/api/v4/projects/${encodeURIComponent(path)}/${isMergeRequest.value ? 'merge_requests' : 'issues'}/${id}/discussions?per_page=100&is_custom=1`)
                 .json()
                 .then(({ data }) => {
                     if (data?.value) {
-                        mrDiscussions.value.set(id, data?.value || [] as GitLabDiscussion[]);
+                        discussions.value.set(id, data?.value || [] as GitLabDiscussion[]);
                     }
                 });
         });
     }
 
-    function fetchMyMrs() {
-        useFetch(`/api/v4/merge_requests?scope=assigned_to_me&per_page=100&state=opened`)
-            .json()
-            .then(({ data }) => {
-                myMrs.value = data.value || [];
-            });
-    }
-
-    function extractMrIids() {
+    function extractIssuableIids() {
         const values: Array<string | Array<string>> = [];
-        document.querySelectorAll('li.merge-request .issuable-reference')
+        document.querySelectorAll('.issuable-list > li .issuable-reference')
             .forEach((el) => {
                 const iid = el.textContent?.trim()
-                    ?.split('!') || [];
+                    ?.split(isMergeRequest.value ? '!' : '#') || [];
 
                 let resolvedId: string | string[] = iid[0];
                 if (iid.length === 2) {
@@ -184,23 +176,23 @@
                 values.push(resolvedId);
 
                 // add teleport placeholder
-                const containerElement = el.closest('.issuable-info-container');
+                const containerElement = el.closest(isMergeRequest.value ? '.issuable-info-container' : 'li.issue');
                 const metaElement = containerElement?.querySelector('.issuable-meta > ul');
+
                 const placeholderElement = document.createElement('div');
                 placeholderElement.className = 'gl-display-flex';
                 placeholderElement.id = getTeleportId(resolvedId);
                 metaElement?.append(placeholderElement);
             });
 
-        extractedMrIds.value = values;
+        extractIssuableIds.value = values;
 
-        fetchMrDiscussions();
+        fetchDiscussions();
     }
 
     watch(isShowMyUnresolvedEnabled, (newValue) => {
         if (newValue) {
-            fetchMyMrs();
-            extractMrIids();
+            extractIssuableIids();
         }
     }, { immediate: true });
 </script>

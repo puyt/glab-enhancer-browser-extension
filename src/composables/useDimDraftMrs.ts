@@ -13,7 +13,6 @@ export function useDimDraftMrs() {
         }
 
         document.querySelectorAll('li.merge-request').forEach((element) => {
-            console.log(element);
             if (element.textContent?.includes('Draft:')) {
                 element.classList.add('merge-request-draft');
             }

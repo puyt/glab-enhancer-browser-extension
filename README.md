@@ -8,6 +8,7 @@ This Google Chrome extension enhances your GitLab experience by validating issue
 
 - Enable/disable most of the features by toggling the preferences
 - Move the close issue / merge request button to the right side to prevent accidental clicks
+- Highlight my issues & merge requests
 
 **Command panel**
 
