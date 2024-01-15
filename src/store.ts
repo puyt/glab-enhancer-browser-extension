@@ -22,6 +22,7 @@ export const enum Preference {
 
     MR_SHOW_MY_UNRESOLVED_THREADS = 'mr_show_my_unresolved_threads',
     MR_DIM_DRAFT = 'mr_dim_draft',
+    MR_HOTKEY_VIEWED_NEXT = 'mr_hotkey_viewed_next',
 }
 
 export const useExtensionStore = defineStore('resize', () => {

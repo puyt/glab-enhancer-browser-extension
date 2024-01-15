@@ -153,7 +153,10 @@
     const debouncedRender = debounce(render, 400);
 
     onMounted(async () => {
-        window.addEventListener('keydown', handleKeyPress);
+        if (getSetting(Preference.MR_HOTKEY_VIEWED_NEXT, true)) {
+            window.addEventListener('keydown', handleKeyPress);
+        }
+
         window.addEventListener('scroll', debouncedRender);
 
         window.addEventListener('message', (event) => {
