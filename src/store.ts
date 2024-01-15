@@ -25,7 +25,7 @@ export const enum Preference {
 }
 
 export const useExtensionStore = defineStore('resize', () => {
-        const valuesByNamespace: Ref<Map<string, SettingValue>> = useLocalStorage('pinia/extension', ref(new Map()));
+        const valuesByNamespace: Ref<Map<string, SettingValue>> = useLocalStorage('chrome-gitlab-enhancer', ref(new Map()));
 
         function get(key: string, defaultValue: SettingValue = null): SettingValue {
             const value = valuesByNamespace.value.get(key);
