@@ -180,7 +180,7 @@
                 const metaElement = containerElement?.querySelector('.issuable-meta > ul');
 
                 const placeholderElement = document.createElement('div');
-                placeholderElement.className = 'gl-display-flex';
+                placeholderElement.className = 'gl-display-flex align-items-center';
                 placeholderElement.id = getTeleportId(resolvedId);
                 metaElement?.append(placeholderElement);
             });
