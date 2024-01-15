@@ -294,7 +294,7 @@
     #chrome-gitlab-enhancer__preferences {
         position: fixed;
         z-index: 999;
-        top: 8px;
+        top: 6px;
         right: 16px;
 
         .btn-group {
