@@ -44,6 +44,9 @@
                                 >
                                     <button
                                         class="dropdown-item"
+                                        :class="{
+                                            'has-tooltip': !!preference.title,
+                                        }"
                                         :style="{
                                             'flex-wrap': typeof preference.defaultValue === 'string' ? 'wrap': 'nowrap',
                                         }"
@@ -168,7 +171,7 @@
         'General': [
             {
                 label: 'Highlight my issues & merge requests',
-                title: '',
+                title: 'Highlighted with purple dashed border',
                 key: Preference.GENERAL_HIGHLIGHT_MY_ISSUES_MRS,
                 icon: mdiAccountCircleOutline,
                 isGitlabIcon: false,
