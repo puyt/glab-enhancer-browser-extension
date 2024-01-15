@@ -2,21 +2,6 @@ function postMessage(type, data) {
     window.postMessage({ type, data });
 }
 
-// function onTabUpdated(tabId, changeInfo, tab) {
-//     if (chrome.runtime.lastError || !tab.active || !tab?.url?.includes('//gitlab.')) {
-//         return;
-//     }
-//
-//     chrome.storage.local.get(function (result) {
-//         chrome.scripting.executeScript({
-//             target: { tabId: tab.id },
-//             function: postMessage,
-//             args: ['chrome-storage', result],
-//         });
-//
-//     });
-// }
-
 function onWebRequestCompleted(details) {
     if (details.tabId < 0) {
         return;

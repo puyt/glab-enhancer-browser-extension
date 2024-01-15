@@ -1,4 +1,4 @@
-if (window.location.host.includes('gitlab.')) {
+function initialize() {
     const contentWrapperDiv = document.querySelector('.layout-page .content-wrapper');
     const computedStyle = window.getComputedStyle(contentWrapperDiv);
     const paddingRight = computedStyle.getPropertyValue('padding-right')
@@ -20,3 +20,13 @@ if (window.location.host.includes('gitlab.')) {
     appScript.type = 'module';
     document.body.appendChild(appScript);
 }
+
+chrome.storage.local.get(function (result) {
+    const domains = (result.customGitlabDomains || '').split(',');
+    domains.push('https://gitlab.com');
+
+    if (domains.includes(window.location.origin)) {
+        initialize();
+    }
+});
+
