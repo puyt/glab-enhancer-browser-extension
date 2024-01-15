@@ -83,6 +83,7 @@
             </div>
 
             <div
+                v-if="filteredValidateStatuses.length > 0"
                 class="dropdown b-dropdown gl-dropdown btn-group gl-display-block!"
                 @mouseenter.prevent="isMenuVisible = true"
                 @mouseleave.prevent="isMenuVisible = false"
