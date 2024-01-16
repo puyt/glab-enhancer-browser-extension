@@ -1,30 +1,40 @@
 <template>
-    <div>
+    <div class="popup-wrapper">
         <header>
             <SvgLogo />
 
             <h1>GitLab Enhancer</h1>
         </header>
-        <div>
-            <label title="Use comma separated values">Custom domain(s):</label>
 
-            <div style="display: flex;">
-                <input
-                    v-model="customDomains"
-                    type="text"
-                >
+        <div class="popup-content">
+            <div class="popup-settings">
+                <label title="Use comma separated values">Custom domain(s):</label>
 
-                <button
-                    title="Save"
-                    @click="persistDomains"
-                >
-                    <SvgIcon
-                        :is-gitlab="false"
-                        :path="mdiContentSaveOutline"
-                        style="fill: currentColor;"
-                    />
-                </button>
+                <div style="display: flex;">
+                    <input
+                        v-model="customDomains"
+                        type="text"
+                    >
+
+                    <button
+                        title="Save"
+                        @click="persistDomains"
+                    >
+                        <SvgIcon
+                            :is-gitlab="false"
+                            :path="mdiContentSaveOutline"
+                            style="fill: currentColor;"
+                        />
+                    </button>
+                </div>
             </div>
+
+            <hr style="margin: 16px;">
+
+            <div
+                v-html="changelogHtml"
+                class="popup-changelog"
+            />
         </div>
     </div>
 </template>
@@ -33,16 +43,20 @@
     lang="ts"
     setup
 >
+    import { mdiContentSaveOutline } from '@mdi/js';
+    import showdown from 'showdown';
     import {
         onMounted,
         ref,
     } from 'vue';
+    import changelog from '../../CHANGELOG.md?raw';
     import SvgLogo from '../components/SvgLogo.vue';
     import SvgIcon from '../components/SvgIcon.vue';
-    import { mdiContentSaveOutline } from '@mdi/js';
 
     const originalCustomDomains = ref('');
     const customDomains = ref('');
+
+    const changelogHtml = (new showdown.Converter()).makeHtml(changelog);
 
     function persistDomains() {
         if (customDomains.value !== originalCustomDomains.value) {
@@ -76,10 +90,41 @@
     lang="scss"
     scoped
 >
+    .popup-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 560px;
+        overflow: hidden;
+    }
+
+    .popup-content {
+        flex: 1 1 0;
+
+        display: flex;
+        flex-direction: column;
+    }
+
+    .popup-settings {
+        padding: 16px;
+    }
+
+    .popup-changelog {
+        font-size: 14px;
+        flex: 1 1 0;
+        overflow: auto;
+
+        padding: 0 24px;
+    }
+
+    #changelog {
+        margin-top: 0;
+    }
+
     header {
         display: flex;
         align-items: center;
-        margin-bottom: 16px;
+        justify-content: center;
+        padding: 16px;
 
         svg {
             width: 48px;

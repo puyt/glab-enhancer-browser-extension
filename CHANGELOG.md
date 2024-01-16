@@ -1,27 +1,28 @@
 # Changelog
 
-## 2.2.0 - 2024.1 Build 2 (15/01/2024)
+## 2.2.0 (15/01/2024)
 ### ✨ Features
-- **preference**: add mark as viewed & next file. By puyt
-- **preference**: add tooltip my issues & mrs. By puyt
+- **preference**: add mark as viewed & next file
+- **preference**: add tooltip my issues & mrs
 
-### ♻️  Enhancements
-- **issue**: hide validate if validation is disabled. By puyt
-- **store**: rename the local storage key. By puyt
+### ♻️ Enhancements
+- **issue**: hide validate if validation is disabled
+- **store**: rename the local storage key
 
 ### 🪲 Bug Fixes
-- **mr**: fix badge alignment. By puyt in #2
+- **mr**: fix badge alignment
 
-### 🗒️  Other
-- **chore(deps)**: remove obsolete package tailwindcss. By puyt
-- **refactor**: remove need for universal site access. By puyt in #1
+### 🗒️ Other
+- **refactor**: remove need for universal site access
 
-## 2.1.0 - 2024.1 (13/01/2024)
+## 2.1.0 (13/01/2024)
 ### ✨ Features
-- show unresolved threads in issue overview. By puyt
-- add Dim "Draft" Mrs. By puyt
+- show unresolved threads in issue overview
+- add Dim "Draft" Mrs
 
-### ♻️  Enhancements
-- add arrow nav support in starred projects. By puyt
-- increase avatar size project. By puyt
+### ♻️ Enhancements
+- add arrow nav support in starred projects
+- increase avatar size project
 
+## 2.0.0 (12/01/2024)
+- 🚀 Initial release in the Chrome Web Store
