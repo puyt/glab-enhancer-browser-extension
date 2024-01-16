@@ -27,7 +27,7 @@
         "content.js"
       ],
       "matches": [
-        "<all_urls>"
+        "https://gitlab.com/*"
       ]
     }
   ],
@@ -42,7 +42,7 @@
         "assets/SvgLogo.js"
       ],
       "matches": [
-        "<all_urls>"
+        "https://*/*"
       ]
     }
   ],
