@@ -13,7 +13,7 @@ export function useThreadsByDefault() {
 
     onMounted(() => {
         const textArea = document.querySelector('form.common-note-form textarea') as HTMLTextAreaElement
-        if (textArea.textContent !== '') {
+        if (textArea && textArea.textContent !== '') {
             return;
         }
 

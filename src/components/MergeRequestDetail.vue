@@ -111,7 +111,7 @@
         await fetchMrDiscussions();
     }, 300);
 
-    function markAsViewedAndOpenNext(event: KeyboardEvent) {
+    function markAsViewed(event: KeyboardEvent) {
         // Skip if input is focused.
         if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
             return;
@@ -123,18 +123,34 @@
         }
 
         const viewedCheckboxLabelElement = document.querySelector('.diff-files-holder .file-actions input[type="checkbox"] + label') as HTMLLabelElement;
-        const nextPageButtonElement = document.querySelector('.diff-files-holder .next-page-item') as HTMLButtonElement;
+        if (viewedCheckboxLabelElement) {
+            const inputId = viewedCheckboxLabelElement.getAttribute('for') || '';
+            viewedCheckboxLabelElement?.click();
 
-        if (viewedCheckboxLabelElement && nextPageButtonElement) {
-            viewedCheckboxLabelElement.click();
-            setTimeout(() => {
-                nextPageButtonElement.click();
-            }, 300);
+            document.getElementById(inputId)?.blur();
         }
     }
 
+    function markAsViewedAndOpenNext(event: KeyboardEvent) {
+        // Skip if input is focused.
+        if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
+            return;
+        }
+
+        markAsViewed(event);
+
+        setTimeout(() => {
+            const nextPageButtonElement = document.querySelector('.diff-files-holder .next-page-item') as HTMLButtonElement;
+            nextPageButtonElement?.click();
+        }, 300);
+    }
+
     function handleKeyPress(event: KeyboardEvent) {
-        if (event.shiftKey && event.key === 'J') {
+        if (!event.shiftKey && event.key == 'v' && getSetting(Preference.MR_HOTKEY_VIEWED, true)) {
+            markAsViewed(event);
+        }
+
+        if (event.shiftKey && event.key === 'J' && getSetting(Preference.MR_HOTKEY_VIEWED_NEXT, true)) {
             markAsViewedAndOpenNext(event);
         }
     }
@@ -156,10 +172,7 @@
     const debouncedRender = debounce(render, 400);
 
     onMounted(async () => {
-        if (getSetting(Preference.MR_HOTKEY_VIEWED_NEXT, true)) {
-            window.addEventListener('keydown', handleKeyPress);
-        }
-
+        window.addEventListener('keydown', handleKeyPress);
         window.addEventListener('scroll', debouncedRender);
 
         window.addEventListener('message', (event) => {

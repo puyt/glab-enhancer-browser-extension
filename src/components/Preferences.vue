@@ -61,10 +61,12 @@
                                     >
                                         <SvgIcon
                                             v-if="preference.icon"
+
                                             :class="preference.iconClassName"
                                             class="gl-mr-3"
                                             :is-gitlab="preference.isGitlabIcon"
                                             :path="preference.icon"
+                                            style="flex: 0 0 auto;"
                                         />
 
                                         <div class="gl-dropdown-item-text-wrapper">
@@ -172,7 +174,7 @@
                 key: Preference.COMMAND_PANEL_MOVE_PLACES,
                 icon: mdiMapMarkerOutline,
                 isGitlabIcon: false,
-                iconClassName: 's24',
+                iconClassName: '',
                 defaultValue: true,
             },
         ],
@@ -183,7 +185,7 @@
                 key: Preference.GENERAL_HIGHLIGHT_MY_ISSUES_MRS,
                 icon: mdiAccountCircleOutline,
                 isGitlabIcon: false,
-                iconClassName: 'gl-ml-1 s24',
+                iconClassName: '',
                 defaultValue: true,
             },
             {
@@ -192,7 +194,7 @@
                 key: Preference.GENERAL_USE_THREADS_BY_DEFAULT,
                 icon: mdiCommentCheckOutline,
                 isGitlabIcon: false,
-                iconClassName: 'gl-ml-1 s24',
+                iconClassName: '',
                 defaultValue: true,
             },
         ],
@@ -203,7 +205,7 @@
                 key: Preference.ISSUE_SHOW_MY_UNRESOLVED_THREADS,
                 icon: mdiCommentAccountOutline,
                 isGitlabIcon: false,
-                iconClassName: 'gl-ml-2',
+                iconClassName: '',
                 defaultValue: true,
             },
             {
@@ -212,7 +214,7 @@
                 key: Preference.ISSUE_RENDER_PROJECT_AVATARS,
                 icon: mdiImageOutline,
                 isGitlabIcon: false,
-                iconClassName: 'gl-ml-2',
+                iconClassName: '',
                 defaultValue: true,
             },
             {
@@ -221,7 +223,7 @@
                 key: Preference.ISSUE_VALIDATE_MISSING_EPIC,
                 icon: gSvgEpic,
                 isGitlabIcon: true,
-                iconClassName: 'gl-ml-2',
+                iconClassName: '',
                 defaultValue: true,
             },
             {
@@ -230,7 +232,7 @@
                 key: Preference.ISSUE_VALIDATE_MISSING_MILESTONE,
                 icon: mdiFlagOutline,
                 isGitlabIcon: false,
-                iconClassName: 'gl-ml-2',
+                iconClassName: '',
                 defaultValue: true,
             },
             {
@@ -239,7 +241,7 @@
                 key: Preference.ISSUE_VALIDATE_MISSING_ITERATION,
                 icon: gSvgIteration,
                 isGitlabIcon: true,
-                iconClassName: 'gl-ml-2',
+                iconClassName: '',
                 defaultValue: true,
             },
             {
@@ -248,7 +250,7 @@
                 key: Preference.ISSUE_VALIDATE_MISSING_WEIGHT,
                 icon: gSvgWeight,
                 isGitlabIcon: true,
-                iconClassName: 'gl-ml-2',
+                iconClassName: '',
                 defaultValue: true,
             },
             {
@@ -257,7 +259,7 @@
                 key: Preference.ISSUE_VALIDATE_UNRESOLVED_THREADS,
                 icon: gSvgComments,
                 isGitlabIcon: true,
-                iconClassName: 'gl-ml-2',
+                iconClassName: '',
                 defaultValue: true,
             },
             {
@@ -266,7 +268,7 @@
                 key: Preference.ISSUE_REQUIRED_SCOPED_LABELS,
                 icon: gSvgLabels,
                 isGitlabIcon: true,
-                iconClassName: 'gl-ml-2',
+                iconClassName: '',
                 defaultValue: '',
             },
         ],
@@ -277,7 +279,7 @@
                 key: Preference.MR_SHOW_MY_UNRESOLVED_THREADS,
                 icon: mdiCommentAccountOutline,
                 isGitlabIcon: false,
-                iconClassName: 'gl-ml-2',
+                iconClassName: '',
                 defaultValue: true,
             },
             {
@@ -286,16 +288,25 @@
                 key: Preference.MR_DIM_DRAFT,
                 icon: mdiLightbulbOffOutline,
                 isGitlabIcon: false,
-                iconClassName: 'gl-ml-2',
+                iconClassName: '',
                 defaultValue: true,
             },
             {
-                label: 'Hotkey mark as viewed & go to next file',
+                label: 'Hotkey mark as viewed',
+                title: 'v',
+                key: Preference.MR_HOTKEY_VIEWED,
+                icon: mdiKeyboardOutline,
+                isGitlabIcon: false,
+                iconClassName: '',
+                defaultValue: true,
+            },
+            {
+                label: 'Hotkey mark as viewed & open next file',
                 title: 'Shift+J',
                 key: Preference.MR_HOTKEY_VIEWED_NEXT,
                 icon: mdiKeyboardOutline,
                 isGitlabIcon: false,
-                iconClassName: 'gl-ml-2',
+                iconClassName: '',
                 defaultValue: true,
             }
         ],
