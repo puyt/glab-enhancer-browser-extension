@@ -217,6 +217,7 @@
         gSvgLabels,
         gSvgWeight,
     } from '../assets/icons';
+    import { useThreadsByDefault } from '../composables/useThreadsByDefault';
 
     interface Props {
         gitlabUserId: number,
@@ -234,6 +235,8 @@
         iid,
         currentProjectPath,
     } = toRefs(props);
+
+    useThreadsByDefault();
 
     const { getSetting } = useExtensionStore();
 

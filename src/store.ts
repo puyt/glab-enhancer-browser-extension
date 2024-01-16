@@ -10,6 +10,7 @@ export const enum Preference {
     COMMAND_PANEL_MOVE_PLACES = 'command_panel_move_places',
 
     GENERAL_HIGHLIGHT_MY_ISSUES_MRS = 'general_highlight_my_issues_mrs',
+    GENERAL_USE_THREADS_BY_DEFAULT = 'general_use_threads_by_default',
 
     ISSUE_SHOW_MY_UNRESOLVED_THREADS = 'issue_show_my_unresolved_threads',
     ISSUE_RENDER_PROJECT_AVATARS = 'issue_render_project_avatars',
