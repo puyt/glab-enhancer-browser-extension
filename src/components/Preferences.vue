@@ -198,6 +198,17 @@
                 defaultValue: true,
             },
         ],
+        'To-Do List': [
+            {
+                label: 'Render project logos',
+                title: '',
+                key: Preference.TODO_RENDER_PROJECT_LOGOS,
+                icon: mdiImageOutline,
+                isGitlabIcon: false,
+                iconClassName: '',
+                defaultValue: true,
+            },
+        ],
         'Issues': [
             {
                 label: 'Show # of my unresolved threads',
@@ -209,9 +220,9 @@
                 defaultValue: true,
             },
             {
-                label: 'Render project avatars',
+                label: 'Render project logos',
                 title: 'In issue overview & board',
-                key: Preference.ISSUE_RENDER_PROJECT_AVATARS,
+                key: Preference.ISSUE_RENDER_PROJECT_LOGO,
                 icon: mdiImageOutline,
                 isGitlabIcon: false,
                 iconClassName: '',
