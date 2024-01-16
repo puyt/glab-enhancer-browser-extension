@@ -16,7 +16,7 @@
                 <span
                     class="badge gl-ml-2 badge-tier badge-pill gl-badge sm"
                 >
-                    2.2.0
+                    2.3.0
                 </span>
 
                 <SvgIcon

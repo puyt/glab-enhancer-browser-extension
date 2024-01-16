@@ -1,5 +1,19 @@
 # Changelog
 
+## 2.3.0 (16/01/2024)
+### ✨ Features
+- **todos**: render project logo
+- **mr**: add hotkey "v" to mark file as viewed
+- **popup**: render the changelog
+- show current version in the dropdown
+- **issue, mr**: use threads over comments by default
+
+### ♻️  Enhancements
+- **permission**: request optional permissions for content scripts
+
+### 🗒️  Other
+- **refactor**: split highlight my issues & mrs into 2 settings
+
 ## 2.2.0 (15/01/2024)
 ### ✨ Features
 - **preference**: add mark as viewed & next file
