@@ -180,15 +180,6 @@
         ],
         'General': [
             {
-                label: 'Highlight my issues & merge requests',
-                title: 'Highlighted with purple dashed border',
-                key: Preference.GENERAL_HIGHLIGHT_MY_ISSUES_MRS,
-                icon: mdiAccountCircleOutline,
-                isGitlabIcon: false,
-                iconClassName: '',
-                defaultValue: true,
-            },
-            {
                 label: 'Use "Threads" in favor of "Comments" by default',
                 title: 'Used in issues & merge requests',
                 key: Preference.GENERAL_USE_THREADS_BY_DEFAULT,
@@ -210,6 +201,15 @@
             },
         ],
         'Issues': [
+            {
+                label: 'Highlight my issues',
+                title: 'Highlighted with purple dashed border',
+                key: Preference.ISSUE_HIGHLIGHT_MINE,
+                icon: mdiAccountCircleOutline,
+                isGitlabIcon: false,
+                iconClassName: '',
+                defaultValue: true,
+            },
             {
                 label: 'Show # of my unresolved threads',
                 title: '',
@@ -284,6 +284,15 @@
             },
         ],
         'Merge Requests': [
+            {
+                label: 'Highlight my MRs',
+                title: 'Highlighted with purple dashed border',
+                key: Preference.MR_HIGHLIGHT_MINE,
+                icon: mdiAccountCircleOutline,
+                isGitlabIcon: false,
+                iconClassName: '',
+                defaultValue: true,
+            },
             {
                 label: 'Show # of my unresolved threads',
                 title: '',

@@ -11,9 +11,9 @@ export const enum Preference {
 
     TODO_RENDER_PROJECT_LOGOS = 'todo_render_project_logos',
 
-    GENERAL_HIGHLIGHT_MY_ISSUES_MRS = 'general_highlight_my_issues_mrs',
     GENERAL_USE_THREADS_BY_DEFAULT = 'general_use_threads_by_default',
 
+    ISSUE_HIGHLIGHT_MINE = 'issue_highlight_mine',
     ISSUE_SHOW_MY_UNRESOLVED_THREADS = 'issue_show_my_unresolved_threads',
     ISSUE_RENDER_PROJECT_LOGO = 'issue_render_project_logo',
     ISSUE_VALIDATE_MISSING_EPIC = 'issue_validate_missing_epic',
@@ -23,6 +23,7 @@ export const enum Preference {
     ISSUE_VALIDATE_UNRESOLVED_THREADS = 'issue_validate_unresolved_threads',
     ISSUE_REQUIRED_SCOPED_LABELS = 'issue_required_scoped_labels',
 
+    MR_HIGHLIGHT_MINE = 'mr_highlight_mine',
     MR_SHOW_MY_UNRESOLVED_THREADS = 'mr_show_my_unresolved_threads',
     MR_DIM_DRAFT = 'mr_dim_draft',
     MR_HOTKEY_VIEWED = 'mr_hotkey_viewed',
