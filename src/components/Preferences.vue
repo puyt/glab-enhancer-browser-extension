@@ -13,8 +13,14 @@
 
                 <span class="gl-dropdown-button-text">GitLab Enhancer</span>
 
+                <span
+                    class="badge gl-ml-2 badge-tier badge-pill gl-badge sm"
+                >
+                    2.2.0
+                </span>
+
                 <SvgIcon
-                    class="gl-ml-1"
+                    class="gl-ml-2"
                     :path="mdiChevronDown"
                 />
             </button>
