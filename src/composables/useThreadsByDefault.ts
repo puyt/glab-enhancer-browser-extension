@@ -2,13 +2,22 @@ import {
     Preference,
     useExtensionStore,
 } from '../store';
-import { onMounted } from 'vue';
+import {
+    computed,
+    onMounted,
+} from 'vue';
 
 export function useThreadsByDefault() {
     const { getSetting } = useExtensionStore();
 
-    if (!getSetting(Preference.GENERAL_USE_THREADS_BY_DEFAULT, true)) {
-        return
+    const isUseThreadIssueEnabled = computed(() => !!getSetting(Preference.ISSUE_USE_THREADS_BY_DEFAULT, true));
+    if (window.location.href.includes('issues') && !isUseThreadIssueEnabled.value) {
+        return;
+    }
+
+    const isUseThreadMrEnabled = computed(() => !!getSetting(Preference.MR_USE_THREADS_BY_DEFAULT, true));
+    if (window.location.href.includes('merge_requests') && !isUseThreadMrEnabled.value) {
+        return;
     }
 
     onMounted(() => {
