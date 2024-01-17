@@ -14,7 +14,8 @@
                 <span class="gl-dropdown-button-text">GitLab Enhancer</span>
 
                 <span
-                    class="badge gl-ml-2 badge-tier badge-pill gl-badge sm"
+                    class="badge gl-ml-2 badge-tier badge-pill gl-badge sm has-tooltip"
+                    title="View changelog for updates, located in the extension pop-up."
                 >
                     2.3.0
                 </span>
