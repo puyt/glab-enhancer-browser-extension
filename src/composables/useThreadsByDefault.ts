@@ -21,11 +21,6 @@ export function useThreadsByDefault() {
     }
 
     onMounted(() => {
-        const textArea = document.querySelector('form.common-note-form textarea') as HTMLTextAreaElement
-        if (textArea && textArea.textContent !== '') {
-            return;
-        }
-
         const element = document.querySelector('form.common-note-form .note-form-actions .js-comment-submit-button ul.gl-new-dropdown-contents li[data-testid="listbox-item-discussion"]') as HTMLElement;
         element?.click()
     });
