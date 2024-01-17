@@ -27,6 +27,8 @@
             :gitlab-user-id="gitlabUserId"
             :iid="IID"
         />
+
+        <TodoList v-if="isTodoListPage" />
     </div>
 </template>
 
@@ -51,6 +53,7 @@
     import { useRenderProjectAvatarIssues } from './composables/useRenderProjectAvatarIssues';
     import { useHighlightMyIssuesMrs } from './composables/useHighlightMyIssuesMrs';
     import { useDimDraftMrs } from './composables/useDimDraftMrs';
+    import TodoList from './components/TodoList.vue';
 
     const { render: renderProjectAvatars } = useRenderProjectAvatarIssues();
     const { highlight: highlightMyIssuesMrs } = useHighlightMyIssuesMrs();
@@ -78,6 +81,7 @@
 
     const isMergeRequestPage = computed(() => location.value.pathname?.includes('merge_requests'));
     const isIssuePage = computed(() => location.value.pathname?.includes('issues'));
+    const isTodoListPage = computed(() => location.value.pathname?.includes('dashboard/todos'));
 
     onMounted(() => {
         window.addEventListener('message', (event) => {

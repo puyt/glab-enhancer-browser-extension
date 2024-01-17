@@ -189,6 +189,15 @@
                 iconClassName: '',
                 defaultValue: true,
             },
+            {
+                label: 'Render labels',
+                title: 'For issues & MRs',
+                key: Preference.TODO_RENDER_LABELS,
+                icon: gSvgLabels,
+                isGitlabIcon: true,
+                iconClassName: '',
+                defaultValue: true,
+            },
         ],
         'Issues': [
             {

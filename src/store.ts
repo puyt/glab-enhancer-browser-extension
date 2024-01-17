@@ -10,6 +10,7 @@ export const enum Preference {
     COMMAND_PANEL_MOVE_PLACES = 'command_panel_move_places',
 
     TODO_RENDER_PROJECT_LOGOS = 'todo_render_project_logos',
+    TODO_RENDER_LABELS = 'todo_render_labels',
 
     ISSUE_HIGHLIGHT_MINE = 'issue_highlight_mine',
     ISSUE_SHOW_MY_UNRESOLVED_THREADS = 'issue_show_my_unresolved_threads',
