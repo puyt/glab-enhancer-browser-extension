@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3.1 (17/01/2024)
+### ✨ Features
+- add tooltip on version badge for changelog info
+
 ## 2.3.0 (16/01/2024)
 ### ✨ Features
 - **todos**: render project logo
