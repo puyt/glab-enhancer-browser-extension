@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.4.0 (18/01/2024)
+### ✨ Features
+- **todos**: add render labels for issues & mrs
+
+### 🪲 Bug Fixes
+- **mr, issue**: fix favor thread over comment when textarea is not empty
+
 ## 2.3.1 (17/01/2024)
 ### ✨ Features
 - add tooltip on version badge for changelog info
