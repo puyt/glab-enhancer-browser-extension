@@ -69,7 +69,6 @@
                     chrome.permissions.request({
                         permissions: [
                             'webRequest',
-                            'activeTab',
                             'scripting',
                         ],
                         origins: [`${customDomain}/*`],

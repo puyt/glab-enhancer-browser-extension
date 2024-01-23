@@ -7,28 +7,27 @@ function onWebRequestCompleted(details) {
         return;
     }
 
-    chrome.tabs.get(details.tabId, (tab) => {
-        if (chrome.runtime.lastError || !tab.active || !tab?.url?.includes('//gitlab.')) {
-            return;
-        }
+    chrome.tabs.get(details.tabId)
+        .then((tab) => {
+            if (chrome.runtime.lastError || !tab.active || !tab?.url?.includes('//gitlab.')) {
+                return;
+            }
 
-        chrome.scripting.executeScript({
-            target: { tabId: details.tabId },
-            function: postMessage,
-            args: ['chrome-request-completed', details],
+            chrome.scripting.executeScript({
+                target: { tabId: details.tabId },
+                func: postMessage,
+                args: ['browser-request-completed', details],
+            });
         });
-    });
 }
 
 function getCustomDomains(callback) {
-    chrome.storage.local.get(['customGitlabDomains'], function(result) {
-        if (result.customGitlabDomains && result.customGitlabDomains.length > 0) {
-            callback(result.customGitlabDomains.split(','));
-        }
-    });
+    chrome.storage.local.get(['customGitlabDomains'])
+        .then(((result) => {
+            const customDomains = result?.customGitlabDomains?.split(',') || [];
+            callback(customDomains);
+        }));
 }
-
-chrome.webRequest.onCompleted.addListener(onWebRequestCompleted, { urls: ['<all_urls>'] });
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status !== 'complete') {
@@ -45,11 +44,27 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
             const matchingDomain = domains.find((domain) => domain.includes(tabUrl.origin));
 
             if (matchingDomain) {
-                chrome.scripting.executeScript({
-                    target: { tabId: tabId },
-                    files: ['/content.js']
+                chrome.permissions.contains({
+                    permissions: [
+                        'webRequest',
+                        'scripting',
+                    ],
+                    origins: [`${matchingDomain}/*`],
+                }).then((response) => {
+                    if (!response) {
+                        return;
+                    }
+
+                    chrome.scripting.executeScript({
+                        target: { tabId: tabId },
+                        files: ['/content.js'],
+                    });
                 });
+
             }
-        } catch(_) { /* empty */ }
+        } catch (_) { /* empty */
+        }
     });
 });
+
+chrome?.webRequest?.onCompleted?.addListener(onWebRequestCompleted, { urls: ['<all_urls>'] });

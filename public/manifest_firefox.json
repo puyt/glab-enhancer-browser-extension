@@ -9,30 +9,35 @@
     "48": "images/gitlab-enhancer-48.png",
     "128": "images/gitlab-enhancer-128.png"
   },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "gitlab-enhancer@example.com",
+      "strict_min_version": "42.0"
+    }
+  },
   "permissions": [
     "activeTab",
-    "webRequest",
-    "scripting",
     "storage"
   ],
-  "optional_host_permissions": [
-    "https://*/"
-  ],
-  "host_permissions": [
-    "https://gitlab.com/*"
+  "optional_permissions": [
+    "scripting",
+    "webRequest",
+    "https://*/*"
   ],
   "content_scripts": [
     {
+      "matches": [
+        "https://*/*"
+      ],
       "js": [
         "content.js"
-      ],
-      "matches": [
-        "https://gitlab.com/*"
       ]
     }
   ],
   "background": {
-    "service_worker": "background.js"
+    "scripts": [
+      "background.js"
+    ]
   },
   "web_accessible_resources": [
     {
