@@ -19,7 +19,7 @@
       ]
     },
     "types": [
-      "chrome"
+      "chrome",
     ],
     "allowJs": true
   }

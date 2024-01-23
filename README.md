@@ -16,6 +16,7 @@ This powerful extension introduces a suite of features specifically designed to 
 - Move "Places" after "Frequently visited ..."
 
 **To-Do list**
+
 - Render project logos
 - Render labels
 
@@ -58,3 +59,19 @@ Click on the "GitLab Enhancer" dropdown to customize the settings:
 ![](assets/preview-issue-unresolved.png)
 
 ![](assets/preview-issue-unresolved-2.png)
+
+## 💾 Manual Installation
+
+### Chrome
+
+1. Run
+    ```
+    npm install
+    npm run build
+    ```
+
+2. Open [chrome://extensions/](chrome://extensions/)
+3. Enable **Developer Mode**, in the right top corner
+4. Click on `Load unpacked`
+5. Select the `dist` directory
+    ![chrome-extension.png](assets%2Fchrome-extension.png)
