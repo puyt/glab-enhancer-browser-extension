@@ -12,32 +12,11 @@
                     v-for="label in todoLabels.get(link)"
                     :key="label"
                 >
-                    <span
-                        :class="{
-                            'gl-label-scoped': label.includes('::')
-                        }"
-                        class="gl-label gl-mr-2 gl-label-sm gl-label-text-light"
-                        :style="{
-                            '--label-background-color': labels.get(label)?.color,
-                            '--label-inset-border': `inset 0 0 0 1px ${labels.get(label)?.color}`,
-                        }"
-                    >
-                        <span
-                            class="gl-label-text"
-                            :style="{
-                                color: labels.get(label)?.text_color,
-                            }"
-                        >
-                            {{ label.split('::')[0] }}
-                        </span>
-
-                        <span
-                            v-if="label.includes('::')"
-                            class="gl-label-text-scoped"
-                        >
-                            {{ label.split('::')[1] }}
-                        </span>
-                    </span>
+                    <GLabel
+                        :color="labels.get(label)?.color"
+                        :label="label"
+                        :text-color="labels.get(label)?.text_color"
+                    />
                 </template>
             </teleport>
         </template>
@@ -62,6 +41,7 @@
         Preference,
         useExtensionStore,
     } from '../store';
+    import GLabel from './GLabel.vue';
 
     const { getSetting } = useExtensionStore();
 
