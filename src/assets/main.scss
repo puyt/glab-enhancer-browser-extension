@@ -17,3 +17,7 @@ li.merge-request-draft {
         }
     }
 }
+
+#super-sidebar-search-modal .global-search-results {
+    max-height: calc(100vh - 15rem) !important;
+}
