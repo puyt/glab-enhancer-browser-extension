@@ -9,11 +9,13 @@ This powerful extension introduces a suite of features specifically designed to 
 
 - Enable/disable most of the features by toggling the preferences
 - Move the close issue / merge request button to the right side to prevent accidental clicks
+- Add dropdown for scoped labels in issues & merge requests
 
 **Command panel**
 
 - Render starred projects
 - Move "Places" after "Frequently visited ..."
+- Increased height to fill the screen
 
 **To-Do list**
 
