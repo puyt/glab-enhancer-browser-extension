@@ -12,6 +12,8 @@ export const enum Preference {
     TODO_RENDER_PROJECT_LOGOS = 'todo_render_project_logos',
     TODO_RENDER_LABELS = 'todo_render_labels',
 
+    GENERAL_SCOPED_LABELS_DROPDOWN = 'general_scoped_labels_dropdown',
+
     ISSUE_HIGHLIGHT_MINE = 'issue_highlight_mine',
     ISSUE_SHOW_MY_UNRESOLVED_THREADS = 'issue_show_my_unresolved_threads',
     ISSUE_USE_THREADS_BY_DEFAULT = 'issue_use_threads_by_default',

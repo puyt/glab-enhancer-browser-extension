@@ -159,6 +159,17 @@
     });
 
     const groupedPreferences: Record<string, Array<PreferenceItem>> = {
+        'General': [
+            {
+                label: 'Scoped labels dropdown',
+                title: 'Quickly change scoped labels in issues & merge requests',
+                key: Preference.GENERAL_SCOPED_LABELS_DROPDOWN,
+                icon: gSvgLabels,
+                isGitlabIcon: true,
+                iconClassName: '',
+                defaultValue: true,
+            },
+        ],
         'Command Panel': [
             {
                 label: 'Show starred projects',

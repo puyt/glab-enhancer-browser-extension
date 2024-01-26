@@ -29,6 +29,13 @@
         />
 
         <TodoList v-if="isTodoListPage" />
+
+        <ScopedLabelsDropdowns
+            v-if="isScopedLabelsDropdownEnabled"
+            :current-project-path="projectPath"
+            :csrf-token="csrfToken"
+            :iid="IID"
+        />
     </div>
 </template>
 
@@ -46,19 +53,26 @@
         ref,
     } from 'vue';
     import CommandPanelEnhancer from './components/CommandPanelEnhancer.vue';
+    import IssueDetail from './components/IssueDetail.vue';
     import MyUnresolvedThreads from './components/MyUnresolvedThreads.vue';
     import MergeRequestDetail from './components/MergeRequestDetail.vue';
     import Preferences from './components/Preferences.vue';
-    import IssueDetail from './components/IssueDetail.vue';
+    import ScopedLabelsDropdowns from './components/ScopedLabelsDropdowns.vue';
+    import TodoList from './components/TodoList.vue';
     import { useRenderProjectAvatarIssues } from './composables/useRenderProjectAvatarIssues';
     import { useHighlightMyIssuesMrs } from './composables/useHighlightMyIssuesMrs';
     import { useDimDraftMrs } from './composables/useDimDraftMrs';
-    import TodoList from './components/TodoList.vue';
+    import {
+        Preference,
+        useExtensionStore,
+    } from './store';
 
+    const { getSetting } = useExtensionStore();
     const { render: renderProjectAvatars } = useRenderProjectAvatarIssues();
     const { highlight: highlightMyIssuesMrs } = useHighlightMyIssuesMrs();
     const { dim: dimDraftMrs } = useDimDraftMrs();
 
+    const csrfToken = ref('');
     const gitlabUserId = ref(0);
     const gitlabUsername = ref('');
     const isMrIssueOverviewReady = ref(false);
@@ -81,9 +95,15 @@
 
     const isMergeRequestPage = computed(() => location.value.pathname?.includes('merge_requests'));
     const isIssuePage = computed(() => location.value.pathname?.includes('issues'));
+    const isIssueBoardPage = computed(() => location.value.pathname?.includes('boards'));
     const isTodoListPage = computed(() => location.value.pathname?.includes('dashboard/todos'));
 
+    const isScopedLabelsDropdownEnabled = computed(() => getSetting(Preference.GENERAL_SCOPED_LABELS_DROPDOWN, true) && csrfToken && (isIssueBoardPage.value || (IID.value && (isMergeRequestPage.value || isIssuePage.value))));
+
     onMounted(() => {
+        const csrfTokenMetaTag = document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement;
+        csrfToken.value = csrfTokenMetaTag.content || '';
+
         window.addEventListener('message', (event) => {
             if (event.data.type === 'browser-request-completed' && !event.data.data.url.includes('is_custom=1')) {
                 renderProjectAvatars();
