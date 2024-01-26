@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.5.0 (26/01/2024)
+### ✨ Features
+- **issue, mr**: add dropdown for scoped labels
+- **command-panel**: increase height to fill screen
+
 ## 2.4.0 (18/01/2024)
 ### ✨ Features
 - **todos**: add render labels for issues & mrs
