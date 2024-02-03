@@ -10,7 +10,7 @@
             >
                 <SvgIcon
                     :path="mdiChevronDown"
-                    style="margin: -1px;"
+                    style="margin: -1px; pointer-events: none;"
                 />
 
                 <ul
