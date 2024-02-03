@@ -135,10 +135,21 @@
         event.preventDefault();
         const target = event.target as HTMLElement;
 
-        const scope = target?.parentElement?.parentElement?.getAttribute('data-qa-label-name')
+        document.querySelectorAll('div.labels-select-wrapper span.gl-label')
+            .forEach((element) => {
+                const spanElement = element as HTMLSpanElement;
+                spanElement.style.zIndex = 'initial';
+            });
+
+        const parentElement = target?.parentElement?.parentElement as HTMLSpanElement || null;
+        const scope = parentElement?.getAttribute('data-qa-label-name')
             ?.split('::')?.[0] || '';
+
+        if (parentElement) {
+            parentElement.style.zIndex = '1';
+        }
         selectedScope.value = selectedScope.value === scope ? '' : scope;
-        offsetLeft.value = 0 - (target?.parentElement?.parentElement?.offsetLeft || 0) + 'px';
+        offsetLeft.value = 0 - (parentElement?.offsetLeft || 0) + 'px';
     }
 
     function onClickDocumentHandler() {
