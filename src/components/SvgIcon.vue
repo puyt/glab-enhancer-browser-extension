@@ -2,7 +2,7 @@
     <svg
         v-if="path"
         class="gl-icon s16"
-        style="fill: #333238;"
+        style="fill: currentColor;"
         :viewBox="isGitlab ? '0 0 16 16' : '0 0 24 24'"
     >
         <path
