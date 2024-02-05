@@ -540,6 +540,14 @@
         li {
             display: list-item;
             list-style: circle;
+
+            a {
+                display: inline;
+                padding: 0 2px;
+                color: #5943b6;
+                border-radius: 2px;
+                text-decoration: underline;
+            }
         }
     }
 </style>
