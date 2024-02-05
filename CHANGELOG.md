@@ -1,5 +1,17 @@
 # Changelog
 
+## 2.6.0 (05/02/2024)
+### ✨ Features
+- **background**: add web notifications for new to dos.
+- add changelog in gitlab enhancer dropdown.
+
+### ♻️  Enhancements
+- **scoped-labels-dropdown**: include chevron in click area.
+
+### 🪲 Bug Fixes
+- **scoped-labels-dropdown**: adjust z-index and visibility in dark mode.
+- make icons visible in dark mode.
+
 ## 2.5.0 (26/01/2024)
 ### ✨ Features
 - **issue, mr**: add dropdown for scoped labels
