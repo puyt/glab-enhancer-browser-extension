@@ -4,37 +4,57 @@
             <SvgLogo />
 
             <h1>GitLab Enhancer</h1>
+
+            <span>{{ Version }}</span>
         </header>
 
         <div class="popup-content">
             <div class="popup-settings">
-                <label title="Use comma separated values">Custom domain(s):</label>
+                <h2 style="margin-top: 0;">Gitlab Instance(s)</h2>
 
-                <div style="display: flex;">
-                    <input
-                        v-model="customDomains"
-                        type="text"
-                    >
+                <SettingTextInput
+                    label=""
+                    setting-key="customGitlabDomains"
+                    title="Use comma separated values"
+                    @saved="requestPermissions"
+                />
 
-                    <button
-                        title="Save"
-                        @click="persistDomains"
+                <template v-if="gitlabInstances.length">
+                    <h2>Personal Access Tokens</h2>
+
+                    <template
+                        v-for="instance in gitlabInstances"
+                        :key="instance"
                     >
-                        <SvgIcon
-                            :is-gitlab="false"
-                            :path="mdiContentSaveOutline"
-                            style="fill: currentColor;"
+                        <SettingTextInput
+                            :is-sensitive="true"
+                            :label="instance"
+                            :setting-key="instance"
+                            title="Used for web notifications"
                         />
-                    </button>
-                </div>
+                    </template>
+
+                    <h2>Web Notifications</h2>
+
+                    <SettingCheckboxes :items="webNotificationSettings" />
+                </template>
             </div>
 
-            <hr style="margin: 16px;">
+            <footer>
+                <a
+                    href="https://github.com/puyt/chrome-gitlab-enhancer"
+                    style="color: var(--gray-dark); display: flex; align-items: center;"
+                    target="_blank"
+                >
+                    <SvgIcon
+                        class="s24"
+                        :path="mdiGithub"
+                        style="margin-right: 4px; width: 24px;"
+                    />
 
-            <div
-                v-html="changelogHtml"
-                class="popup-changelog"
-            />
+                    <span style="font-size: 14px;">GitHub</span>
+                </a>
+            </footer>
         </div>
     </div>
 </template>
@@ -43,46 +63,52 @@
     lang="ts"
     setup
 >
-    import { mdiContentSaveOutline } from '@mdi/js';
-    import showdown from 'showdown';
+    import Version from '../../VERSION?raw'; //eslint-disable-line
+    import SvgLogo from '../components/SvgLogo.vue';
+    import SettingTextInput from './SettingTextInput.vue';
+    import SettingCheckboxes from './SettingCheckboxes.vue';
     import {
         onMounted,
+        type Ref,
         ref,
     } from 'vue';
-    import changelog from '../../CHANGELOG.md?raw';
-    import SvgLogo from '../components/SvgLogo.vue';
+    import { mdiGithub } from '@mdi/js';
     import SvgIcon from '../components/SvgIcon.vue';
 
-    const originalCustomDomains = ref('');
-    const customDomains = ref('');
-
-    const changelogHtml = (new showdown.Converter()).makeHtml(changelog);
-
-    function persistDomains() {
-        if (customDomains.value !== originalCustomDomains.value) {
-            chrome.storage.local.set({ 'customGitlabDomains': customDomains.value });
-        }
-
-        if (customDomains.value !== '') {
-            customDomains.value.split(',')
-                .forEach((customDomain) => {
-                    chrome.permissions.request({
-                        permissions: [
-                            'webRequest',
-                            'scripting',
-                        ],
-                        origins: [`${customDomain}/*`],
-                    });
-                });
-        }
-    }
-
+    const gitlabInstances: Ref<Array<string>> = ref([]);
     onMounted(() => {
-        chrome.storage.local.get(function (result: any) {
-            originalCustomDomains.value = result.customGitlabDomains || '';
-            customDomains.value = originalCustomDomains.value;
+        chrome.storage.local.get(['customGitlabDomains'], (result: any) => {
+            gitlabInstances.value = (result?.customGitlabDomains || []).split(',')
+                .map((instanceUrl) => instanceUrl.trim());
         });
     });
+
+    const webNotificationSettings = [
+        {
+            settingKey: 'webNotificationTodos',
+            label: 'To Dos',
+        },
+    ];
+
+    function requestPermissions(value: string) {
+        const instances = value.split(',')
+            .map((instanceUrl) => instanceUrl.trim());
+        gitlabInstances.value = instances;
+
+        instances.forEach((instanceUrl: string) => {
+            if (!instanceUrl) {
+                return;
+            }
+
+            chrome.permissions.request({
+                permissions: [
+                    'webRequest',
+                    'scripting',
+                ],
+                origins: [`${instanceUrl}/*`],
+            });
+        });
+    }
 </script>
 
 <style
@@ -92,31 +118,28 @@
     .popup-wrapper {
         display: flex;
         flex-direction: column;
-        min-height: 560px;
+        min-height: 380px;
         overflow: hidden;
     }
 
     .popup-content {
         flex: 1 1 0;
 
-        display: flex;
         flex-direction: column;
+        display: flex;
     }
 
     .popup-settings {
-        padding: 16px;
-    }
+        padding: 0 16px;
 
-    .popup-changelog {
-        font-size: 14px;
-        flex: 1 1 0;
-        overflow: auto;
+        & > div + div {
+            margin-top: 8px;
+        }
 
-        padding: 0 24px;
-    }
-
-    #changelog {
-        margin-top: 0;
+        h2 {
+            margin-top: 24px;
+            margin-bottom: 8px;
+        }
     }
 
     header {
@@ -138,44 +161,21 @@
             white-space: nowrap;
         }
 
+        span {
+            padding: 4px 8px;
+            margin-left: 8px;
+
+            font-weight: bold;
+
+            border-radius: 16px;
+            background-color: white;
+            color: #7B58CF;
+        }
     }
 
-    label {
+    footer {
         display: flex;
-
-        font-size: 16px;
-        line-height: 32px;
-        font-weight: bold;
-    }
-
-    input {
-        width: 100%;
-        min-height: 32px;
-        padding: 3px 4px;
-        border-radius: 4px;
-        border-color: transparent;
-    }
-
-    button {
-        color: white;
-        min-width: 32px;
-        margin-left: 8px;
-        border: 1px solid white;
-        border-radius: 4px;
-        outline: none;
-        background-color: rgba(255, 255, 255, 0.1);
-        transition: background-color 0.3s ease-in-out;
-        -webkit-tap-highlight-color: transparent;
-
-        &:hover {
-            color: #7B45C8;
-            cursor: pointer;
-            background-color: rgba(255, 255, 255, 0.5);
-        }
-
-        &:active {
-            color: #7B45C8;
-            background-color: rgba(255, 255, 255, 0.7);
-        }
+        justify-content: end;
+        padding: 8px 16px 8px 0;
     }
 </style>
