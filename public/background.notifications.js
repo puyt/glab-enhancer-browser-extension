@@ -25,8 +25,6 @@ function fetchGitLabTodos(instances) {
 
                             response.json()
                                 .then((todos) => {
-
-                                    console.log(todos);
                                     const newTodos = todos.filter(todo => {
                                         const todoTimestamp = new Date(todo.created_at).getTime();
                                         return todoTimestamp > lastFetchTodoTimestamp;
