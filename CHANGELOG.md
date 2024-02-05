@@ -2,7 +2,7 @@
 
 ## 2.6.0 (05/02/2024)
 ### ✨ Features
-- **background**: add web notifications for new to dos.
+- **background**: add web notifications for new to dos ([docs](https://github.com/puyt/chrome-gitlab-enhancer?tab=readme-ov-file#-web-notifications)).
 - add changelog in gitlab enhancer dropdown.
 
 ### ♻️  Enhancements
