@@ -17,6 +17,8 @@
   },
   "permissions": [
     "activeTab",
+    "alarms",
+    "notifications",
     "storage"
   ],
   "optional_permissions": [
@@ -37,7 +39,8 @@
   "background": {
     "scripts": [
       "background.js"
-    ]
+    ],
+    "type": "module"
   },
   "web_accessible_resources": [
     {
