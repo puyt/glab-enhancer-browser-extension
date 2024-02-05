@@ -1,3 +1,49 @@
+import initWebNotifications from './background.notifications.js';
+
+initWebNotifications();
+
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    if (changeInfo.status !== 'complete') {
+        return;
+    }
+
+    chrome.storage.local.get(['customGitlabDomains'])
+        .then((result) => {
+            const instances = (result?.customGitlabDomains?.split(',') || []).map((url) => url.trim());
+
+            if (!tab.url || !instances.length) {
+                return
+            }
+
+            try {
+                const tabUrl = new URL(tab.url);
+                const matchingDomain = instances.find((domain) => domain.includes(tabUrl.origin));
+
+                if (matchingDomain) {
+                    chrome.permissions.contains({
+                        permissions: [
+                            'webRequest',
+                            'scripting',
+                        ],
+                        origins: [`${matchingDomain}/*`],
+                    })
+                        .then((response) => {
+                            if (!response) {
+                                return;
+                            }
+
+                            chrome.scripting.executeScript({
+                                target: { tabId: tabId },
+                                files: ['/content.js'],
+                            });
+                        });
+
+                }
+            } catch (_) { /* empty */
+            }
+        });
+});
+
 function postMessage(type, data) {
     window.postMessage({ type, data });
 }
@@ -20,51 +66,4 @@ function onWebRequestCompleted(details) {
             });
         });
 }
-
-function getCustomDomains(callback) {
-    chrome.storage.local.get(['customGitlabDomains'])
-        .then(((result) => {
-            const customDomains = result?.customGitlabDomains?.split(',') || [];
-            callback(customDomains);
-        }));
-}
-
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-    if (changeInfo.status !== 'complete') {
-        return;
-    }
-
-    getCustomDomains((domains) => {
-        if (!tab.url) {
-            return
-        }
-
-        try {
-            const tabUrl = new URL(tab.url);
-            const matchingDomain = domains.find((domain) => domain.includes(tabUrl.origin));
-
-            if (matchingDomain) {
-                chrome.permissions.contains({
-                    permissions: [
-                        'webRequest',
-                        'scripting',
-                    ],
-                    origins: [`${matchingDomain}/*`],
-                }).then((response) => {
-                    if (!response) {
-                        return;
-                    }
-
-                    chrome.scripting.executeScript({
-                        target: { tabId: tabId },
-                        files: ['/content.js'],
-                    });
-                });
-
-            }
-        } catch (_) { /* empty */
-        }
-    });
-});
-
 chrome?.webRequest?.onCompleted?.addListener(onWebRequestCompleted, { urls: ['<all_urls>'] });
