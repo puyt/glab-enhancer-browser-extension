@@ -13,11 +13,8 @@
 
                 <span class="gl-dropdown-button-text">GitLab Enhancer</span>
 
-                <span
-                    class="badge gl-ml-2 badge-tier badge-pill gl-badge sm has-tooltip"
-                    title="View changelog for updates, located in the extension pop-up."
-                >
-                    2.5.0
+                <span class="badge gl-ml-2 badge-tier badge-pill gl-badge sm has-tooltip">
+                    {{ Version }}
                 </span>
 
                 <SvgIcon
@@ -31,68 +28,129 @@
                     'show': isMenuVisible,
                 }"
                 class="dropdown-menu"
-                style="right: 0; left: initial; width: 320px;"
+                :style="{
+                    width: '400px',
+                }"
+                style="right: 0; left: initial;"
             >
                 <div class="gl-dropdown-inner">
                     <div class="gl-dropdown-contents">
-                        <template
-                            v-for="(preferences, group) in groupedPreferences"
-                            :key="group"
-                        >
-                            <label class="gl-ml-3">{{ group }}</label>
-
-                            <template
-                                v-for="preference in preferences"
-                                :key="preference.key"
+                        <div class="preferences__tabs">
+                            <div
+                                :class="{
+                                    'preferences__tab--active': activeTab === 'preferences',
+                                }"
+                                class="preferences__tab"
+                                @click.stop="activeTab = 'preferences'"
                             >
-                                <li
-                                    class="gl-dropdown-item"
-                                    @click="onClickItem(preference)"
+                                <SvgIcon
+                                    class="s16"
+                                    :path="mdiCogOutline"
+                                />
+
+                                <span>Preferences</span>
+                            </div>
+
+                            <div
+                                :class="{
+                                    'preferences__tab--active': activeTab === 'changelog',
+                                }"
+                                class="preferences__tab"
+                                @click.stop="activeTab = 'changelog'"
+                            >
+                                <SvgIcon
+                                    class="s16"
+                                    :path="mdiScriptTextOutline"
+                                />
+
+                                <span>Changelog</span>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 16px; padding-left: 8px; overflow-y: auto;">
+                            <template v-if="activeTab === 'changelog'">
+                                <div
+                                    class="changelog-preview"
+                                    v-html="changelogHtml"
+                                    style="margin-top: -16px;"
+                                />
+                            </template>
+                            <template v-else>
+                                <template
+                                    v-for="(preferences, group) in groupedPreferences"
+                                    :key="group"
                                 >
-                                    <button
-                                        class="dropdown-item"
-                                        :class="{
+                                    <label class="gl-ml-3">{{ group }}</label>
+
+                                    <template
+                                        v-for="preference in preferences"
+                                        :key="preference.key"
+                                    >
+                                        <li
+                                            class="gl-dropdown-item"
+                                            @click="onClickItem(preference)"
+                                        >
+                                            <button
+                                                :class="{
                                             'has-tooltip': !!preference.title,
                                         }"
-                                        :style="{
+                                                class="dropdown-item"
+                                                :style="{
                                             'flex-wrap': typeof preference.defaultValue === 'string' ? 'wrap': 'nowrap',
                                         }"
-                                        :title="preference.title"
-                                        @click.prevent
-                                    >
-                                        <SvgIcon
-                                            v-if="preference.icon"
+                                                :title="preference.title"
+                                                @click.prevent
+                                            >
+                                                <SvgIcon
+                                                    v-if="preference.icon"
 
-                                            :class="preference.iconClassName"
-                                            class="gl-mr-3"
-                                            :is-gitlab="preference.isGitlabIcon"
-                                            :path="preference.icon"
-                                            style="flex: 0 0 auto;"
-                                        />
+                                                    :class="preference.iconClassName"
+                                                    class="gl-mr-3"
+                                                    :is-gitlab="preference.isGitlabIcon"
+                                                    :path="preference.icon"
+                                                    style="flex: 0 0 auto;"
+                                                />
 
-                                        <div class="gl-dropdown-item-text-wrapper">
-                                            <p class="gl-dropdown-item-text-primary">{{ preference.label }}</p>
-                                        </div>
+                                                <div class="gl-dropdown-item-text-wrapper">
+                                                    <p class="gl-dropdown-item-text-primary">{{ preference.label }}</p>
+                                                </div>
 
-                                        <GToggle
-                                            v-if="typeof preference.defaultValue === 'boolean'"
-                                            :model-value="!!getSetting(preference.key, preference.defaultValue)"
-                                        />
+                                                <GToggle
+                                                    v-if="typeof preference.defaultValue === 'boolean'"
+                                                    :model-value="!!getSetting(preference.key, preference.defaultValue)"
+                                                />
 
-                                        <input
-                                            v-if="typeof preference.defaultValue === 'string'"
+                                                <input
+                                                    v-if="typeof preference.defaultValue === 'string'"
 
-                                            class="form-control gl-border-gray-200"
-                                            style="margin-left: 24px; margin-bottom: 8px;"
-                                            type="text"
-                                            :value="getSetting(preference.key, preference.defaultValue)"
+                                                    class="form-control gl-border-gray-200"
+                                                    style="margin-left: 24px; margin-bottom: 8px;"
+                                                    type="text"
+                                                    :value="getSetting(preference.key, preference.defaultValue)"
 
-                                            @input="onInput(preference.key, $event)"
-                                        >
-                                    </button>
-                                </li>
+                                                    @input="onInput(preference.key, $event)"
+                                                >
+                                            </button>
+                                        </li>
+                                    </template>
+                                </template>
                             </template>
-                        </template>
+                        </div>
+
+                        <footer>
+                            <a
+                                href="https://github.com/puyt/chrome-gitlab-enhancer"
+                                style="color: var(--gray-dark);"
+                                target="_blank"
+                            >
+                                <SvgIcon
+                                    :path="mdiGithub"
+                                    style="margin-right: 4px;"
+                                />
+
+                                <span>GitHub</span>
+                            </a>
+                        </footer>
                     </div>
                 </div>
             </ul>
@@ -107,20 +165,26 @@
     import {
         mdiAccountCircleOutline,
         mdiChevronDown,
+        mdiCogOutline,
         mdiCommentAccountOutline,
         mdiCommentCheckOutline,
         mdiFlagOutline,
+        mdiGithub,
         mdiImageOutline,
         mdiKeyboardOutline,
         mdiLightbulbOffOutline,
         mdiMapMarkerOutline,
+        mdiScriptTextOutline,
         mdiStarOutline,
     } from '@mdi/js';
     import { onClickOutside } from '@vueuse/core';
+    import showdown from 'showdown'; //eslint-disable-line
     import {
         type Ref,
         ref,
     } from 'vue';
+    import changelog from '../../CHANGELOG.md?raw'; //eslint-disable-line
+    import Version from '../../VERSION?raw'; //eslint-disable-line
     import {
         Preference,
         useExtensionStore,
@@ -153,6 +217,9 @@
 
     const rootPreferencesElement: Ref<HTMLElement | null> = ref(null);
     const isMenuVisible = ref(false);
+    const activeTab = ref('preferences');
+
+    const changelogHtml = (new showdown.Converter()).makeHtml(changelog);
 
     onClickOutside(rootPreferencesElement, () => {
         isMenuVisible.value = false;
@@ -356,7 +423,7 @@
                 isGitlabIcon: false,
                 iconClassName: '',
                 defaultValue: true,
-            }
+            },
         ],
     };
 
@@ -372,13 +439,9 @@
 
         setSetting(preference.key, !getSetting(preference.key, preference.defaultValue));
     }
-
 </script>
 
-<style
-    lang="scss"
-    scoped
->
+<style lang="scss">
     #chrome-gitlab-enhancer__preferences {
         position: fixed;
         z-index: 999;
@@ -399,6 +462,84 @@
             flex-wrap: wrap;
             display: flex;
             justify-content: center;
+        }
+
+        .gl-dropdown-contents {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .gl-dropdown-inner {
+            max-height: 30rem;
+        }
+
+        footer {
+            display: flex;
+            justify-content: end;
+            padding: 8px 16px 0 0;
+        }
+    }
+
+    .preferences__tabs {
+        display: flex;
+        padding: 0 8px;
+    }
+
+    .preferences__tab {
+        display: flex;
+        align-items: center;
+
+        padding: 8px 16px;
+        border-radius: 16px;
+
+        &:hover {
+            cursor: pointer;
+            background-color: var(--secondary);
+        }
+
+        &.preferences__tab--active {
+            color: #5943b6;
+            background-color: #e1d8f9;
+        }
+
+        svg {
+            margin-right: 8px;
+        }
+
+        & + & {
+            margin-left: 8px;
+        }
+    }
+
+    .changelog-preview {
+        padding-left: 16px;
+        color: var(--gray-dark);
+
+        h1 {
+            margin-top: 0;
+            font-size: 28px;
+        }
+
+        h1#changelog {
+            display: none !important;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 16px;
+        }
+
+        ul {
+            margin-left: 24px;
+        }
+
+        li {
+            display: list-item;
+            list-style: circle;
         }
     }
 </style>
