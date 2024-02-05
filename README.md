@@ -21,6 +21,7 @@ This powerful extension introduces a suite of features specifically designed to 
 
 - Render project logos
 - Render labels
+- Receive web notifications for new To-Do items
 
 **Issues**
 
@@ -61,6 +62,12 @@ Click on the "GitLab Enhancer" dropdown to customize the settings:
 ![](assets/preview-issue-unresolved.png)
 
 ![](assets/preview-issue-unresolved-2.png)
+
+## 🔔 Web Notifications
+
+In order to make the web notifications work, you'll to set up the **GitLab Instance(s)** && [Personal Access Token(s)](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html) in the pop-up.
+
+![web-notifications-settings.png](assets%2Fweb-notifications-settings.png)
 
 ## 💾 Manual Installation
 
