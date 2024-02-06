@@ -68,6 +68,7 @@
     import GLabel from './GLabel.vue';
     import SvgIcon from './SvgIcon.vue';
     import { debounce } from 'lodash-es';
+    import { useExtractProjectPaths } from '../composables/useExtractProjectPaths';
 
     interface GitLabLabel {
         id: number,
@@ -84,11 +85,12 @@
 
     const props = defineProps<Props>();
 
+    const { extract: extractProjectPaths } = useExtractProjectPaths();
+
     const scopedLabels = ref({});
     const teleportElements: Ref<Record<string, HTMLElement>> = ref({});
     const selectedScope = ref('');
     const offsetLeft = ref('0');
-
 
     const isIssueBoard = computed(() => window.location.href.includes('/-/boards'));
     const iid = computed(() => {
@@ -152,7 +154,11 @@
         offsetLeft.value = 0 - (parentElement?.offsetLeft || 0) + 'px';
     }
 
-    function onClickDocumentHandler() {
+    async function onClickDocumentHandler() {
+        if (!Object.keys(scopedLabels.value).length) {
+            await fetchMultipleProjectLabels();
+        }
+
         setTimeout(() => {
             if (document.querySelector('#js-right-sidebar-portal .gl-drawer-header')) {
                 deboundedInjectTeleports();
@@ -190,8 +196,8 @@
             });
     }
 
-    async function fetchProjectLabels() {
-        const { data } = await useFetch(`/api/v4/projects/${encodeURIComponent(props.currentProjectPath)}/labels?per_page=100&is_custom=1`)
+    async function fetchProjectLabels(projectPath: string) {
+        const { data } = await useFetch(`/api/v4/projects/${encodeURIComponent(projectPath)}/labels?per_page=100&is_custom=1`)
             .json();
 
         if (Array.isArray(data.value)) {
@@ -203,9 +209,22 @@
         }
     }
 
+    async function fetchMultipleProjectLabels() {
+        const paths = extractProjectPaths();
+        const promises = paths.map((path) => fetchProjectLabels(path));
+
+        await Promise.all(promises);
+    }
+
     const deboundedInjectTeleports = debounce(injectTeleports, 400);
     onMounted(async () => {
-        await fetchProjectLabels?.();
+        if (!props.currentProjectPath) {
+            setTimeout(() => {
+                fetchMultipleProjectLabels();
+            }, 600);
+        } else {
+            await fetchProjectLabels?.(props.currentProjectPath);
+        }
 
         if (window.location.href.includes('/-/boards')) {
             document.body.addEventListener('mouseup', onClickDocumentHandler);

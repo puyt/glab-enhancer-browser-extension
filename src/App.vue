@@ -32,7 +32,7 @@
 
         <ScopedLabelsDropdowns
             v-if="isScopedLabelsDropdownEnabled"
-            :current-project-path="projectPath"
+            :current-project-path="!isGroupPage ? projectPath : ''"
             :csrf-token="csrfToken"
             :iid="IID"
         />
@@ -93,6 +93,7 @@
         return match?.length === 2 ? parseInt(match[1], 10) : 0;
     });
 
+    const isGroupPage = computed(() => location.value.pathname?.includes('groups'));
     const isMergeRequestPage = computed(() => location.value.pathname?.includes('merge_requests'));
     const isIssuePage = computed(() => location.value.pathname?.includes('issues'));
     const isIssueBoardPage = computed(() => location.value.pathname?.includes('boards'));
