@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.6.1 (06/02/2024)
+### ✨ Features
+- **scoped-labels-dropdown**: enable for group issue boards.
+
+### 🪲 Bug Fixes
+- **issue**: fix validation by fetching all discussions.
+
 ## 2.6.0 (05/02/2024)
 ### ✨ Features
 - **background**: add web notifications for new to dos ([docs](https://github.com/puyt/chrome-gitlab-enhancer?tab=readme-ov-file#-web-notifications)).
