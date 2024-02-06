@@ -179,6 +179,16 @@
     setup
 >
     import {
+        mdiCheckCircleOutline,
+        mdiChevronDown,
+        mdiCommentAccountOutline,
+        mdiCommentAlertOutline,
+        mdiFlagTriangle,
+        mdiMinusCircle,
+    } from '@mdi/js';
+    import { useFetch } from '@vueuse/core';
+    import { debounce } from 'lodash-es';
+    import {
         computed,
         nextTick,
         onBeforeUnmount,
@@ -189,25 +199,6 @@
         type ShallowRef,
         toRefs,
     } from 'vue';
-    import type {
-        GitLabDiscussion,
-        GitlabIssue,
-    } from '../types';
-    import { useFetch } from '@vueuse/core';
-    import { debounce } from 'lodash-es';
-    import {
-        Preference,
-        useExtensionStore,
-    } from '../store';
-    import {
-        mdiCheckCircleOutline,
-        mdiChevronDown,
-        mdiCommentAccountOutline,
-        mdiCommentAlertOutline,
-        mdiFlagTriangle,
-        mdiMinusCircle,
-    } from '@mdi/js';
-    import SvgIcon from './SvgIcon.vue';
     import {
         gSvgChecronDown,
         gSvgChevronUp,
@@ -217,7 +208,17 @@
         gSvgLabels,
         gSvgWeight,
     } from '../assets/icons';
+    import { useFetchPaging } from '../composables/useFetchPaging';
     import { useThreadsByDefault } from '../composables/useThreadsByDefault';
+    import {
+        Preference,
+        useExtensionStore,
+    } from '../store';
+    import type {
+        GitLabDiscussion,
+        GitlabIssue,
+    } from '../types';
+    import SvgIcon from './SvgIcon.vue';
 
     interface Props {
         gitlabUserId: number,
@@ -347,8 +348,7 @@
             return;
         }
 
-        const { data } = await useFetch(`/api/v4/projects/${encodeURIComponent(currentProjectPath.value)}/issues/${iid.value}/discussions?is_custom=1`)
-            .json();
+        const { data } = await useFetchPaging(`/api/v4/projects/${encodeURIComponent(currentProjectPath.value)}/issues/${iid.value}/discussions`)
         discussions.value = data?.value || [] as GitLabDiscussion[];
     }
 
