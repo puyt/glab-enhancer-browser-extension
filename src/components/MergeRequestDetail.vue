@@ -68,6 +68,7 @@
         useExtensionStore,
     } from '../store';
     import { useThreadsByDefault } from '../composables/useThreadsByDefault';
+    import { useFetchPaging } from '../composables/useFetchPaging';
 
     interface Props {
         gitlabUserId: number,
@@ -100,8 +101,7 @@
             return;
         }
 
-        const { data } = await useFetch(`/api/v4/projects/${encodeURIComponent(currentProjectPath.value)}/merge_requests/${iid.value}/discussions?per_page=100&is_custom=1`)
-            .json();
+        const { data } = await useFetchPaging(`/api/v4/projects/${encodeURIComponent(currentProjectPath.value)}/merge_requests/${iid.value}/discussions`)
         discussions.value = data?.value || [] as GitLabDiscussion[];
 
         render();

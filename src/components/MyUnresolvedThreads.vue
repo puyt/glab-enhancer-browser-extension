@@ -65,7 +65,6 @@
     import type {
         GitLabDiscussion,
     } from '../types';
-    import { useFetch } from '@vueuse/core';
     import {
         mdiCommentAccountOutline,
         mdiCommentAlertOutline,
@@ -75,6 +74,7 @@
         useExtensionStore,
     } from '../store';
     import SvgIcon from './SvgIcon.vue';
+    import { useFetchPaging } from '../composables/useFetchPaging';
 
     type IID = string | Array<string>;
 
@@ -152,8 +152,8 @@
             const path = getProjectPath(iid);
             const id = getIid(iid);
 
-            useFetch(`/api/v4/projects/${encodeURIComponent(path)}/${isMergeRequest.value ? 'merge_requests' : 'issues'}/${id}/discussions?per_page=100&is_custom=1`)
-                .json()
+            const endpoint = `/api/v4/projects/${encodeURIComponent(path)}/${isMergeRequest.value ? 'merge_requests' : 'issues'}/${id}/discussions`;
+            useFetchPaging(endpoint)
                 .then(({ data }) => {
                     if (data?.value) {
                         discussions.value.set(id, data?.value || [] as GitLabDiscussion[]);

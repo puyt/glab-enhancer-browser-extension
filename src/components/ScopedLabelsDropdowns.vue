@@ -59,7 +59,6 @@
     import { useFetch } from '@vueuse/core';
     import {
         computed,
-        nextTick,
         onBeforeUnmount,
         onMounted,
         type Ref,
@@ -69,6 +68,7 @@
     import SvgIcon from './SvgIcon.vue';
     import { debounce } from 'lodash-es';
     import { useExtractProjectPaths } from '../composables/useExtractProjectPaths';
+    import { useFetchPaging } from '../composables/useFetchPaging';
 
     interface GitLabLabel {
         id: number,
@@ -197,8 +197,7 @@
     }
 
     async function fetchProjectLabels(projectPath: string) {
-        const { data } = await useFetch(`/api/v4/projects/${encodeURIComponent(projectPath)}/labels?per_page=100&is_custom=1`)
-            .json();
+        const { data } = await useFetchPaging(`/api/v4/projects/${encodeURIComponent(projectPath)}/labels`);
 
         if (Array.isArray(data.value)) {
             data.value.forEach((item: GitLabLabel) => {

@@ -122,6 +122,7 @@
         gSvgPipeline,
     } from '../assets/icons';
     import SvgIcon from './SvgIcon.vue';
+    import { useFetchPaging } from '../composables/useFetchPaging';
 
     interface Props {
         gitlabUserId: number,
@@ -151,9 +152,7 @@
             return;
         }
 
-        const {
-            data,
-        } = await useFetch(`/api/v4/users/${gitlabUserId.value}/starred_projects`)
+        const { data } = await useFetch(`/api/v4/users/${gitlabUserId.value}/starred_projects`)
             .json();
 
         projects.value = data.value;
@@ -163,8 +162,7 @@
         }
 
         projects.value.forEach((project) => {
-            useFetch(`/api/v4/projects/${project.id}/merge_requests?state=opened&wip=no&per_page=100`)
-                .json()
+            useFetchPaging(`/api/v4/projects/${project.id}/merge_requests?state=opened&wip=no`)
                 .then(({ data }) => {
                     openMrCountPerProjectId.value[project.id] = data.value.length;
                 });

@@ -42,6 +42,7 @@
         useExtensionStore,
     } from '../store';
     import GLabel from './GLabel.vue';
+    import { useFetchPaging } from '../composables/useFetchPaging';
 
     const { getSetting } = useExtensionStore();
 
@@ -111,8 +112,7 @@
 
     function fetchProjectLabels() {
         projectPaths.value.forEach((path) => {
-            useFetch(`/api/v4/projects/${encodeURIComponent(path)}/labels?per_page=100&is_custom=1`)
-                .json()
+            useFetchPaging(`/api/v4/projects/${encodeURIComponent(path)}/labels`)
                 .then(({ data }) => {
                     if (Array.isArray(data.value)) {
                         data.value.forEach((item) => {
