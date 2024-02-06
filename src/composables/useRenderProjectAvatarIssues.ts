@@ -5,6 +5,7 @@ import {
     Preference,
     useExtensionStore,
 } from '../store';
+import { useExtractProjectPaths } from './useExtractProjectPaths';
 
 async function fetchProject(path: string | number) {
     const { data } = await useFetch(`/api/v4/projects/${encodeURIComponent(path)}?is_custom=1`)
@@ -15,6 +16,7 @@ async function fetchProject(path: string | number) {
 
 export function useRenderProjectAvatarIssues() {
     const { getSetting } = useExtensionStore();
+    const { extract: extractProjectPaths } = useExtractProjectPaths();
 
     const projectAvatars = {};
 
@@ -93,49 +95,8 @@ export function useRenderProjectAvatarIssues() {
         }
     }
 
-    function extractProjectPaths() {
-        const paths: string[] = [];
-
-        if (isInjectAvatarTodoEnabled.value && window.location.href.includes('todos')) {
-            const aElements = document.querySelectorAll('ul.todos-list a.todo-target-link');
-            aElements.forEach((aElement) => {
-                const parts = (aElement.getAttribute('href') || '').substring(1)
-                    .split('/-/');
-                const projectPath = parts[0] || '';
-                if (!projectPath || paths.includes(projectPath)) {
-                    return;
-                }
-
-                paths.push(projectPath);
-            });
-        }
-
-        if (isInjectAvatarIssueEnabled.value) {
-            if (window.location.href.includes('issues')) {
-                const liElements = document.querySelectorAll('ul.issues-list li.issue .issuable-info .issuable-reference');
-                liElements.forEach((liElement) => {
-                    const projectPath = liElement?.textContent?.split('#')?.[0].trim() || '';
-                    if (!projectPath || paths.includes(projectPath)) {
-                        return;
-                    }
-
-                    paths.push(projectPath);
-                });
-            }
-
-            if (window.location.href.includes('boards')) {
-                const cardElements = document.querySelectorAll('div.boards-app ul.board-list li.board-card');
-                cardElements.forEach((cardElement) => {
-                    const parts = (cardElement.getAttribute('data-item-path') || '').split('#');
-                    const projectPath = parts[0] || '';
-                    if (!projectPath || paths.includes(projectPath)) {
-                        return;
-                    }
-
-                    paths.push(projectPath);
-                });
-            }
-        }
+    function injectAvatars() {
+        const paths = extractProjectPaths();
 
         paths.forEach((path) => {
             if (!projectAvatars[path]) {
@@ -152,6 +113,6 @@ export function useRenderProjectAvatarIssues() {
     }
 
     return {
-        render: debounce(extractProjectPaths, 500),
+        render: debounce(injectAvatars, 500),
     };
 }
