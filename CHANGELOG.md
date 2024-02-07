@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.6.2 (07/02/2024)
+### 🪲 Bug Fixes
+- **scoped-labels-dropdown**: resolve label update in issue boards.
+
 ## 2.6.1 (06/02/2024)
 ### ✨ Features
 - **scoped-labels-dropdown**: enable for group issue boards.
