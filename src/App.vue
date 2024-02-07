@@ -80,11 +80,18 @@
     const isReady = computed(() => !!gitlabUserId.value);
 
     const location = useBrowserLocation();
+
+    const isGroupPage = computed(() => location.value.pathname?.includes('groups'));
+    const isMergeRequestPage = computed(() => location.value.pathname?.includes('merge_requests'));
+    const isIssuePage = computed(() => location.value.pathname?.includes('issues'));
+    const isIssueBoardPage = computed(() => location.value.pathname?.includes('boards'));
+    const isTodoListPage = computed(() => location.value.pathname?.includes('dashboard/todos'));
+
     const projectPath = computed(() => {
         return location.value?.pathname?.split('/-/')?.[0].slice(1) || '';
     });
     const IID = computed(() => {
-        if (!location.value?.pathname) {
+        if (!location.value?.pathname || isIssueBoardPage.value) {
             return 0;
         }
 
@@ -92,12 +99,6 @@
         const match = regexPattern.exec(location.value.pathname);
         return match?.length === 2 ? parseInt(match[1], 10) : 0;
     });
-
-    const isGroupPage = computed(() => location.value.pathname?.includes('groups'));
-    const isMergeRequestPage = computed(() => location.value.pathname?.includes('merge_requests'));
-    const isIssuePage = computed(() => location.value.pathname?.includes('issues'));
-    const isIssueBoardPage = computed(() => location.value.pathname?.includes('boards'));
-    const isTodoListPage = computed(() => location.value.pathname?.includes('dashboard/todos'));
 
     const isScopedLabelsDropdownEnabled = computed(() => getSetting(Preference.GENERAL_SCOPED_LABELS_DROPDOWN, true) && csrfToken && (isIssueBoardPage.value || (IID.value && (isMergeRequestPage.value || isIssuePage.value))));
 

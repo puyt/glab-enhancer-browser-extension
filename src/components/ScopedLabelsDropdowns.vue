@@ -5,7 +5,7 @@
             :key="scope"
         >
             <teleport
-                v-if="element"
+                v-if="selectedProjectPath && element"
                 :to="element"
             >
                 <SvgIcon
@@ -103,7 +103,19 @@
         }
 
         return 0;
-    })
+    });
+
+    const selectedProjectPath = computed(() => {
+        if (props.currentProjectPath) {
+            return props.currentProjectPath;
+        }
+
+        if (isIssueBoard.value) {
+            return document.querySelector('li.board-card.is-active')?.getAttribute('data-item-path')?.split('#')?.[0] || '';
+        }
+
+        return '';
+    });
 
     const groupedScopedLabels = computed(() => {
         return Object.keys(scopedLabels.value)
@@ -122,11 +134,11 @@
     });
 
     function updateIssueLabel(label: string) {
-        if (!iid.value) {
+        if (!iid.value || !selectedProjectPath.value) {
             return;
         }
 
-        useFetch(`/api/v4/projects/${encodeURIComponent(props.currentProjectPath)}/issues/${iid.value}`, {
+        useFetch(`/api/v4/projects/${encodeURIComponent(selectedProjectPath.value)}/issues/${iid.value}`, {
             headers: { 'X-CSRF-TOKEN': props.csrfToken },
         })
             .put({ add_labels: [label] });
