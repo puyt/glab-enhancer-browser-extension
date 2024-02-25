@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.7.0 - 2024.2 Build 4 (25/02/2024)
+### ✨ Features
+- **mr**: render project logo in MR group overview. By puyt in #15
+
+### 🪲 Bug Fixes
+- **config**: ignore whitespace in multiple gitlab instances definition. By puyt in #14
+
 ## 2.6.2 (07/02/2024)
 ### 🪲 Bug Fixes
 - **scoped-labels-dropdown**: resolve label update in issue boards.
