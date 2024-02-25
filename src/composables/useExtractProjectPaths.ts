@@ -50,6 +50,23 @@ export function useExtractProjectPaths() {
         return paths;
     }
 
+    function extractViaMergeRequestsPage() {
+        const paths: string[] = [];
+
+        const aElements = document.querySelectorAll('.issuable-list .merge-request-title a');
+        aElements.forEach((aElement) => {
+            const parts = (aElement.getAttribute('href') || '').split('/-/');
+            const projectPath = parts[0]?.substring(1) || '';
+            if (!projectPath || paths.includes(projectPath)) {
+                return;
+            }
+
+            paths.push(projectPath);
+        });
+
+        return paths;
+    }
+
     function extract() {
         if (window.location.href.includes('todos')) {
             return extractViaTodosPage();
@@ -61,6 +78,10 @@ export function useExtractProjectPaths() {
 
         if (window.location.href.includes('boards')) {
             return extractViaIssueBoardPage();
+        }
+
+        if (window.location.href.includes('merge_requests')) {
+            return extractViaMergeRequestsPage();
         }
 
         return [];

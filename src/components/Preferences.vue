@@ -398,6 +398,15 @@
                 defaultValue: true,
             },
             {
+                label: 'Render project logos',
+                title: 'In MR overview',
+                key: Preference.MR_RENDER_PROJECT_LOGO,
+                icon: mdiImageOutline,
+                isGitlabIcon: false,
+                iconClassName: '',
+                defaultValue: true,
+            },
+            {
                 label: 'Dim "Draft"',
                 title: '',
                 key: Preference.MR_DIM_DRAFT,

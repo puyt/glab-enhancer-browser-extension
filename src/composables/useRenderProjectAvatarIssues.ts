@@ -22,6 +22,7 @@ export function useRenderProjectAvatarIssues() {
 
     const isInjectAvatarTodoEnabled = computed(() => !!getSetting(Preference.TODO_RENDER_PROJECT_LOGOS, true));
     const isInjectAvatarIssueEnabled = computed(() => !!getSetting(Preference.ISSUE_RENDER_PROJECT_LOGO, true));
+    const isInjectAvatarMergeRequestEnabled = computed(() => !!getSetting(Preference.MR_RENDER_PROJECT_LOGO, true));
 
     function injectAvatar(projectPath: string) {
         const avatarUrl = projectAvatars[projectPath];
@@ -93,11 +94,35 @@ export function useRenderProjectAvatarIssues() {
                 });
             }
         }
+
+        if (isInjectAvatarMergeRequestEnabled.value && (window.location.href.includes('merge_requests') && (window.location.href.includes('groups') || window.location.href.includes('dashboard')))) {
+            const targetElements = document.querySelectorAll(`.issuable-list .merge-request-title-text a[href*="${projectPath}"]`);
+            targetElements.forEach((targetElement) => {
+                const parentElement = targetElement?.closest('li') || null;
+
+                if (parentElement && !parentElement.children?.[0].classList.contains('chrome-gitlab-enhancer__project-avatar')) {
+                    let injectElement: HTMLElement;
+                    if (!avatarUrl.includes('http')) {
+                        injectElement = document.createElement('div');
+                        injectElement.className = 'gl-avatar gl-avatar-identicon gl-avatar-s24 gl-avatar-identicon-bg6';
+                        injectElement.textContent = avatarUrl;
+                    } else {
+                        injectElement = document.createElement('img');
+                        injectElement.setAttribute('src', avatarUrl);
+                        injectElement.setAttribute('style', 'width: 24px;');
+                    }
+
+                    injectElement.classList.add('gl-mr-4', 'chrome-gitlab-enhancer__project-avatar');
+
+                    parentElement.prepend(injectElement);
+                    parentElement.classList.add('gl-display-flex!', 'gl-align-items-center');
+                }
+            });
+        }
     }
 
     function injectAvatars() {
         const paths = extractProjectPaths();
-
         paths.forEach((path) => {
             if (!projectAvatars[path]) {
                 fetchProject(path)
