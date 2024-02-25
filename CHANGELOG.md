@@ -1,11 +1,11 @@
 # Changelog
 
-## 2.7.0 - 2024.2 Build 4 (25/02/2024)
+## 2.7.0 (25/02/2024)
 ### ✨ Features
-- **mr**: render project logo in MR group overview. By puyt in #15
+- **mr**: render project logo in MR group overview. 
 
 ### 🪲 Bug Fixes
-- **config**: ignore whitespace in multiple gitlab instances definition. By puyt in #14
+- **config**: ignore whitespace in multiple gitlab instances definition. 
 
 ## 2.6.2 (07/02/2024)
 ### 🪲 Bug Fixes
