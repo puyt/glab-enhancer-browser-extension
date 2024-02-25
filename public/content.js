@@ -22,7 +22,8 @@ function initialize() {
 }
 
 chrome.storage.local.get(function (result) {
-    const domains = (result.customGitlabDomains || '').split(',');
+    const domains = (result.customGitlabDomains || '').split(',')
+        .map((url) => url.trim());
     domains.push('https://gitlab.com');
 
     if (domains.includes(window.location.origin)) {

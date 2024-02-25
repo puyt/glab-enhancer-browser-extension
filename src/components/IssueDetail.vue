@@ -297,12 +297,14 @@
         if (requiredLabels !== '') {
             const labels = requiredLabels.split(',');
             const labelStatuses = labels.map((requiredLabel) => {
+                const trimmedLabel = requiredLabel.trim();
+
                 return {
-                    key: requiredLabel as Preference,
-                    label: `Label "${requiredLabel}"`,
+                    key: trimmedLabel as Preference,
+                    label: `Label "${trimmedLabel}"`,
                     icon: gSvgLabels,
                     isGitlabIcon: true,
-                    isValid: issue.value?.labels.some((label) => label.startsWith(requiredLabel.trim())) ? 1 : 0,
+                    isValid: issue.value?.labels.some((label) => label.startsWith(trimmedLabel)) ? 1 : 0,
                 };
             });
 
