@@ -63,7 +63,7 @@
             return;
         }
 
-        const liElements = commandPanelElement.value.querySelectorAll('.global-search-results > ul > li');
+        const liElements = commandPanelElement.value.querySelectorAll('.global-search-results > div > ul > li');
         if (liElements?.length >= 3) {
             const firstElement = liElements[0];
             const fourthItem = liElements[3];
