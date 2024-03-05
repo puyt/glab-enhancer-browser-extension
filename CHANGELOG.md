@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.7.1 (05/03/2024)
+### 🪲 Bug Fixes
+- **command-panel**: fix re-order "Places".
+
 ## 2.7.0 (25/02/2024)
 ### ✨ Features
 - **mr**: render project logo in MR group overview. 
