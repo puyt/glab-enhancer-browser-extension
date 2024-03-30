@@ -15,6 +15,7 @@ export const enum Preference {
     GENERAL_SCOPED_LABELS_DROPDOWN = 'general_scoped_labels_dropdown',
     GENERAL_PERSISTENT_FILTERS = 'general_persistent_filters',
 
+    ISSUE_STAR_BOARDS = 'issue_star_boards',
     ISSUE_HIGHLIGHT_MINE = 'issue_highlight_mine',
     ISSUE_SHOW_MY_UNRESOLVED_THREADS = 'issue_show_my_unresolved_threads',
     ISSUE_USE_THREADS_BY_DEFAULT = 'issue_use_threads_by_default',

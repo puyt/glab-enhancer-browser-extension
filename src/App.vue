@@ -36,6 +36,8 @@
             :csrf-token="csrfToken"
             :iid="IID"
         />
+
+        <StarIssueBoards v-if="isStarIssueBoardsEnabled" />
     </div>
 </template>
 
@@ -67,6 +69,7 @@
         useExtensionStore,
     } from './store';
     import { usePersistentFilters } from './composables/usePersistentFilters';
+    import StarIssueBoards from './components/StarIssueBoards.vue';
 
     const { getSetting } = useExtensionStore();
     usePersistentFilters();
@@ -103,6 +106,7 @@
     });
 
     const isScopedLabelsDropdownEnabled = computed(() => getSetting(Preference.GENERAL_SCOPED_LABELS_DROPDOWN, true) && csrfToken && (isIssueBoardPage.value || (IID.value && (isMergeRequestPage.value || isIssuePage.value))));
+    const isStarIssueBoardsEnabled = computed(() => getSetting(Preference.ISSUE_STAR_BOARDS, true) && isIssueBoardPage.value);
 
     onMounted(() => {
         const csrfTokenMetaTag = document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement;

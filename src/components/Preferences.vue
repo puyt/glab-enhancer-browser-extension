@@ -92,12 +92,12 @@
                                         >
                                             <button
                                                 :class="{
-                                            'has-tooltip': !!preference.title,
-                                        }"
+                                                    'has-tooltip': !!preference.title,
+                                                }"
                                                 class="dropdown-item"
                                                 :style="{
-                                            'flex-wrap': typeof preference.defaultValue === 'string' ? 'wrap': 'nowrap',
-                                        }"
+                                                    'flex-wrap': typeof preference.defaultValue === 'string' ? 'wrap': 'nowrap',
+                                                }"
                                                 :title="preference.title"
                                                 @click.prevent
                                             >
@@ -195,6 +195,7 @@
         gSvgFilter,
         gSvgIteration,
         gSvgLabels,
+        gSvgStar,
         gSvgWeight,
     } from '../assets/icons';
     import GToggle from './GToggle.vue';
@@ -288,6 +289,15 @@
             },
         ],
         'Issues': [
+            {
+                label: 'Star issue boards',
+                title: 'Render starred issue boards in the commands panel',
+                key: Preference.ISSUE_STAR_BOARDS,
+                icon: gSvgStar,
+                isGitlabIcon: true,
+                iconClassName: '',
+                defaultValue: true,
+            },
             {
                 label: 'Highlight my issues',
                 title: 'Highlighted with purple dashed border',

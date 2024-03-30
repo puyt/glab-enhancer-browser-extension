@@ -1,13 +1,20 @@
 <template>
     <div>
         <teleport
-            v-if="starredPlaceholder"
-            :to="starredPlaceholder"
+            v-if="starredProjectsPlaceholder"
+            :to="starredProjectsPlaceholder"
         >
             <StarredProjects
                 :gitlab-user-id="gitlabUserId"
                 :match="searchQuery"
             />
+        </teleport>
+
+        <teleport
+            v-if="starredBoardsPlaceholder"
+            :to="starredBoardsPlaceholder"
+        >
+            <StarredBoards :match="searchQuery" />
         </teleport>
     </div>
 </template>
@@ -31,6 +38,7 @@
         Preference,
         useExtensionStore,
     } from '../store';
+    import StarredBoards from './StarredBoards.vue';
 
     interface Props {
         gitlabUserId: number,
@@ -46,8 +54,6 @@
     const {
         getSetting,
     } = useExtensionStore();
-
-    const starredPlaceholder: Ref<HTMLElement | null> = ref(null);
 
     let sidebarSearchButtonElement: HTMLElement | null = null;
     const commandPanelElement: Ref<HTMLElement | null> = ref(null);
@@ -73,21 +79,51 @@
         }
     }
 
+    const isStarredProjectsEnabled = computed(() => !!getSetting(Preference.COMMAND_PANEL_STARRED_PROJECTS, true));
+    const starredProjectsPlaceholder: Ref<HTMLElement | null> = ref(null);
+
     function renderStarredProjects() {
+        if (!isStarredProjectsEnabled.value) {
+            return;
+        }
+
         const listElement = commandPanelElement.value?.querySelector('.global-search-results ul') || null;
         if (!listElement) {
             return;
         }
 
-        starredPlaceholder.value = document.createElement('li');
-        starredPlaceholder.value.className = 'gl-p-0 gl-m-0 gl-pt-2';
-        starredPlaceholder.value?.setAttribute('bordered', 'true');
-        listElement.prepend(starredPlaceholder.value);
+        starredProjectsPlaceholder.value = document.createElement('li');
+        starredProjectsPlaceholder.value.className = 'gl-p-0 gl-m-0 gl-pt-2';
+        if (isStarredBoardsEnabled.value) {
+            starredProjectsPlaceholder.value.className += ' gl-border-t gl-border-t-gray-200';
+        }
+        starredProjectsPlaceholder.value?.setAttribute('bordered', 'true');
+        listElement.prepend(starredProjectsPlaceholder.value);
+    }
+
+    const isStarredBoardsEnabled = computed(() => !!getSetting(Preference.ISSUE_STAR_BOARDS, true));
+    const starredBoardsPlaceholder: Ref<HTMLElement | null> = ref(null);
+
+    function renderStarredBoards() {
+        if (!isStarredBoardsEnabled.value) {
+            return;
+        }
+
+        const listElement = commandPanelElement.value?.querySelector('.global-search-results ul') || null;
+        if (!listElement) {
+            return;
+        }
+
+        starredBoardsPlaceholder.value = document.createElement('li');
+        starredBoardsPlaceholder.value.className = 'gl-p-0 gl-m-0 gl-pt-2';
+        starredBoardsPlaceholder.value?.setAttribute('bordered', 'true');
+        listElement.prepend(starredBoardsPlaceholder.value);
     }
 
     function enhance() {
         reorderCommandPanelItems();
         renderStarredProjects();
+        renderStarredBoards();
     }
 
     function handleInputChange(event: Event) {
@@ -108,6 +144,8 @@
     }
 
     function onShowCommandPanel() {
+        searchQuery.value = '';
+
         const parentElement = document.getElementById('super-sidebar-search-modal');
         commandPanelElement.value = document.getElementById('super-sidebar-search-modal___BV_modal_content_') || null;
 

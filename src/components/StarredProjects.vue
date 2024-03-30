@@ -3,10 +3,7 @@
         <span>Starred Projects</span>
     </div>
 
-    <ul
-        v-if="isStarredProjectsEnabled"
-        class="gl-mb-0 gl-pl-0 gl-list-style-none"
-    >
+    <ul class="gl-mb-0 gl-pl-0 gl-list-style-none">
         <template
             v-for="project in projects"
             :key="project.id"
