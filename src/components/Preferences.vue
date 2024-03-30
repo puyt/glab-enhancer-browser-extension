@@ -192,6 +192,7 @@
     import {
         gSvgComments,
         gSvgEpic,
+        gSvgFilter,
         gSvgIteration,
         gSvgLabels,
         gSvgWeight,
@@ -232,6 +233,15 @@
                 title: 'Quickly change scoped labels in issues & merge requests',
                 key: Preference.GENERAL_SCOPED_LABELS_DROPDOWN,
                 icon: gSvgLabels,
+                isGitlabIcon: true,
+                iconClassName: '',
+                defaultValue: true,
+            },
+            {
+                label: 'Persistent filters',
+                title: 'Remember your filters, e.g. in issues & merge requests overviews',
+                key: Preference.GENERAL_PERSISTENT_FILTERS,
+                icon: gSvgFilter,
                 isGitlabIcon: true,
                 iconClassName: '',
                 defaultValue: true,

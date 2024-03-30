@@ -66,8 +66,10 @@
         Preference,
         useExtensionStore,
     } from './store';
+    import { usePersistentFilters } from './composables/usePersistentFilters';
 
     const { getSetting } = useExtensionStore();
+    usePersistentFilters();
     const { render: renderProjectAvatars } = useRenderProjectAvatarIssues();
     const { highlight: highlightMyIssuesMrs } = useHighlightMyIssuesMrs();
     const { dim: dimDraftMrs } = useDimDraftMrs();

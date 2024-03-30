@@ -13,6 +13,7 @@ export const enum Preference {
     TODO_RENDER_LABELS = 'todo_render_labels',
 
     GENERAL_SCOPED_LABELS_DROPDOWN = 'general_scoped_labels_dropdown',
+    GENERAL_PERSISTENT_FILTERS = 'general_persistent_filters',
 
     ISSUE_HIGHLIGHT_MINE = 'issue_highlight_mine',
     ISSUE_SHOW_MY_UNRESOLVED_THREADS = 'issue_show_my_unresolved_threads',
