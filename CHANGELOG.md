@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.8.0 (30/03/2024)
+### ✨ Features
+- **issue**: add ability to star issue boards.
+- **general**: add persistent filters for overviews.
+
+### 🪲 Bug Fixes
+- **command-panel**: fix re-order "My Places" with new GitLab update.
+
 ## 2.7.1 (05/03/2024)
 ### 🪲 Bug Fixes
 - **command-panel**: fix re-order "Places".
