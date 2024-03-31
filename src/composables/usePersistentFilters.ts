@@ -22,7 +22,7 @@ export function usePersistentFilters() {
 
     function applyPersistentFilterOnLoad() {
         const location = useBrowserLocation();
-        if (!location.value.pathname) {
+        if (!location.value.pathname || location.value.pathname === '/dashboard/merge_requests') {
             return;
         }
 
@@ -44,9 +44,9 @@ export function usePersistentFilters() {
         });
     }
 
-    function savePersistentFilters() {
+    function  savePersistentFilters() {
         const location = useBrowserLocation();
-        if (!location.value.pathname || (!document.querySelector('.vue-filtered-search-bar-container') && !document.querySelector('.filtered-search-box'))) {
+        if (!location.value.pathname || (!document.querySelector('.vue-filtered-search-bar-container') && !document.querySelector('.filtered-search-box')) || location.value.pathname === '/dashboard/merge_requests') {
             return;
         }
 
