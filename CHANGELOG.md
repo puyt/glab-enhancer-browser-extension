@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.8.1 (31/03/2024)
+### 🪲 Bug Fixes
+- **general**: disable persistent filters for dashboard MR views to stop continuous refreshes.
+
 ## 2.8.0 (30/03/2024)
 ### ✨ Features
 - **issue**: add ability to star issue boards.
