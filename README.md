@@ -10,6 +10,7 @@ This powerful extension introduces a suite of features specifically designed to 
 - Enable/disable most of the features by toggling the preferences
 - Move the close issue / merge request button to the right side to prevent accidental clicks
 - Add dropdown for scoped labels in issues & merge requests
+- Remember the applied filters in the overview
 
 **Command panel**
 
@@ -25,6 +26,7 @@ This powerful extension introduces a suite of features specifically designed to 
 
 **Issues**
 
+- Star issue boards and access them in the command panel
 - Highlight issues assigned to yourself
 - Render project logos in issue overview & board when viewed in groups
 - Use "Threads" in favor of "Comments" by default
@@ -37,6 +39,7 @@ This powerful extension introduces a suite of features specifically designed to 
 - Highlight your MRs
 - Use "Threads" in favor of "Comments" by default
 - Draft merge requests are visually dimmed, making them stand out less and helping you focus on ready-to-review items.
+- Render project logos in group overviews
 - Show unresolved threads in the overview
 - Show unresolved threads **created by you** in the overview
 - Show unresolved threads **created by you** in the detail, with scrollTo buttons
