@@ -3,6 +3,7 @@ import {
     useLocalStorage,
 } from '@vueuse/core';
 import {
+    computed,
     onBeforeMount,
     onBeforeUnmount,
     ref,
@@ -20,19 +21,74 @@ export function usePersistentFilters() {
 
     const persistentFilters = useLocalStorage('chrome-gitlab-enhancer/persistent-filters', ref(new Map()));
 
-    function applyPersistentFilterOnLoad() {
+    const isDashboardMergeRequests = computed(() => {
         const location = useBrowserLocation();
-        if (!location.value.pathname || location.value.pathname === '/dashboard/merge_requests') {
-            return;
+        return location.value.pathname === '/dashboard/merge_requests';
+    });
+
+    function getCurrentPathname(): string {
+        const location = useBrowserLocation();
+        let pathname = location.value.pathname?.replace(/\/$/, '') || '';
+
+        if (!pathname || !isDashboardMergeRequests.value) {
+            return pathname;
         }
 
-
-        const search = persistentFilters.value.get(location.value.pathname);
-        if (!search || location.value.search === search) {
-            return;
+        // Workaround to make this work in "dashboard/merge_requests", as they share the same pathname.
+        const urlSearchParams = new URLSearchParams(location.value.search);
+        if (urlSearchParams.has('assignee_username')) {
+            pathname += `?assignee_username=${urlSearchParams.get('assignee_username')}`;
+        } else if (urlSearchParams.has('reviewer_username')) {
+            pathname += `?reviewer_username=${urlSearchParams.get('reviewer_username')}`;
         }
 
-        location.value.search = search;
+        return pathname;
+    }
+
+    function sortQueryParams(search: string, removeKeys: string[] = []) {
+        const params = new URLSearchParams(search);
+        const sortedParams = new URLSearchParams();
+
+        Array.from(params.keys())
+            .sort()
+            .forEach((key) => {
+                if (removeKeys.includes(key)) {
+                    return;
+                }
+
+                sortedParams.set(key, params.get(key) || '');
+            });
+
+        return sortedParams.toString();
+    }
+
+    function applyPersistentFilterOnLoad() {
+        const pathname = getCurrentPathname();
+        if (!pathname) {
+            return false;
+        }
+
+        const removeSearchKeys = [
+            'first_page_size',
+            'page_after',
+            'page',
+        ];
+        if (isDashboardMergeRequests.value) {
+            removeSearchKeys.push('assignee_username', 'reviewer_username');
+        }
+
+        const search = persistentFilters.value.get(pathname);
+        const cachedSearch = sortQueryParams(search, removeSearchKeys);
+
+        const location = useBrowserLocation();
+        const currentSearch = sortQueryParams(location.value.search as string, removeSearchKeys);
+
+        if (!cachedSearch || cachedSearch === currentSearch) {
+            return false;
+        }
+
+        window.location.href = pathname + search;
+        return true;
     }
 
     function applyPersistentFiltersOnNavSidebar() {
@@ -44,13 +100,25 @@ export function usePersistentFilters() {
         });
     }
 
-    function  savePersistentFilters() {
-        const location = useBrowserLocation();
-        if (!location.value.pathname || (!document.querySelector('.vue-filtered-search-bar-container') && !document.querySelector('.filtered-search-box')) || location.value.pathname === '/dashboard/merge_requests') {
+    function savePersistentFilters() {
+        const pathname = getCurrentPathname();
+        if (!pathname || (!document.querySelector('.vue-filtered-search-bar-container') && !document.querySelector('.filtered-search-box'))) {
             return;
         }
 
-        persistentFilters.value.set(location.value.pathname.replace(/\/$/, ''), location.value.search);
+        const removeSearchKeys = [
+            'first_page_size',
+            'page_after',
+            'page',
+        ];
+        if (isDashboardMergeRequests.value) {
+            removeSearchKeys.push('assignee_username', 'reviewer_username');
+        }
+
+        const location = useBrowserLocation();
+        const sortedSearch = sortQueryParams(location.value.search as string, removeSearchKeys);
+
+        persistentFilters.value.set(pathname, sortedSearch ? ((isDashboardMergeRequests.value ? '&' : '?') + sortedSearch) : '');
     }
 
     let observer: MutationObserver | null = null;
@@ -66,10 +134,11 @@ export function usePersistentFilters() {
     }
 
     onBeforeMount(() => {
-        applyPersistentFilterOnLoad();
+        if (applyPersistentFilterOnLoad()) {
+            return;
+        }
 
         applyPersistentFiltersOnNavSidebar();
-
         savePersistentFilters();
 
         observer = new MutationObserver(() => {
