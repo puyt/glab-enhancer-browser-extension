@@ -21,6 +21,11 @@ export function usePersistentFilters() {
 
     const persistentFilters = useLocalStorage('chrome-gitlab-enhancer/persistent-filters', ref(new Map()));
 
+    const isDashboardIssues = computed(() => {
+        const location = useBrowserLocation();
+        return location.value.pathname === '/dashboard/issues';
+    });
+
     const isDashboardMergeRequests = computed(() => {
         const location = useBrowserLocation();
         return location.value.pathname === '/dashboard/merge_requests';
@@ -30,7 +35,7 @@ export function usePersistentFilters() {
         const location = useBrowserLocation();
         let pathname = location.value.pathname?.replace(/\/$/, '') || '';
 
-        if (!pathname || !isDashboardMergeRequests.value) {
+        if (!pathname || (!isDashboardMergeRequests.value && !isDashboardIssues.value)) {
             return pathname;
         }
 
@@ -38,6 +43,8 @@ export function usePersistentFilters() {
         const urlSearchParams = new URLSearchParams(location.value.search);
         if (urlSearchParams.has('assignee_username')) {
             pathname += `?assignee_username=${urlSearchParams.get('assignee_username')}`;
+        } else if (urlSearchParams.has('assignee_username[]')) {
+            pathname += `?assignee_username[]=${urlSearchParams.get('assignee_username[]')}`;
         } else if (urlSearchParams.has('reviewer_username')) {
             pathname += `?reviewer_username=${urlSearchParams.get('reviewer_username')}`;
         }
@@ -73,17 +80,20 @@ export function usePersistentFilters() {
             'page_after',
             'page',
         ];
+        if (isDashboardIssues.value) {
+            removeSearchKeys.push('assignee_username', 'assignee_username[]', 'sort', 'state');
+        }
         if (isDashboardMergeRequests.value) {
             removeSearchKeys.push('assignee_username', 'reviewer_username');
         }
 
-        const search = persistentFilters.value.get(pathname);
+        const search = persistentFilters.value.get(pathname) || '';
         const cachedSearch = sortQueryParams(search, removeSearchKeys);
 
         const location = useBrowserLocation();
         const currentSearch = sortQueryParams(location.value.search as string, removeSearchKeys);
 
-        if (!cachedSearch || cachedSearch === currentSearch) {
+        if (currentSearch || !cachedSearch || cachedSearch === currentSearch) {
             return false;
         }
 
@@ -111,6 +121,9 @@ export function usePersistentFilters() {
             'page_after',
             'page',
         ];
+        if (isDashboardIssues.value) {
+            removeSearchKeys.push('assignee_username', 'assignee_username[]');
+        }
         if (isDashboardMergeRequests.value) {
             removeSearchKeys.push('assignee_username', 'reviewer_username');
         }
@@ -118,7 +131,7 @@ export function usePersistentFilters() {
         const location = useBrowserLocation();
         const sortedSearch = sortQueryParams(location.value.search as string, removeSearchKeys);
 
-        persistentFilters.value.set(pathname, sortedSearch ? ((isDashboardMergeRequests.value ? '&' : '?') + sortedSearch) : '');
+        persistentFilters.value.set(pathname, sortedSearch ? ((isDashboardMergeRequests.value || isDashboardIssues.value ? '&' : '?') + sortedSearch) : '');
     }
 
     let observer: MutationObserver | null = null;
