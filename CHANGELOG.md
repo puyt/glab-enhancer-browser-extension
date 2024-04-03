@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.8.3 (03/04/2024)
+### 🪲 Bug Fixes
+- **persistent-filters**: allow update filters after applying persistent ones.
+
 ## 2.8.2 (02/04/2024)
 ### 🪲 Bug Fixes
 - **persistent-filters**: fix infinite page refreshes + make it work for "dashboards/merge_requests".
