@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
-    "build:firefox": "npm run build && mv dist/manifest_firefox.json dist/manifest.json",
+    "build:chrome": "npm run build && cd dist && zip -rq ../chrome-dist.zip * && cd ..",
+    "build:firefox": "npm run build && mv dist/manifest_firefox.json dist/manifest.json && cd dist && zip -rq ../firefox-dist.zip * && cd ../src && zip -rq ../src.zip * && cd ..",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"

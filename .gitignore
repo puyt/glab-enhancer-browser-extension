@@ -13,6 +13,9 @@ coverage
 *.local
 
 dist/
+chrome-dist.zip
+firefox-dist.zip
+src.zip
 /cypress/videos/
 /cypress/screenshots/
 
