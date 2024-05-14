@@ -14,7 +14,7 @@
             >
                 <a
                     class="gl-new-dropdown-item-content"
-                    :href="board.pathname"
+                    :href="board.href"
                 >
                     <span class="gl-new-dropdown-item-text-wrapper">
                         <div class="gl-display-flex gl-align-items-center gl-gap-3">
@@ -80,7 +80,11 @@
 
         starredBoards.value.forEach((data, boardId) => {
             if (!props.match || data.label.toLowerCase().includes(props.match.toLowerCase())) {
-                newMap.set(boardId, { ...data, projectPath: data.pathname.split('/-/')[0] });
+                newMap.set(boardId, {
+                    ...data,
+                    href: `${data.pathname.split('boards/')[0]}/boards/${boardId.split('listbox-item-')[1]}`,
+                    projectPath: data.pathname.split('/-/')[0],
+                });
             }
         });
 
