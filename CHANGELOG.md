@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.8.4 (14/05/2024)
+### 🪲 Bug Fixes
+- **issue-boards**: correct redirect for starred boards using board ID.
+
 ## 2.8.3 (03/04/2024)
 ### 🪲 Bug Fixes
 - **persistent-filters**: allow update filters after applying persistent ones.
