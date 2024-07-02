@@ -2,6 +2,9 @@
     <div
         id="chrome-gitlab-enhancer__preferences"
         ref="rootPreferencesElement"
+        :style="{
+            marginRight: `${offsetRight}px`,
+        }"
     >
         <div class="dropdown b-dropdown gl-dropdown btn-group gl-display-block!">
             <button
@@ -180,6 +183,7 @@
     import { onClickOutside } from '@vueuse/core';
     import showdown from 'showdown'; //eslint-disable-line
     import {
+        onMounted,
         type Ref,
         ref,
     } from 'vue';
@@ -468,6 +472,15 @@
 
         setSetting(preference.key, !getSetting(preference.key, preference.defaultValue));
     }
+
+    const offsetRight = ref(0);
+    onMounted(() => {
+        const toolbarEl = document.querySelector('.top-bar-container') as HTMLElement | null;
+        if (toolbarEl) {
+            const breadcrumbsEl = toolbarEl.querySelector('.breadcrumbs') as HTMLElement | null;
+            offsetRight.value = breadcrumbsEl ? toolbarEl.offsetWidth - breadcrumbsEl.offsetWidth + 4: 0;
+        }
+    });
 </script>
 
 <style lang="scss">
