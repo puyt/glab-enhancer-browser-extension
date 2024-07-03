@@ -57,7 +57,6 @@
     } from 'vue';
     import type { GitLabDiscussion } from '../types';
     import { debounce } from 'lodash-es';
-    import { useFetch } from '@vueuse/core';
     import {
         gSvgChecronDown,
         gSvgChevronUp,
@@ -101,7 +100,7 @@
             return;
         }
 
-        const { data } = await useFetchPaging(`/api/v4/projects/${encodeURIComponent(currentProjectPath.value)}/merge_requests/${iid.value}/discussions`)
+        const { data } = await useFetchPaging(`/api/v4/projects/${encodeURIComponent(currentProjectPath.value)}/merge_requests/${iid.value}/discussions`);
         discussions.value = data?.value || [] as GitLabDiscussion[];
 
         render();
@@ -127,7 +126,8 @@
             const inputId = viewedCheckboxLabelElement.getAttribute('for') || '';
             viewedCheckboxLabelElement?.click();
 
-            document.getElementById(inputId)?.blur();
+            document.getElementById(inputId)
+                ?.blur();
         }
     }
 
@@ -159,7 +159,7 @@
         teleportElement.value?.remove();
         teleportElement.value = document.createElement('div');
 
-        const stickyElement = document.querySelector('.merge-request-sticky-header:not(.gl-visibility-hidden) .merge-request-tabs + div');
+        const stickyElement = document.querySelector('.merge-request-sticky-header:not(.gl-visibility-hidden):not(.gl-invisible) .merge-request-tabs + div');
         if (stickyElement) {
             stickyElement.prepend(teleportElement.value);
             return;
