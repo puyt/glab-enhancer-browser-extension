@@ -477,8 +477,8 @@
     onMounted(() => {
         const toolbarEl = document.querySelector('.top-bar-container') as HTMLElement | null;
         if (toolbarEl) {
-            const breadcrumbsEl = toolbarEl.querySelector('.breadcrumbs') as HTMLElement | null;
-            offsetRight.value = breadcrumbsEl ? toolbarEl.offsetWidth - breadcrumbsEl.offsetWidth + 4: 0;
+            const breadcrumbsEl = toolbarEl.querySelector('nav') as HTMLElement | null;
+            offsetRight.value = breadcrumbsEl ? toolbarEl.offsetWidth - breadcrumbsEl.offsetWidth + 4 : 0;
         }
     });
 </script>
