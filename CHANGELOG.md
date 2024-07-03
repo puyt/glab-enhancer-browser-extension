@@ -1,10 +1,16 @@
 # Changelog
 
+## 2.8.6 (03/07/2024)
+
+### 🪲 Bug Fixes
+
+- fix position preferences button with new GitLab update.
+
 ## 2.8.5 (02/07/2024)
 
 ### 🪲 Bug Fixes
 
-- position preferences dropdown with new GitLab Duo chat button. By puyt in #22
+- position preferences dropdown with new GitLab Duo chat button.
 
 ## 2.8.4 (14/05/2024)
 
