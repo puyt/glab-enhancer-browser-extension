@@ -34,9 +34,9 @@
                                 {{ project.name_with_namespace }}
                             </div>
 
-                            <div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
                                 <a
-                                    class="gl-link gl-reset-color! gl-mr-4 has-tooltip"
+                                    class="gl-link gl-text-gray-500 has-tooltip"
                                     :href="`${project.web_url}/-/issues`"
                                     title="Issues"
                                 >
@@ -50,7 +50,7 @@
                                 </a>
 
                                 <a
-                                    class="gl-link gl-reset-color! gl-mr-4 has-tooltip"
+                                    class="gl-link gl-text-gray-500 has-tooltip"
                                     :href="`${project.web_url}/-/merge_requests?draft=no`"
                                     title="Merge requests"
                                 >
@@ -64,7 +64,7 @@
                                 </a>
 
                                 <a
-                                    class="gl-button btn btn-icon btn-sm btn-default gl-ml-4 gl-mr-3 has-tooltip"
+                                    class="gl-button btn btn-icon btn-sm btn-default has-tooltip"
                                     :href="`${project.web_url}/-/boards?iteration_id=Current`"
                                     title="Issue board"
                                 >
