@@ -5,12 +5,15 @@
                 v-for="teleportId in teleportIds"
                 :key="teleportId"
             >
-                <teleport :to="`#${teleportId}`">
+                <teleport
+                    v-if="teleportElements[teleportId]"
+                    :to="`#${teleportId}`"
+                >
                     <li
-                        class="has-tooltip gl-display-none gl-sm-display-block gl-mr-3 md gl-text-orange-500!"
                         :class="{
                             'badge badge-pill gl-badge badge-warning':  unresolvedThreadsCount.get(teleportId),
                         }"
+                        class="has-tooltip gl-display-none gl-sm-display-block gl-mr-3 md gl-text-orange-500!"
                         :style="{
                             opacity: unresolvedThreadsCount.get(teleportId) ? 1 : 0.5,
                         }"
@@ -26,10 +29,10 @@
                     </li>
 
                     <li
-                        class="has-tooltip gl-display-none gl-sm-display-block md gl-text-red-500!"
                         :class="{
                             'badge badge-pill gl-badge badge-danger':  myUnresolvedThreadsCount.get(teleportId),
                         }"
+                        class="has-tooltip gl-display-none gl-sm-display-block md gl-text-red-500!"
                         :style="{
                             opacity: myUnresolvedThreadsCount.get(teleportId) ? 1 : 0.5,
                         }"
@@ -62,9 +65,7 @@
         toRefs,
         watch,
     } from 'vue';
-    import type {
-        GitLabDiscussion,
-    } from '../types';
+    import type { GitLabDiscussion } from '../types';
     import {
         mdiCommentAccountOutline,
         mdiCommentAlertOutline,
@@ -114,6 +115,11 @@
 
     const isShowMyUnresolvedEnabled = computed(() => (isMergeRequest.value && !!getSetting(Preference.MR_SHOW_MY_UNRESOLVED_THREADS, true) || (!isMergeRequest.value && !!getSetting(Preference.ISSUE_SHOW_MY_UNRESOLVED_THREADS, true))));
     const teleportIds = computed(() => extractIssuableIds.value.map((iid) => getTeleportId(iid)));
+
+    const teleportElements = computed(() => teleportIds.value.reduce((acc, teleportId) => {
+        acc[teleportId] = document.getElementById(teleportId);
+        return acc;
+    }, {} as Record<string, HTMLElement | null>));
 
     const unresolvedThreadsCount = computed(() => {
         const items: Map<any, any> = new Map();
@@ -177,12 +183,12 @@
 
                 // add teleport placeholder
                 const containerElement = el.closest(isMergeRequest.value ? '.issuable-info-container' : 'li.issue');
-                const metaElement = containerElement?.querySelector('.issuable-meta > ul');
+                const metaElement = containerElement?.querySelector('li[data-testid="issuable-comments"]');
 
                 const placeholderElement = document.createElement('div');
                 placeholderElement.className = 'gl-display-flex align-items-center';
                 placeholderElement.id = getTeleportId(resolvedId);
-                metaElement?.append(placeholderElement);
+                metaElement?.parentElement?.insertBefore(placeholderElement, metaElement.nextSibling);
             });
 
         extractIssuableIds.value = values;
