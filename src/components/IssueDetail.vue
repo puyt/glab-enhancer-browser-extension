@@ -90,17 +90,15 @@
             >
                 <button
                     :class="{
-                        'gl-bg-green-100!': !invalidCount,
-                        'gl-border-green-500!': !invalidCount,
-                        'gl-text-green-500!': !invalidCount,
-                        'gl-bg-red-100!': invalidCount,
-                        'gl-border-red-500!': invalidCount,
-                        'gl-text-red-500!': invalidCount,
                         'gl-font-weight-bold!': invalidCount,
                     }"
                     class="btn dropdown-toggle btn-default btn-md gl-button gl-dropdown-toggle gl-pl-3!"
+                    :style="{
+                        borderColor: !invalidCount ? 'var(--green-500)' : 'var(--red-500)',
+                        color: !invalidCount ? 'var(--green-500)' : 'var(--red-500)',
+                        backgroundColor: !invalidCount ? 'var(--green-100)' : 'var(--red-100)',
+                    }"
                     style="box-shadow: none; border-width: 1px;"
-
                 >
                     <SvgIcon
                         class="gl-mr-3"
@@ -143,25 +141,23 @@
                                 :key="status.key"
                             >
                                 <li class="gl-dropdown-item">
-                                    <button
-                                        class="dropdown-item"
-                                    >
+                                    <button class="dropdown-item">
                                         <div class="gl-dropdown-item-text-wrapper gl-display-flex gl-justify-content-center">
-                                        <span
-                                            :class="{
-                                                'badge-success': status.isValid,
-                                                'badge-danger': !status.isValid,
-                                            }"
-                                            class="badge badge-pill gl-badge lg"
-                                        >
-                                            <SvgIcon
-                                                class="gl-badge-icon gl-ml-1 gl-mr-3"
-                                                :is-gitlab="status.isGitlabIcon"
-                                                :path="status.icon"
-                                            />
+                                            <span
+                                                :class="{
+                                                    'badge-success': status.isValid,
+                                                    'badge-danger': !status.isValid,
+                                                }"
+                                                class="badge badge-pill gl-badge lg"
+                                            >
+                                                <SvgIcon
+                                                    class="gl-badge-icon gl-ml-1 gl-mr-3"
+                                                    :is-gitlab="status.isGitlabIcon"
+                                                    :path="status.icon"
+                                                />
 
-                                            {{ status.label }}
-                                        </span>
+                                                {{ status.label }}
+                                            </span>
                                         </div>
                                     </button>
                                 </li>
@@ -350,7 +346,7 @@
             return;
         }
 
-        const { data } = await useFetchPaging(`/api/v4/projects/${encodeURIComponent(currentProjectPath.value)}/issues/${iid.value}/discussions`)
+        const { data } = await useFetchPaging(`/api/v4/projects/${encodeURIComponent(currentProjectPath.value)}/issues/${iid.value}/discussions`);
         discussions.value = data?.value || [] as GitLabDiscussion[];
     }
 
