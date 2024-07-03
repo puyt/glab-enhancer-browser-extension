@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.8.7 (03/07/2024)
+
+### 🪲 Bug Fixes
+
+- fix color issue validate button.
+- fix color starred projects in command panel.
+- fix "my unresolved threads" badge in MR detail.
+- fix unresolved threads badges in MR overview.
+- fix highlight my issues & MRs with for GitLab 17.x.
+
 ## 2.8.6 (03/07/2024)
 
 ### 🪲 Bug Fixes
