@@ -1,5 +1,8 @@
 <template>
-    <div class="gl-pl-4 gl-py-2 gl-font-sm gl-font-weight-bold gl-display-flex gl-align-items-center">
+    <div
+        class="gl-pl-4 gl-py-2 gl-font-sm gl-font-weight-bold"
+        style="display: flex; align-items: center;"
+    >
         <span>Starred Projects</span>
     </div>
 
@@ -17,7 +20,10 @@
                     :href="project.web_url"
                 >
                     <span class="gl-new-dropdown-item-text-wrapper">
-                        <div class="gl-display-flex gl-align-items-center gl-gap-3">
+                        <div
+                            class="gl-gap-3"
+                            style="display: flex; align-items: center;"
+                        >
                             <img
                                 v-if="project.avatar_url"
                                 class="gl-avatar gl-avatar-s24"

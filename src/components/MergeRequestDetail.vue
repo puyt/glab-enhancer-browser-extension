@@ -6,7 +6,8 @@
         >
             <div
                 v-if="myUnresolvedDomIds.length"
-                class="gl-display-flex gl-align-items-center gl-pl-4 gl-rounded-base gl-min-h-7 gl-bg-red-100 gl-mr-3"
+                class="gl-pl-4 gl-rounded-base gl-min-h-7 gl-bg-red-100 gl-mr-3"
+                style="display: flex; align-items: center;"
             >
                 <span>{{ myUnresolvedThreads.length }} my unresolved threads</span>
 

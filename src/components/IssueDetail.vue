@@ -6,7 +6,8 @@
         >
             <div
                 v-if="isShowMyUnresolvedEnabled && myUnresolvedThreads.length"
-                class="gl-display-flex gl-align-items-center gl-pl-4 gl-rounded-base gl-min-h-7 gl-bg-red-100 gl-mr-3 has-tooltip"
+                class="gl-pl-4 gl-rounded-base gl-min-h-7 gl-bg-red-100 gl-mr-3 has-tooltip"
+                style="display: flex; align-items: center;"
                 title="My unresolved threads"
             >
                 <SvgIcon
@@ -45,7 +46,8 @@
 
             <div
                 v-if="unresolvedThreads.length"
-                class="gl-display-flex gl-align-items-center gl-pl-4 gl-rounded-base gl-min-h-7 gl-bg-orange-100 gl-mr-3 has-tooltip"
+                class="gl-pl-4 gl-rounded-base gl-min-h-7 gl-bg-orange-100 gl-mr-3 has-tooltip"
+                style="display: flex; align-self: center;"
                 title="Total unresolved threads"
             >
                 <SvgIcon
@@ -142,7 +144,10 @@
                             >
                                 <li class="gl-dropdown-item">
                                     <button class="dropdown-item">
-                                        <div class="gl-dropdown-item-text-wrapper gl-display-flex gl-justify-content-center">
+                                        <div
+                                            class="gl-dropdown-item-text-wrapper"
+                                            style="display: flex; justify-content: center;"
+                                        >
                                             <span
                                                 :class="{
                                                     'badge-success': status.isValid,
@@ -315,7 +320,10 @@
     function render() {
         teleportElement.value?.remove();
         teleportElement.value = document.createElement('div');
-        teleportElement.value?.classList.add('gl-ml-auto', 'gl-display-flex');
+        if (teleportElement.value) {
+            teleportElement.value.classList.add('gl-ml-auto');
+            teleportElement.value.style.display = 'flex';
+        }
 
         const stickyElement = document.querySelector('.issue-sticky-header .issue-sticky-header-text');
         if (stickyElement) {

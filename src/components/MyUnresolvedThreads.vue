@@ -186,7 +186,8 @@
                 const metaElement = containerElement?.querySelector('li[data-testid="issuable-comments"]');
 
                 const placeholderElement = document.createElement('div');
-                placeholderElement.className = 'gl-display-flex align-items-center';
+                placeholderElement.style.display = 'flex';
+                placeholderElement.style.alignItems = 'center';
                 placeholderElement.id = getTeleportId(resolvedId);
                 metaElement?.parentElement?.insertBefore(placeholderElement, metaElement.nextSibling);
             });

@@ -1,5 +1,8 @@
 <template>
-    <div class="gl-pl-4 gl-py-2 gl-font-sm gl-font-weight-bold gl-display-flex gl-align-items-center">
+    <div
+        class="gl-pl-4 gl-py-2 gl-font-sm gl-font-weight-bold"
+        style="display: flex; align-self: center;"
+    >
         <span>Starred Boards</span>
     </div>
 
@@ -17,7 +20,10 @@
                     :href="board.href"
                 >
                     <span class="gl-new-dropdown-item-text-wrapper">
-                        <div class="gl-display-flex gl-align-items-center gl-gap-3">
+                        <div
+                            class="gl-gap-3"
+                            style="display: flex; align-items: center;"
+                        >
                             <template v-if="projectInfo?.[board.projectPath]">
                                 <img
                                     v-if="projectInfo[board.projectPath].avatar_url"
@@ -39,7 +45,7 @@
                                     v-if="projectInfo?.[board.projectPath]"
                                     class="gl-font-sm gl-text-gray-500 gl-text-truncate"
                                 >
-                                    {{ projectInfo[board.projectPath]?.name_with_namespace || ''}}
+                                    {{ projectInfo[board.projectPath]?.name_with_namespace || '' }}
                                 </div>
                             </div>
                         </div>
@@ -79,7 +85,8 @@
         const newMap = new Map();
 
         starredBoards.value.forEach((data, boardId) => {
-            if (!props.match || data.label.toLowerCase().includes(props.match.toLowerCase())) {
+            if (!props.match || data.label.toLowerCase()
+                .includes(props.match.toLowerCase())) {
                 newMap.set(boardId, {
                     ...data,
                     href: `${data.pathname.split('boards/')[0]}/boards/${boardId.split('listbox-item-')[1]}`,
@@ -111,7 +118,7 @@
         }
 
         if (!path.startsWith('groups')) {
-            path = `projects/${encodeURIComponent(path)}`
+            path = `projects/${encodeURIComponent(path)}`;
         }
 
         const { data } = await useFetch(`/api/v4/${path}?is_custom=1`)
@@ -122,13 +129,14 @@
 
     function fetchProjects() {
         projectPaths.value.forEach((path) => {
-            fetchProject(path).then((project) => {
-                projectInfo.value[path] = {
-                    avatar_url: project.avatar_url,
-                    name: project.name,
-                    name_with_namespace: project.name_with_namespace || project.full_name,
-                };
-            });
+            fetchProject(path)
+                .then((project) => {
+                    projectInfo.value[path] = {
+                        avatar_url: project.avatar_url,
+                        name: project.name,
+                        name_with_namespace: project.name_with_namespace || project.full_name,
+                    };
+                });
         });
     }
 
