@@ -33,7 +33,7 @@ export function useRenderProjectAvatarIssues() {
         if (isInjectAvatarTodoEnabled.value && window.location.href.includes('todos')) {
             const targetElements = document.querySelectorAll(`ul.todos-list a.todo-target-link[href*="${projectPath}"]`);
             targetElements.forEach((targetElement) => {
-                const parentElement = targetElement.closest('li')?.children?.[0] || null;
+                const parentElement = (targetElement.closest('li')?.children?.[0] || null) as HTMLElement | null;
                 if (parentElement && !parentElement.children?.[0].classList.contains('chrome-gitlab-enhancer__project-avatar')) {
                     let injectElement: HTMLElement;
                     if (!avatarUrl.includes('http')) {

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.8.8 - 2024.9 (30/09/2024)
+
+### 🪲 Bug Fixes
+
+- **css**: replace removed utility classes with style.
+
 ## 2.8.7 (03/07/2024)
 
 ### 🪲 Bug Fixes
