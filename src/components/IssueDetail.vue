@@ -47,7 +47,7 @@
             <div
                 v-if="unresolvedThreads.length"
                 class="gl-pl-4 gl-rounded-base gl-min-h-7 gl-bg-orange-100 gl-mr-3 has-tooltip"
-                style="display: flex; align-self: center;"
+                style="display: flex; align-items: center;"
                 title="Total unresolved threads"
             >
                 <SvgIcon
