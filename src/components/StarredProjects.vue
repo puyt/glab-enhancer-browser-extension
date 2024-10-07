@@ -40,7 +40,7 @@
                                 {{ project.name_with_namespace }}
                             </div>
 
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-left: auto;">
                                 <a
                                     class="gl-link gl-text-gray-500 has-tooltip"
                                     :href="`${project.web_url}/-/issues`"
