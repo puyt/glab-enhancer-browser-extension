@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.8.9 - 2024.10 (07/10/2024)
+### 🪲 Bug Fixes
+- **ui, issue**: fix alignment total unresolved threads button. By puyt
+- **permission**: remove trailing slashes from instances when requesting permissions. By puyt
+- **permission**: allow permission requests for http. By puyt in #25
+- **persistent-filters**: apply filters only on issues, boards & MR pages. By puyt
+- **ui**: fix alignment stats favorite projects in command panel. By puyt
+- disable MR hotkeys when using the rich text editor. By puyt in #27
+
 ## 2.8.8 - 2024.9 (30/09/2024)
 
 ### 🪲 Bug Fixes
