@@ -19,6 +19,18 @@ export function usePersistentFilters() {
         return;
     }
 
+    const validPaths = [
+        '/dashboard/issues',
+        '/dashboard/merge_requests',
+        '/-/issues',
+        '/-/boards',
+        '/-/merge_requests',
+    ];
+
+    function isValidPath(pathname: string): boolean {
+        return validPaths.some((validPath) => pathname.includes(validPath));
+    }
+
     const persistentFilters = useLocalStorage('chrome-gitlab-enhancer/persistent-filters', ref(new Map()));
 
     const isDashboardIssues = computed(() => {
@@ -34,6 +46,10 @@ export function usePersistentFilters() {
     function getCurrentPathname(): string {
         const location = useBrowserLocation();
         let pathname = location.value.pathname?.replace(/\/$/, '') || '';
+
+        if (!isValidPath(pathname)) {
+            return '';
+        }
 
         if (!pathname || (!isDashboardMergeRequests.value && !isDashboardIssues.value)) {
             return pathname;
@@ -103,6 +119,10 @@ export function usePersistentFilters() {
 
     function applyPersistentFiltersOnNavSidebar() {
         persistentFilters.value.forEach((search, href) => {
+            if (!isValidPath(href)) {
+                return;
+            }
+
             const aElement = document.querySelector(`div.contextual-nav li > a[href*="${href.replace(/\/$/, '')}"]`);
             if (aElement) {
                 aElement.setAttribute('href', `${href}${search}`);
