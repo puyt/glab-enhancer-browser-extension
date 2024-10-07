@@ -79,7 +79,8 @@
     onMounted(() => {
         chrome.storage.local.get(['customGitlabDomains'], (result: any) => {
             gitlabInstances.value = (result?.customGitlabDomains || []).split(',')
-                .map((instanceUrl) => instanceUrl.trim());
+                .map((instanceUrl) => instanceUrl.trim()
+                    .replace(/\/$/, ''));
         });
     });
 
@@ -92,7 +93,8 @@
 
     function requestPermissions(value: string) {
         const instances = value.split(',')
-            .map((instanceUrl) => instanceUrl.trim());
+            .map((instanceUrl) => instanceUrl.trim()
+                .replace(/\/$/, ''));
         gitlabInstances.value = instances;
 
         instances.forEach((instanceUrl: string) => {

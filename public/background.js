@@ -9,7 +9,8 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
     chrome.storage.local.get(['customGitlabDomains'])
         .then((result) => {
-            const instances = (result?.customGitlabDomains?.split(',') || []).map((url) => url.trim());
+            const instances = (result?.customGitlabDomains?.split(',') || []).map((url) => url.trim()
+                .replace(/\/$/, ''));
 
             if (!tab.url || !instances.length) {
                 return

@@ -60,7 +60,8 @@ const initWebNotifications = () => {
         chrome.storage.local.get(['customGitlabDomains', 'webNotificationTodos'])
             .then((items) => {
                 const gitlabInstances = items.customGitlabDomains.split(',')
-                    .map((domain) => domain.trim());
+                    .map((domain) => domain.trim()
+                        .replace(/\/$/, ''));
 
                 if (gitlabInstances.length && items.webNotificationTodos) {
                     fetchGitLabTodos(gitlabInstances);
