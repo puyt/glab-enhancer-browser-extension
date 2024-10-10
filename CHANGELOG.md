@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.0.0 - 2024.10 (10/10/2024)
+
+### ♻️ Enhancements
+
+- rename from GitLab Enhancer to GLab Enhancer for compliance.
+
+### 💥 BREAKING CHANGES
+
+- local storage key has been renamed from `chrome-gitlab-enhancer` to `glab-enhancer-browser-extension`.
+
 ## 2.8.9 - 2024.10 (07/10/2024)
 
 ### 🪲 Bug Fixes

@@ -11,7 +11,7 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "glab-enhancer@example.com",
+      "id": "gitlab-enhancer@example.com",
       "strict_min_version": "58.0"
     }
   },
