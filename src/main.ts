@@ -6,4 +6,4 @@ import App from './App.vue';
 
 const app = createApp(App);
 app.use(createPinia());
-app.mount('#chrome-gitlab-enhancer');
+app.mount('#glab-enhancer-browser-extension');

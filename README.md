@@ -1,7 +1,11 @@
-# chrome-gitlab-enhancer
+# GLab Enhancer
 
-Maximize productivity and streamline your workflow on GitLab with this [Google Chrome extension](https://chromewebstore.google.com/detail/gitlab-enhancer/jkddbjinnohhgelaibifeapocefcgmeb)!
+This is **not** an official GitLab project. It is a browser extension that enhances the GitLab interface.
+
+Maximize productivity and streamline your workflow on GitLab with this browser extension!
 This powerful extension introduces a suite of features specifically designed to optimize your GitLab interface, making issue tracking and merge request management more efficient and user-friendly.
+
+[Chrome Web Store](https://chromewebstore.google.com/detail/glab-enhancer/jkddbjinnohhgelaibifeapocefcgmeb?authuser=0&hl=nl) | [Mozilla Add-on](https://addons.mozilla.org/nl/firefox/addon/glab-enhancer/) | [GitHub](https://github.com/puyt/glab-enhancer-browser-extension)
 
 ## ✨ Features
 
@@ -48,15 +52,13 @@ This powerful extension introduces a suite of features specifically designed to 
 
 ## ⚙️ Preferences
 
-Click on the "GitLab Enhancer" dropdown to customize the settings:
+Click on the "GLab Enhancer" dropdown to customize the settings:
 
 ![](assets/preview-preferences.png)
 
 ## 👀 Preview
 
 ![](assets/preview-command-panel.png)
-
-![](assets/preview-mr-unresolved.png)
 
 ![](assets/preview-mr-unresolved-2.png)
 
@@ -70,20 +72,4 @@ Click on the "GitLab Enhancer" dropdown to customize the settings:
 
 In order to make the web notifications work, you'll to set up the **GitLab Instance(s)** && [Personal Access Token(s)](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html) in the pop-up.
 
-![web-notifications-settings.png](assets%2Fweb-notifications-settings.png)
-
-## 💾 Manual Installation
-
-### Chrome
-
-1. Run
-    ```
-    npm install
-    npm run build
-    ```
-
-2. Open [chrome://extensions/](chrome://extensions/)
-3. Enable **Developer Mode**, in the right top corner
-4. Click on `Load unpacked`
-5. Select the `dist` directory
-    ![chrome-extension.png](assets%2Fchrome-extension.png)
+![web-notifications-settings.png](assets/web-notifications-settings.png)

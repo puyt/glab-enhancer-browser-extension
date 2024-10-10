@@ -1,17 +1,17 @@
 {
-  "name": "GitLab Enhancer",
-  "version": "2.8.9",
-  "description": "Enhances your GitLab experience.",
+  "name": "GLab Enhancer",
+  "version": "3.0.0",
+  "description": "A browser extension that enhances your GitLab experience.",
   "manifest_version": 3,
   "author": "Sven Depondt",
   "icons": {
-    "16": "images/gitlab-enhancer-16.png",
-    "48": "images/gitlab-enhancer-48.png",
-    "128": "images/gitlab-enhancer-128.png"
+    "16": "images/glab-enhancer-16.png",
+    "48": "images/glab-enhancer-48.png",
+    "128": "images/glab-enhancer-128.png"
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "gitlab-enhancer@example.com",
+      "id": "glab-enhancer@example.com",
       "strict_min_version": "58.0"
     }
   },
@@ -48,7 +48,8 @@
       "resources": [
         "assets/main.js",
         "assets/main.css",
-        "assets/SvgLogo.js"
+        "assets/SvgLogo.js",
+        "assets/SvgLogo.*.js"
       ],
       "matches": [
         "https://*/*"
@@ -57,11 +58,11 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "GitLab Enhancer",
+    "default_title": "GLab Enhancer",
     "default_icon": {
-      "16": "images/gitlab-enhancer-16.png",
-      "48": "images/gitlab-enhancer-48.png",
-      "128": "images/gitlab-enhancer-128.png"
+      "16": "images/glab-enhancer-16.png",
+      "48": "images/glab-enhancer-48.png",
+      "128": "images/glab-enhancer-128.png"
     }
   }
 }

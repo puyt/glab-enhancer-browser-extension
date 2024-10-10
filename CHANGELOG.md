@@ -110,8 +110,8 @@
 
 ### ✨ Features
 
-- **background**: add web notifications for new to dos ([docs](https://github.com/puyt/chrome-gitlab-enhancer?tab=readme-ov-file#-web-notifications)).
-- add changelog in gitlab enhancer dropdown.
+- **background**: add web notifications for new to dos ([docs](https://github.com/puyt/glab-enhancer-browser-extension?tab=readme-ov-file#-web-notifications)).
+- add changelog in the dropdown.
 
 ### ♻️ Enhancements
 

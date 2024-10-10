@@ -79,7 +79,7 @@
         match: '',
     });
 
-    const starredBoards = useLocalStorage('chrome-gitlab-enhancer/starred-boards', ref(new Map()));
+    const starredBoards = useLocalStorage('glab-enhancer-browser-extension/starred-boards', ref(new Map()));
 
     const filteredBoards = computed(() => {
         const newMap = new Map();

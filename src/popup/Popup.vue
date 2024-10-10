@@ -3,14 +3,14 @@
         <header>
             <SvgLogo />
 
-            <h1>GitLab Enhancer</h1>
+            <h1>GLab Enhancer</h1>
 
             <span>{{ Version }}</span>
         </header>
 
         <div class="popup-content">
             <div class="popup-settings">
-                <h2 style="margin-top: 0;">Gitlab Instance(s)</h2>
+                <h2 style="margin-top: 0;">GitLab Instance(s)</h2>
 
                 <SettingTextInput
                     label=""
@@ -42,7 +42,7 @@
 
             <footer>
                 <a
-                    href="https://github.com/puyt/chrome-gitlab-enhancer"
+                    href="https://github.com/puyt/glab-enhancer-browser-extension"
                     style="color: var(--gray-dark); display: flex; align-items: center;"
                     target="_blank"
                 >
@@ -118,8 +118,8 @@
     scoped
 >
     .popup-wrapper {
-        display: flex;
         flex-direction: column;
+        display: flex;
         min-height: 380px;
         overflow: hidden;
     }
@@ -164,14 +164,14 @@
         }
 
         span {
-            padding: 4px 8px;
             margin-left: 8px;
+            padding: 4px 8px;
+
+            color: #7b58cf;
 
             font-weight: bold;
-
             border-radius: 16px;
             background-color: white;
-            color: #7B58CF;
         }
     }
 

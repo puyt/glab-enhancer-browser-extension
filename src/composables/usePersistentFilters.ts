@@ -31,7 +31,7 @@ export function usePersistentFilters() {
         return validPaths.some((validPath) => pathname.includes(validPath));
     }
 
-    const persistentFilters = useLocalStorage('chrome-gitlab-enhancer/persistent-filters', ref(new Map()));
+    const persistentFilters = useLocalStorage('glab-enhancer-browser-extension/persistent-filters', ref(new Map()));
 
     const isDashboardIssues = computed(() => {
         const location = useBrowserLocation();

@@ -1,6 +1,6 @@
 <template>
     <div
-        id="chrome-gitlab-enhancer__preferences"
+        id="glab-enhancer-browser-extension__preferences"
         ref="rootPreferencesElement"
         :style="{
             marginRight: `${offsetRight}px`,
@@ -14,7 +14,7 @@
             >
                 <SvgLogo style="width: 24px; height: 24px;" />
 
-                <span class="gl-dropdown-button-text">GitLab Enhancer</span>
+                <span class="gl-dropdown-button-text">GLab Enhancer</span>
 
                 <span class="badge gl-ml-2 badge-tier badge-pill gl-badge sm has-tooltip">
                     {{ Version }}
@@ -74,8 +74,8 @@
                             <template v-if="activeTab === 'changelog'">
                                 <div
                                     class="changelog-preview"
-                                    v-html="changelogHtml"
                                     style="margin-top: -16px;"
+                                    v-html="changelogHtml"
                                 />
                             </template>
                             <template v-else>
@@ -142,7 +142,7 @@
 
                         <footer>
                             <a
-                                href="https://github.com/puyt/chrome-gitlab-enhancer"
+                                href="https://github.com/puyt/glab-enhancer-browser-extension"
                                 style="color: var(--gray-dark);"
                                 target="_blank"
                             >
@@ -484,7 +484,7 @@
 </script>
 
 <style lang="scss">
-    #chrome-gitlab-enhancer__preferences {
+    #glab-enhancer-browser-extension__preferences {
         position: fixed;
         z-index: 999;
         top: 6px;
@@ -507,8 +507,8 @@
         }
 
         .gl-dropdown-contents {
-            display: flex;
             flex-direction: column;
+            display: flex;
             overflow: hidden;
         }
 
@@ -587,8 +587,8 @@
                 display: inline;
                 padding: 0 2px;
                 color: #5943b6;
-                border-radius: 2px;
                 text-decoration: underline;
+                border-radius: 2px;
             }
         }
     }

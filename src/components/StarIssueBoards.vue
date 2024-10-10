@@ -12,17 +12,18 @@
                     v-if="starredBoards.has(boardId)"
 
                     class="star-issue-button-icon star-issue-button-icon--active has-tooltip"
-                    title="Unstar issue board"
-                    :path="gSvgStar"
                     :is-gitlab="true"
+                    :path="gSvgStar"
+                    title="Unstar issue board"
 
                     @click.stop="onClickUnstarIssueBoard(boardId)"
                 />
-                <SvgIcon v-else
+                <SvgIcon
+                    v-else
                     class="star-issue-button-icon has-tooltip"
-                    title="Star issue board"
-                    :path="gSvgStarO"
                     :is-gitlab="true"
+                    :path="gSvgStarO"
+                    title="Star issue board"
 
                     @click.stop="onClickStarIssueBoard(boardId, element)"
                 />
@@ -32,8 +33,8 @@
 </template>
 
 <script
-    setup
     lang="ts"
+    setup
 >
     import {
         nextTick,
@@ -66,6 +67,7 @@
             });
         });
     }
+
     const debouncedExtractBoardLiElements = debounce(extractBoardLiElements, 100);
 
     function registerMouseDownEvent() {
@@ -100,10 +102,13 @@
         unregisterMouseDownEvent();
     });
 
-    const starredBoards = useLocalStorage('chrome-gitlab-enhancer/starred-boards', ref(new Map()));
+    const starredBoards = useLocalStorage('glab-enhancer-browser-extension/starred-boards', ref(new Map()));
 
     function onClickStarIssueBoard(boardId: string, element: HTMLElement) {
-        starredBoards.value.set(boardId, { label: element.innerText, pathname: window.location.pathname });
+        starredBoards.value.set(boardId, {
+            label: element.innerText,
+            pathname: window.location.pathname,
+        });
     }
 
     function onClickUnstarIssueBoard(boardId: string) {
@@ -117,13 +122,14 @@
     }
 
     .star-issue-button-icon:hover {
-        cursor: pointer;
         color: var(--yellow);
+        cursor: pointer;
     }
 
     .star-issue-button-icon.star-issue-button-icon--active {
         color: var(--yellow);
     }
+
     .star-issue-button-icon.star-issue-button-icon--active:hover {
         color: var(--red);
     }

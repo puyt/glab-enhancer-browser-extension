@@ -6,7 +6,7 @@ function initialize() {
 
     const appContainer = document.createElement('div');
     appContainer.style.right = parseInt(paddingRight || 0) + 16 + 'px';
-    appContainer.id = 'chrome-gitlab-enhancer';
+    appContainer.id = 'glab-enhancer-browser-extension';
     document.body.appendChild(appContainer);
 
     const cssScript = document.createElement('link');

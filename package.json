@@ -1,5 +1,5 @@
 {
-  "name": "chrome-gitlab-enchancer",
+  "name": "glab-enhancer-browser-extension",
   "private": true,
   "type": "module",
   "scripts": {

@@ -34,7 +34,7 @@ export function useRenderProjectAvatarIssues() {
             const targetElements = document.querySelectorAll(`ul.todos-list a.todo-target-link[href*="${projectPath}"]`);
             targetElements.forEach((targetElement) => {
                 const parentElement = (targetElement.closest('li')?.children?.[0] || null) as HTMLElement | null;
-                if (parentElement && !parentElement.children?.[0].classList.contains('chrome-gitlab-enhancer__project-avatar')) {
+                if (parentElement && !parentElement.children?.[0].classList.contains('glab-enhancer-browser-extension__project-avatar')) {
                     let injectElement: HTMLElement;
                     if (!avatarUrl.includes('http')) {
                         injectElement = document.createElement('div');
@@ -46,7 +46,7 @@ export function useRenderProjectAvatarIssues() {
                         injectElement.setAttribute('style', 'width: 24px;');
                     }
 
-                    injectElement.classList.add('gl-mr-4', 'chrome-gitlab-enhancer__project-avatar');
+                    injectElement.classList.add('gl-mr-4', 'glab-enhancer-browser-extension__project-avatar');
                     injectElement.style.alignItems = 'center';
 
                     parentElement.prepend(injectElement);
@@ -60,7 +60,7 @@ export function useRenderProjectAvatarIssues() {
                 const targetElements = document.querySelectorAll(`li.issue a.issue-title-text[href*="${projectPath}"]`);
                 targetElements.forEach((targetElement) => {
                     const parentElement = targetElement?.parentElement?.parentElement?.parentElement || null;
-                    if (parentElement && !parentElement.children?.[0].classList.contains('chrome-gitlab-enhancer__project-avatar')) {
+                    if (parentElement && !parentElement.children?.[0].classList.contains('glab-enhancer-browser-extension__project-avatar')) {
                         let injectElement: HTMLElement;
                         if (!avatarUrl.includes('http')) {
                             injectElement = document.createElement('div');
@@ -72,7 +72,7 @@ export function useRenderProjectAvatarIssues() {
                             injectElement.setAttribute('style', 'width: 24px;');
                         }
 
-                        injectElement.classList.add('gl-mr-5', 'chrome-gitlab-enhancer__project-avatar');
+                        injectElement.classList.add('gl-mr-5', 'glab-enhancer-browser-extension__project-avatar');
 
                         parentElement.prepend(injectElement);
                         parentElement.style.alignItems = 'center';
@@ -87,7 +87,7 @@ export function useRenderProjectAvatarIssues() {
                         const imgElement = document.createElement('img');
                         imgElement.setAttribute('src', avatarUrl);
                         imgElement.setAttribute('style', 'width: 20px;');
-                        imgElement.classList.add('chrome-gitlab-enhancer__project-avatar');
+                        imgElement.classList.add('glab-enhancer-browser-extension__project-avatar');
 
                         targetElement.parentElement.replaceChild(imgElement, targetElement.previousElementSibling);
                         targetElement.parentElement.style.display = 'flex';
@@ -102,7 +102,7 @@ export function useRenderProjectAvatarIssues() {
             targetElements.forEach((targetElement) => {
                 const parentElement = targetElement?.closest('li') || null;
 
-                if (parentElement && !parentElement.children?.[0].classList.contains('chrome-gitlab-enhancer__project-avatar')) {
+                if (parentElement && !parentElement.children?.[0].classList.contains('glab-enhancer-browser-extension__project-avatar')) {
                     let injectElement: HTMLElement;
                     if (!avatarUrl.includes('http')) {
                         injectElement = document.createElement('div');
@@ -114,7 +114,7 @@ export function useRenderProjectAvatarIssues() {
                         injectElement.setAttribute('style', 'width: 24px;');
                     }
 
-                    injectElement.classList.add('gl-mr-4', 'chrome-gitlab-enhancer__project-avatar');
+                    injectElement.classList.add('gl-mr-4', 'glab-enhancer-browser-extension__project-avatar');
 
                     parentElement.prepend(injectElement);
                     parentElement.style.display = 'flex';
