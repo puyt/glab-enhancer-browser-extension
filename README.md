@@ -1,11 +1,11 @@
-# GLab Enhancer
+# UX Enhancer for GitLab
 
 This is **not** an official GitLab project. It is a browser extension that enhances the GitLab interface.
 
 Maximize productivity and streamline your workflow on GitLab with this browser extension!
 This powerful extension introduces a suite of features specifically designed to optimize your GitLab interface, making issue tracking and merge request management more efficient and user-friendly.
 
-[Chrome Web Store](https://chromewebstore.google.com/detail/glab-enhancer/jkddbjinnohhgelaibifeapocefcgmeb?authuser=0&hl=nl) | [Mozilla Add-on](https://addons.mozilla.org/nl/firefox/addon/glab-enhancer/) | [GitHub](https://github.com/puyt/glab-enhancer-browser-extension)
+[Chrome Web Store](https://chromewebstore.google.com/detail/glab-enhancer/jkddbjinnohhgelaibifeapocefcgmeb?authuser=0&hl=nl) | [Mozilla Add-on](https://addons.mozilla.org/nl/firefox/addon/glab-enhancer/) | [GitHub](https://github.com/puyt/ux-enhancer-for-gitlab)
 
 ## ✨ Features
 

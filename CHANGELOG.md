@@ -120,7 +120,7 @@
 
 ### ✨ Features
 
-- **background**: add web notifications for new to dos ([docs](https://github.com/puyt/glab-enhancer-browser-extension?tab=readme-ov-file#-web-notifications)).
+- **background**: add web notifications for new to dos ([docs](https://github.com/puyt/ux-enhancer-for-gitlab?tab=readme-ov-file#-web-notifications)).
 - add changelog in the dropdown.
 
 ### ♻️ Enhancements

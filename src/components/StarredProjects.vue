@@ -18,6 +18,7 @@
                 <a
                     class="gl-new-dropdown-item-content"
                     :href="project.web_url"
+                    style="height: 40px;"
                 >
                     <span class="gl-new-dropdown-item-text-wrapper">
                         <div

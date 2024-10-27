@@ -1,5 +1,5 @@
 {
-  "name": "glab-enhancer-browser-extension",
+  "name": "ux-enhancer-for-gitlab",
   "private": true,
   "type": "module",
   "scripts": {
