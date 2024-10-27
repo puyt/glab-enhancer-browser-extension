@@ -1,5 +1,15 @@
 # Changelog
 
+## 4.0.0 - 2024.10 Build 2 (27/10/2024)
+
+### ♻️ Enhancements
+
+- rename & update logo for compliance.
+
+### 🪲 Bug Fixes
+
+- fix height starred items in command panel.
+
 ## 3.0.0 - 2024.10 (10/10/2024)
 
 ### ♻️ Enhancements

@@ -5,7 +5,7 @@ This is **not** an official GitLab project. It is a browser extension that enhan
 Maximize productivity and streamline your workflow on GitLab with this browser extension!
 This powerful extension introduces a suite of features specifically designed to optimize your GitLab interface, making issue tracking and merge request management more efficient and user-friendly.
 
-[Chrome Web Store](https://chromewebstore.google.com/detail/glab-enhancer/jkddbjinnohhgelaibifeapocefcgmeb?authuser=0&hl=nl) | [Mozilla Add-on](https://addons.mozilla.org/nl/firefox/addon/glab-enhancer/) | [GitHub](https://github.com/puyt/ux-enhancer-for-gitlab)
+[Chrome Web Store](https://chromewebstore.google.com/detail/ux-enhancer-for-gitlab/jkddbjinnohhgelaibifeapocefcgmeb?authuser=0&hl=nl) | [Mozilla Add-on](https://addons.mozilla.org/nl/firefox/addon/ux-enhancer-for-gitlab/) | [GitHub](https://github.com/puyt/ux-enhancer-for-gitlab)
 
 ## ✨ Features
 
@@ -52,7 +52,7 @@ This powerful extension introduces a suite of features specifically designed to 
 
 ## ⚙️ Preferences
 
-Click on the "GLab Enhancer" dropdown to customize the settings:
+Click on the "UX Enhancer" dropdown to customize the settings:
 
 ![](assets/preview-preferences.png)
 
