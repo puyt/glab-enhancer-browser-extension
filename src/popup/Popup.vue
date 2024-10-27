@@ -1,9 +1,9 @@
 <template>
     <div class="popup-wrapper">
         <header>
-            <SvgLogo />
+            <SvgLogo style="width: 48px; margin-right: 8px; margin-top: -4px;" />
 
-            <h1>GLab Enhancer</h1>
+            <h1>UX Enhancer <span>for GitLab</span></h1>
 
             <span>{{ Version }}</span>
         </header>
@@ -42,7 +42,7 @@
 
             <footer>
                 <a
-                    href="https://github.com/puyt/glab-enhancer-browser-extension"
+                    href="https://github.com/puyt/ux-enhancer-for-gitlab"
                     style="color: var(--gray-dark); display: flex; align-items: center;"
                     target="_blank"
                 >
@@ -161,9 +161,13 @@
             font-size: 26px;
             line-height: 48px;
             white-space: nowrap;
+
+            > span {
+                font-size: 16px;
+            }
         }
 
-        span {
+        > span {
             margin-left: 8px;
             padding: 4px 8px;
 

@@ -1,13 +1,13 @@
 {
-  "name": "GLab Enhancer",
+  "name": "UX Enhancer for GitLab",
   "version": "3.0.0",
   "description": "A browser extension that enhances your GitLab experience.",
   "manifest_version": 3,
   "author": "Sven Depondt",
   "icons": {
-    "16": "images/glab-enhancer-16.png",
-    "48": "images/glab-enhancer-48.png",
-    "128": "images/glab-enhancer-128.png"
+    "16": "images/logo-16.png",
+    "48": "images/logo-48.png",
+    "128": "images/logo-128.png"
   },
   "permissions": [
     "activeTab",
@@ -53,11 +53,11 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_title": "GLab Enhancer",
+    "default_title": "UX Enhancer for GitLab",
     "default_icon": {
-      "16": "images/glab-enhancer-16.png",
-      "48": "images/glab-enhancer-48.png",
-      "128": "images/glab-enhancer-128.png"
+      "16": "images/logo-16.png",
+      "48": "images/logo-48.png",
+      "128": "images/logo-128.png"
     }
   }
 }

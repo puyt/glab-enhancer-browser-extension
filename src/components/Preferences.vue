@@ -12,9 +12,9 @@
                 style="box-shadow: none; border-color: #e24329; border-width: 1px; padding: 0.25rem 0.5rem;"
                 @click.prevent="isMenuVisible = !isMenuVisible"
             >
-                <SvgLogo style="width: 24px; height: 24px;" />
+                <SvgLogo style="margin-right: 4px; width: 24px; height: 24px;" />
 
-                <span class="gl-dropdown-button-text">GLab Enhancer</span>
+                <span class="gl-dropdown-button-text">UX Enhancer</span>
 
                 <span class="badge gl-ml-2 badge-tier badge-pill gl-badge sm has-tooltip">
                     {{ Version }}
@@ -142,7 +142,7 @@
 
                         <footer>
                             <a
-                                href="https://github.com/puyt/glab-enhancer-browser-extension"
+                                href="https://github.com/puyt/ux-enhancer-for-gitlab"
                                 style="color: var(--gray-dark);"
                                 target="_blank"
                             >

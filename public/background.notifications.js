@@ -33,7 +33,7 @@ function fetchGitLabTodos(instances) {
                                     newTodos.forEach((todo) => {
                                         chrome.notifications.create({
                                             type: 'basic',
-                                            iconUrl: 'images/glab-enhancer-48.png',
+                                            iconUrl: 'images/logo-48.png',
                                             title: 'New GitLab Todo',
                                             message: todo.body,
                                         });
