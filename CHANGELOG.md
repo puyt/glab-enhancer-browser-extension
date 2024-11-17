@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.1.0 - 2024.10 Build 3 (28/10/2024)
+
+### ✨ Features
+
+- **issue, mr**: add badge for unresolved threads created by yourself which received responses.
+
 ## 4.0.0 - 2024.10 Build 2 (27/10/2024)
 
 ### ♻️ Enhancements
