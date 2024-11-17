@@ -4,7 +4,7 @@
 
 ### ✨ Features
 
-- **issue, mr**: add badge for unresolved threads created by yourself which received responses.
+- **issue, mr**: add badge for unresolved threads created by yourself which received responses. ([#30](https://github.com/puyt/ux-enhancer-for-gitlab/issues/30))
 
 ## 4.0.0 - 2024.10 Build 2 (27/10/2024)
 
