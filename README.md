@@ -34,8 +34,9 @@ This powerful extension introduces a suite of features specifically designed to 
 - Highlight issues assigned to yourself
 - Render project logos in issue overview & board when viewed in groups
 - Use "Threads" in favor of "Comments" by default
-- Show unresolved threads in the detail
-- Show unresolved threads **created by you** in the detail, with scrollTo buttons
+- Show unresolved threads in the overview & detail
+- Show unresolved threads **created by you**
+- Show unresolved threads created by you **with responses**
 - Validate incomplete issues in issue detail (e.g. missing iteration, weight, specific labels, ...)
 
 **Merge Requests**
@@ -44,9 +45,9 @@ This powerful extension introduces a suite of features specifically designed to 
 - Use "Threads" in favor of "Comments" by default
 - Draft merge requests are visually dimmed, making them stand out less and helping you focus on ready-to-review items.
 - Render project logos in group overviews
-- Show unresolved threads in the overview
-- Show unresolved threads **created by you** in the overview
-- Show unresolved threads **created by you** in the detail, with scrollTo buttons
+- Show unresolved threads in the overview & detail
+- Show unresolved threads **created by you**
+- Show unresolved threads created by you **with responses**
 - Add hotkey `v` to toggle a changed file as "viewed"
 - Add hotkey `Shift+J` to mark a changed file as "viewed" and go to next page
 

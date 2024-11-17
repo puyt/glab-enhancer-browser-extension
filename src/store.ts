@@ -18,6 +18,7 @@ export const enum Preference {
     ISSUE_STAR_BOARDS = 'issue_star_boards',
     ISSUE_HIGHLIGHT_MINE = 'issue_highlight_mine',
     ISSUE_SHOW_MY_UNRESOLVED_THREADS = 'issue_show_my_unresolved_threads',
+    ISSUE_SHOW_MY_UNRESOLVED_THREADS_WITH_RESPONSES = 'issue_show_my_unresolved_threads_with_responses',
     ISSUE_USE_THREADS_BY_DEFAULT = 'issue_use_threads_by_default',
     ISSUE_RENDER_PROJECT_LOGO = 'issue_render_project_logo',
     ISSUE_VALIDATE_MISSING_EPIC = 'issue_validate_missing_epic',
@@ -29,6 +30,7 @@ export const enum Preference {
 
     MR_HIGHLIGHT_MINE = 'mr_highlight_mine',
     MR_SHOW_MY_UNRESOLVED_THREADS = 'mr_show_my_unresolved_threads',
+    MR_SHOW_MY_UNRESOLVED_THREADS_WITH_RESPONSES = 'mr_show_my_unresolved_threads_with_responses',
     MR_USE_THREADS_BY_DEFAULT = 'mr_use_threads_by_default',
     MR_RENDER_PROJECT_LOGO = 'mr_render_project_logo',
     MR_DIM_DRAFT = 'mr_dim_draft',

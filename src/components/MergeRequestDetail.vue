@@ -5,15 +5,64 @@
             :to="teleportElement"
         >
             <div
-                v-if="myUnresolvedDomIds.length"
-                class="gl-pl-4 gl-rounded-base gl-min-h-7 gl-bg-red-100 gl-mr-3"
+                v-if="isShowMyUnresolvedWithResponsesEnabled && myUnresolveThreadsWithResponses.length"
+                class="gl-pl-4 gl-rounded-base gl-min-h-7 gl-bg-blue-100 gl-mr-3 has-tooltip"
                 style="display: flex; align-items: center;"
+                title="Unresolved threads created by me with responses"
             >
-                <span>{{ myUnresolvedThreads.length }} my unresolved threads</span>
+                <SvgIcon
+                    class="gl-icon gl-mr-3"
+                    :path="mdiCommentTextMultipleOutline"
+                />
+
+                <span>{{ myUnresolveThreadsWithResponses.length }}</span>
 
                 <div class="gl-ml-3 btn-group">
                     <button
-                        class="btn discussion-previous-btn gl-rounded-base! gl-px-2! btn-default btn-md gl-button btn-default-tertiary btn-icon"
+                        class="btn discussion-previous-btn gl-rounded-base! btn-default btn-md gl-button btn-default-tertiary btn-icon"
+                        style="padding: 8px 4px;"
+                        title="Go to my previous unresolved thread with a response"
+                        @click.prevent="scrollToUnresolvedWithResponse(-1)"
+                    >
+                        <SvgIcon
+                            class="gl-button-icon"
+                            :is-gitlab="true"
+                            :path="gSvgChevronUp"
+                        />
+                    </button>
+
+                    <button
+                        class="btn discussion-previous-btn gl-rounded-base! btn-default btn-md gl-button btn-default-tertiary btn-icon"
+                        style="padding: 8px 4px;"
+                        title="Go to my next unresolved thread with a response"
+                        @click.prevent="scrollToUnresolvedWithResponse(+1)"
+                    >
+                        <SvgIcon
+                            class="gl-button-icon"
+                            :is-gitlab="true"
+                            :path="gSvgChecronDown"
+                        />
+                    </button>
+                </div>
+            </div>
+
+            <div
+                v-if="myUnresolvedDomIds.length"
+                class="gl-pl-4 gl-rounded-base gl-min-h-7 gl-bg-red-100 gl-mr-3 has-tooltip"
+                style="display: flex; align-items: center;"
+                title="Unresolved threads created by me"
+            >
+                <SvgIcon
+                    class="gl-icon gl-mr-3"
+                    :path="mdiCommentAccountOutline"
+                />
+
+                <span>{{ myUnresolvedThreads.length }}</span>
+
+                <div class="gl-ml-3 btn-group">
+                    <button
+                        class="btn discussion-previous-btn gl-rounded-base! btn-default btn-md gl-button btn-default-tertiary btn-icon"
+                        style="padding: 8px 4px;"
                         title="Go to my previous unresolved thread"
                         @click.prevent="scrollToMyUnresolved(-1)"
                     >
@@ -25,7 +74,8 @@
                     </button>
 
                     <button
-                        class="btn discussion-previous-btn gl-rounded-base! gl-px-2! btn-default btn-md gl-button btn-default-tertiary btn-icon"
+                        class="btn discussion-previous-btn gl-rounded-base! btn-default btn-md gl-button btn-default-tertiary btn-icon"
+                        style="padding: 8px 4px;"
                         title="Go to my next unresolved thread"
                         @click.prevent="scrollToMyUnresolved(+1)"
                     >
@@ -69,6 +119,10 @@
     } from '../store';
     import { useThreadsByDefault } from '../composables/useThreadsByDefault';
     import { useFetchPaging } from '../composables/useFetchPaging';
+    import {
+        mdiCommentAccountOutline,
+        mdiCommentTextMultipleOutline,
+    } from '@mdi/js';
 
     interface Props {
         gitlabUserId: number,
@@ -94,6 +148,7 @@
     const teleportElement: Ref<HTMLElement | null> = ref(null);
     const discussions: ShallowRef<GitLabDiscussion[]> = shallowRef([]);
 
+    const isShowMyUnresolvedWithResponsesEnabled = computed(() => !!getSetting(Preference.MR_SHOW_MY_UNRESOLVED_THREADS_WITH_RESPONSES, true));
     const isShowMyUnresolvedEnabled = computed(() => !!getSetting(Preference.MR_SHOW_MY_UNRESOLVED_THREADS, true));
 
     async function fetchMrDiscussions() {
@@ -159,6 +214,7 @@
     function render() {
         teleportElement.value?.remove();
         teleportElement.value = document.createElement('div');
+        teleportElement.value.style.display = 'flex';
 
         const stickyElement = document.querySelector('.merge-request-sticky-header:not(.gl-visibility-hidden):not(.gl-invisible) .merge-request-tabs + div');
         if (stickyElement) {
@@ -193,6 +249,43 @@
         window.removeEventListener('keydown', handleKeyPress);
         window.removeEventListener('scroll', debouncedRender);
     });
+
+    const myUnresolveThreadsWithResponses = computed(() => {
+        return discussions.value.filter((discussion) => {
+            const notes = (discussion?.notes || []).filter((note) => !note.system);
+
+            const firstNote = notes?.[0] || null;
+            const lastNote = notes?.[notes.length - 1] || null;
+
+            const isMyThread = !!firstNote?.resolvable && !firstNote?.resolved && firstNote?.author?.id === gitlabUserId.value;
+            const hasResponse = lastNote && !lastNote.system && lastNote.author.id !== gitlabUserId.value;
+
+            return isMyThread && hasResponse;
+        });
+    });
+
+    const selectedUnresolvedWithResponseIndex = ref(-1);
+    const myUnresolvedWithResponseDomIds = computed(() => {
+        return myUnresolveThreadsWithResponses.value.map((item) => {
+            return `note_${item?.notes?.[0]?.id}`;
+        });
+    });
+
+    function scrollToUnresolvedWithResponse(adjustment: number) {
+        if (selectedUnresolvedWithResponseIndex.value === -1) {
+            selectedUnresolvedWithResponseIndex.value = adjustment > 0 ? 0 : myUnresolveThreadsWithResponses.value.length - 1;
+        } else {
+            selectedUnresolvedWithResponseIndex.value = (selectedUnresolvedWithResponseIndex.value + adjustment + myUnresolveThreadsWithResponses.value.length) % myUnresolveThreadsWithResponses.value.length;
+        }
+
+        const selectorId = myUnresolvedWithResponseDomIds.value[selectedUnresolvedWithResponseIndex.value];
+        if (!selectorId) {
+            return;
+        }
+        document.getElementById(selectorId)
+            ?.scrollIntoView({ behavior: 'smooth' });
+    }
+
 
     const myUnresolvedThreads = computed(() => {
         return discussions.value.filter((discussion) => {

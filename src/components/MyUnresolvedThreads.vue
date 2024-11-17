@@ -10,30 +10,29 @@
                     :to="`#${teleportId}`"
                 >
                     <li
-                        :class="{
-                            'badge badge-pill gl-badge badge-warning':  unresolvedThreadsCount.get(teleportId),
-                        }"
-                        class="has-tooltip gl-display-none gl-sm-display-block gl-mr-3 md gl-text-orange-500!"
+                        v-if="isShowMyUnresolvedWithResponsesEnabled && myUnresolvedThreadsWithResponseCount.get(teleportId)"
+                        class="has-tooltip gl-display-none gl-sm-display-block md badge badge-pill gl-badge badge-info"
                         :style="{
-                            opacity: unresolvedThreadsCount.get(teleportId) ? 1 : 0.5,
+                            color: 'var(--gl-badge-info-text-color-default) !important',
                         }"
-                        title="Unresolved threads"
+                        title="My unresolved threads with responses"
                     >
                         <SvgIcon
                             class="gl-icon s16 gl-mr-2"
-                            :path="mdiCommentAlertOutline"
+                            :path="mdiCommentTextMultipleOutline"
                             style="fill: currentColor;"
                         />
 
-                        <span class="gl-font-weight-bold">{{ unresolvedThreadsCount.get(teleportId) || 0 }}</span>
+                        <span class="gl-font-weight-bold">{{ myUnresolvedThreadsWithResponseCount.get(teleportId) || 0 }}</span>
                     </li>
 
                     <li
                         :class="{
                             'badge badge-pill gl-badge badge-danger':  myUnresolvedThreadsCount.get(teleportId),
                         }"
-                        class="has-tooltip gl-display-none gl-sm-display-block md gl-text-red-500!"
+                        class="has-tooltip gl-display-none gl-sm-display-block md"
                         :style="{
+                            color: 'var(--gl-badge-danger-text-color-default) !important',
                             opacity: myUnresolvedThreadsCount.get(teleportId) ? 1 : 0.5,
                         }"
                         title="My unresolved threads"
@@ -45,6 +44,26 @@
                         />
 
                         <span class="gl-font-weight-bold">{{ myUnresolvedThreadsCount.get(teleportId) || 0 }}</span>
+                    </li>
+
+                    <li
+                        :class="{
+                            'badge badge-pill gl-badge badge-warning':  unresolvedThreadsCount.get(teleportId),
+                        }"
+                        class="has-tooltip gl-display-none gl-sm-display-block gl-mr-3 md"
+                        :style="{
+                            color: 'var(--gl-badge-warning-text-color-default) !important',
+                            opacity: unresolvedThreadsCount.get(teleportId) ? 1 : 0.5,
+                        }"
+                        title="Unresolved threads"
+                    >
+                        <SvgIcon
+                            class="gl-icon s16 gl-mr-2"
+                            :path="mdiCommentAlertOutline"
+                            style="fill: currentColor;"
+                        />
+
+                        <span class="gl-font-weight-bold">{{ unresolvedThreadsCount.get(teleportId) || 0 }}</span>
                     </li>
                 </teleport>
             </template>
@@ -69,6 +88,7 @@
     import {
         mdiCommentAccountOutline,
         mdiCommentAlertOutline,
+        mdiCommentTextMultipleOutline,
     } from '@mdi/js';
     import {
         Preference,
@@ -113,6 +133,7 @@
         return ('teleport-issuable-meta-' + getProjectPath(idd) + '-' + getIid(idd)).replace(/\//g, '_');
     }
 
+    const isShowMyUnresolvedWithResponsesEnabled = computed(() => (isMergeRequest.value && !!getSetting(Preference.MR_SHOW_MY_UNRESOLVED_THREADS_WITH_RESPONSES, true) || (!isMergeRequest.value && !!getSetting(Preference.ISSUE_SHOW_MY_UNRESOLVED_THREADS_WITH_RESPONSES, true))));
     const isShowMyUnresolvedEnabled = computed(() => (isMergeRequest.value && !!getSetting(Preference.MR_SHOW_MY_UNRESOLVED_THREADS, true) || (!isMergeRequest.value && !!getSetting(Preference.ISSUE_SHOW_MY_UNRESOLVED_THREADS, true))));
     const teleportIds = computed(() => extractIssuableIds.value.map((iid) => getTeleportId(iid)));
 
@@ -127,8 +148,8 @@
         extractIssuableIds.value.forEach((iid) => {
             const id = getIid(iid);
             const totalUnresolvedThreads = (discussions.value.get(id) || []).filter((discussion) => {
-                const thread = discussion?.notes?.[0] || null;
-                return !!thread?.resolvable && !thread?.resolved;
+                const firstNote = discussion?.notes?.[0] || null;
+                return !!firstNote?.resolvable && !firstNote?.resolved;
             });
 
             items.set(getTeleportId(iid), totalUnresolvedThreads.length);
@@ -143,8 +164,31 @@
         extractIssuableIds.value.forEach((iid) => {
             const id = getIid(iid);
             const totalUnresolvedThreads = (discussions.value.get(id) || []).filter((discussion) => {
-                const thread = discussion?.notes?.[0] || null;
-                return !!thread?.resolvable && !thread?.resolved && thread?.author?.id === gitlabUserId.value;
+                const firstNote = discussion?.notes?.[0] || null;
+                return !!firstNote?.resolvable && !firstNote?.resolved && firstNote?.author?.id === gitlabUserId.value;
+            });
+
+            items.set(getTeleportId(iid), totalUnresolvedThreads.length);
+        });
+
+        return items;
+    });
+
+    const myUnresolvedThreadsWithResponseCount = computed(() => {
+        const items: Map<any, any> = new Map();
+
+        extractIssuableIds.value.forEach((iid) => {
+            const id = getIid(iid);
+            const totalUnresolvedThreads = (discussions.value.get(id) || []).filter((discussion) => {
+                const notes = (discussion?.notes || []).filter((note) => !note.system);
+
+                const firstNote = notes?.[0] || null;
+                const lastNote = notes?.[notes.length - 1] || null;
+
+                const isMyThread = !!firstNote?.resolvable && !firstNote?.resolved && firstNote?.author?.id === gitlabUserId.value;
+                const hasResponse = lastNote && !lastNote.system && lastNote.author.id !== gitlabUserId.value;
+
+                return isMyThread && hasResponse;
             });
 
             items.set(getTeleportId(iid), totalUnresolvedThreads.length);
@@ -188,6 +232,7 @@
                 const placeholderElement = document.createElement('div');
                 placeholderElement.style.display = 'flex';
                 placeholderElement.style.alignItems = 'center';
+                placeholderElement.style.gap = '4px';
                 placeholderElement.id = getTeleportId(resolvedId);
                 metaElement?.parentElement?.insertBefore(placeholderElement, metaElement.nextSibling);
             });
