@@ -3,7 +3,7 @@
         id="glab-enhancer-browser-extension__preferences"
         ref="rootPreferencesElement"
         :style="{
-            marginRight: `${offsetRight}px`,
+            marginRight: `${offsetRight ? offsetRight + 16 : 0}px`,
         }"
     >
         <div class="dropdown b-dropdown gl-dropdown btn-group gl-display-block!">
@@ -494,11 +494,11 @@
 
     const offsetRight = ref(0);
     onMounted(() => {
-        const toolbarEl = document.querySelector('.top-bar-container') as HTMLElement | null;
-        if (toolbarEl) {
-            const breadcrumbsEl = toolbarEl.querySelector('nav') as HTMLElement | null;
-            offsetRight.value = breadcrumbsEl ? toolbarEl.offsetWidth - breadcrumbsEl.offsetWidth + 4 : 0;
-        }
+        const offsetElements: NodeListOf<HTMLDivElement> = document.querySelectorAll('.top-bar-container > div:nth-child(3) > *');
+
+        offsetElements.forEach((el) => {
+            offsetRight.value += el.offsetWidth;
+        });
     });
 </script>
 
