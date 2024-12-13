@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.1.1 - 2024.12 (13/12/2024)
+
+### 🪲 Bug Fixes
+
+- **ui**: fix position preferences dropdown. ([#32](https://github.com/puyt/ux-enhancer-for-gitlab/issues/32))
+
 ## 4.1.0 - 2024.10 Build 3 (28/10/2024)
 
 ### ✨ Features
